@@ -1,0 +1,35 @@
+<list>
+  <model.Enseignant>
+    <nom>Sanders</nom>
+    <dureeMaxEmprunt>1000</dureeMaxEmprunt>
+    <id>1</id>
+    <nbMaxAppareils>1000</nbMaxAppareils>
+    <matieres>
+      <model.Enseignement>SI</model.Enseignement>
+      <model.Enseignement>MAM</model.Enseignement>
+      <model.Enseignement>BAT</model.Enseignement>
+      <model.Enseignement>ELEC</model.Enseignement>
+    </matieres>
+  </model.Enseignant>
+  <model.Etudiant>
+    <nom>Elmoussaid</nom>
+    <dureeMaxEmprunt>180</dureeMaxEmprunt>
+    <id>2</id>
+    <nbMaxAppareils>10</nbMaxAppareils>
+    <matieres>
+      <model.Enseignement>SI</model.Enseignement>
+    </matieres>
+  </model.Etudiant> 
+  <model.Gestionnaire>
+    <nom>Admin</nom>
+    <dureeMaxEmprunt>1000</dureeMaxEmprunt>
+    <id>3</id>
+    <nbMaxAppareils>1000</nbMaxAppareils>
+    <matieres>
+      <model.Enseignement>SI</model.Enseignement>
+      <model.Enseignement>MAM</model.Enseignement>
+      <model.Enseignement>BAT</model.Enseignement>
+      <model.Enseignement>ELEC</model.Enseignement>
+    </matieres>
+  </model.Gestionnaire>
+</list>

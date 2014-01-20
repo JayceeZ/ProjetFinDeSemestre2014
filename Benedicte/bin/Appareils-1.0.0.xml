@@ -1,0 +1,31 @@
+<map>
+  <entry>
+    <model.Appareil>
+      <id>1</id>
+      <reference>HTC ONE X</reference>
+      <type>SMARTPHONE</type>
+      <os>ANDROID</os>
+      <dureeEmpruntMax>10</dureeEmpruntMax>
+      <enseignementAssociee>
+        <model.Enseignement>SI</model.Enseignement>
+      </enseignementAssociee>
+    </model.Appareil>
+    <int>10</int>
+  </entry>
+  <entry>
+    <model.Appareil>
+      <id>2</id>
+      <reference>SENNHEISER HD 440</reference>
+      <type>CASQUE</type>
+      <os>NOOS</os>
+      <dureeEmpruntMax>50</dureeEmpruntMax>
+      <enseignementAssociee>
+        <model.Enseignement>SI</model.Enseignement>
+        <model.Enseignement>MAM</model.Enseignement>
+        <model.Enseignement>BAT</model.Enseignement>
+        <model.Enseignement>ELEC</model.Enseignement>
+      </enseignementAssociee>
+    </model.Appareil>
+    <int>15</int>
+  </entry>
+</map>
