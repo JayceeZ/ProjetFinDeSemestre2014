@@ -10,6 +10,9 @@ public abstract class Emprunteur {
 
     // Nom de l'emprunteur
     private String nom;
+    
+    // Mot de passe de l'emprunteur
+    private String motDePasse;
 
     // Duree max d'un emprunt
     private int dureeMaxEmprunt;
@@ -35,6 +38,8 @@ public abstract class Emprunteur {
      * 
      * @param n
      *            Nom de l'emprunteur
+     * @param motDePasse
+     * 			  Mot de passe de l'emprunteur
      * @param duree
      *            Duree max d'un emprunt
      * @param id
@@ -44,10 +49,13 @@ public abstract class Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Emprunteur(String n, int duree, int id, int nbMaxAppareils,
+    public Emprunteur(String n, String motDePasse, int duree, int id, int nbMaxAppareils,
             Enseignement[] m) {
         // Initialisation du nom
         this.nom = n;
+        
+        // Initialisation du mot de passe
+        this.motDePasse = motDePasse;
 
         // Initialisation de la duree max d'emprunt
         this.dureeMaxEmprunt = duree;
@@ -67,6 +75,13 @@ public abstract class Emprunteur {
      */
     public String getNom() {
         return nom;
+    }
+    
+    /**
+     * @return the nom
+     */
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
     /**

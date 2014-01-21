@@ -20,6 +20,8 @@ public class Enseignant extends Emprunteur {
      * 
      * @param n
      *            Nom de l'emprunteur
+     * @param motDePasse
+     * 			  Mot de passe de l'emprunteur
      * @param duree
      *            Duree max d'un emprunt
      * @param id
@@ -29,9 +31,9 @@ public class Enseignant extends Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Enseignant(String n, int duree, int id, int nbMaxMateriel,
+    public Enseignant(String n, String motDePasse, int duree, int id, int nbMaxMateriel,
             Enseignement[] m) {
-        super(n, duree, id, nbMaxMateriel, m);
+        super(n, motDePasse, duree, id, nbMaxMateriel, m);
     }
 
 }
