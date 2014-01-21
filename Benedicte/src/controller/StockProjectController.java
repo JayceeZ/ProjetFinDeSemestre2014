@@ -163,6 +163,7 @@ public class StockProjectController {
 		if (booleanTMP)
 		{
 			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, 0, 0, 0, null));
+			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
 		}
@@ -201,6 +202,7 @@ public class StockProjectController {
 		if (booleanTMP)
 		{
 			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, 0, 0, 0, null));
+			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
 		}

@@ -122,6 +122,13 @@ public class Database {
     public void enregistrerListeEmprunt() {
         DataXML.store(emprunts, fichierEmprunts, versionFichierEmprunts);
     }
+    
+    /**
+     * Enregistre la liste des emprunteurs dans un fichier xml
+     */
+    public void enregistrerListeEmprunteur() {
+        DataXML.store(emprunteurs, fichierUtilisateurs, versionFichierUtilisateurs);
+    }
 
     /**
      * Retire les emprunts specifie en parametre
