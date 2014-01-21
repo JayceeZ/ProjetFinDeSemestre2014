@@ -9,7 +9,6 @@ import java.util.*;
 import model.Appareil;
 import model.Emprunt;
 import model.Stock;
-
 import controller.Commande;
 import controller.StockProjectController;
 
@@ -26,13 +25,13 @@ public class Vue {
     private StockProjectController controller;
 
     // Entree de la lecture clavier
-    private BufferedReader reader;
+    private Scanner sc;
 
     /**
      * Constructeur par defaut
      */
     public Vue() {
-        reader = new BufferedReader(new InputStreamReader(System.in));
+    	sc = new Scanner(System.in);
     }
 
     /**
@@ -44,6 +43,102 @@ public class Vue {
     public void setController(StockProjectController c) {
         this.controller = c;
     }
+    
+	///////////////////////////////// PARTIE CONNECTION ET REGISTRATION ///////////////////////////////////////////
+
+	/**
+	 * Lance l'affichage de l'application.
+     * La methode menuUtilisateur permet de se connecter ou de s'enregistrer.
+     */
+	public void menuUtilisateur()
+	{
+
+		System.out.println(" _____ _             _     ___  ___");
+		System.out.println("/  ___| |           | |    |  \\/  |");
+		System.out.println("\\ `--.| |_ ___   ___| | __ | .  . | __ _ _ __   __ _  __ _  ___ _ __");
+		System.out.println(" `--. \\ __/ _ \\ / __| |/ / | |\\/| |/ _` | '_ \\ / _` |/ _` |/ _ \\ '__|");
+		System.out.println("/\\__/ / || (_) | (__|   <  | |  | | (_| | | | | (_| | (_| |  __/ |");
+		System.out.println("\\____/ \\__\\___/ \\___|_|\\_\\ \\_|  |_/\\__,_|_| |_|\\__,_|\\__, |\\___|_|");
+		System.out.println("                                                      __/ |");
+		System.out.println("                 2013-2014  Version 2.0              |___/");
+		
+		// Variables utiles pour le menu utilisateur
+		int choixMenuUtilisateur = 0;
+
+		System.out.println("Menu utilisateur");
+		System.out.println("Que voulez-vous faire ? \n 0. Quitter \n 1. Se connecter \n 2. S'enregistrer\n");
+        
+		try 
+		{
+			choixMenuUtilisateur = sc.nextInt();
+			sc.nextLine();
+		}
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+
+		switch(choixMenuUtilisateur)
+		{
+			case 0:
+			{
+				;
+				break;
+			}
+			case 1:
+			{
+				menuConnection(); 
+				break;
+			}
+			case 2:
+			{
+				menuRegistration();
+				break;
+			}
+			default:
+			{
+				System.out.println("Veuillez choisir entre 1 et 2");
+				menuUtilisateur();
+			}
+		}
+	}
+	
+	/**
+     * La methode menuConnection permet a un utilisateur de se connecter si il appartient a liste des utilisateurs.
+     */
+	private void menuConnection()
+	{
+		System.out.println("Entrez votre identifiant utilisateur");
+		String identifiantUtilisateur = sc.nextLine();
+		System.out.println("Entrez votre mot de passe");
+		String motDePasseUtilisateur = sc.nextLine();
+
+			switch(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
+			{
+				case 0:
+				{
+					System.out.println("Une des informations entrees est invalide");
+					menuUtilisateur();
+					break;
+				}
+				case 1:
+				{
+					menuEmprunteur();
+					break;
+				}
+				case 2:
+				{
+					menuPrincipal();
+					break;
+				}
+				default:
+				{
+					System.out.println("Je ne sais pas comment t'es arrive dans ce cas, va te faire foutre :)");
+				}
+			}
+		}
+	}
 
     /**
      * Lance l'affichage de l'application

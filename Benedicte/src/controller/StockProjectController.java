@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -189,7 +190,7 @@ public class StockProjectController {
      */
     private void initialisation() {
         // Lancement de l'affichage
-        vue.initialisation();
+        vue.menuUtilisateur();
     }
 
     /**
@@ -200,23 +201,49 @@ public class StockProjectController {
      *            Nom de l'utilisateur
      * @return Vrai si l'utilisateur existe dans la base de donnees
      */
-    public boolean connect(String nom) {
+    public int connect(String nom, String motDePasse) 
+    {
+    	// variable permettant de savoir si les identifiants correspondent à quelqu'un de la base de donnée.
+    	boolean booleanIdentifiants = false;
+    	// Indique le type d'emprunteur que l'on est.
+    	int typeEmprunteur = 0;
         // Recuperation de la liste des personnes pouvant emprunter
         List<Emprunteur> emprunteurs = db.getEmprunteurs();
+        Iterator<Emprunteur> it = emprunteurs.iterator();
 
         // Boucle sur la liste des emprunteurs
-        for (Emprunteur i : emprunteurs) {
-            if (i instanceof Gestionnaire && i.getNom().equalsIgnoreCase(nom)) {
-                vue.afficherVueGestionnaire();
-            }
-            // Verification que le nom existe dans le base de donnees
-            if (i.getNom().equalsIgnoreCase(nom)) {
-                // Initialisation de l'emprunteur actuel
-                emp = i;
-                return true;
-            }
-        }
-        return false;
+        while (!booleanIdentifiants && it.hasNext())
+		{
+			Emprunteur emprunteurSuivant = it.next();
+			if (emprunteurSuivant.getNom().equals(nom) && emprunteurSuivant.getMotDePasse().equals(motDePasse))
+			{
+				booleanIdentifiants = true;
+				switch((""+ emprunteurSuivant.getClass()).substring(18)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
+				{
+					case "Etudiant":
+					{
+						typeEmprunteur = 1;
+						break;
+					}
+					case "Enseignant":
+					{
+						typeEmprunteur = 1;
+						break;
+					}
+					case "Gestionnaire":
+					{
+						typeEmprunteur = 2;
+						break;
+					}
+					default:
+					{
+						typeEmprunteur = 0;
+						System.out.println("Erreur sur le fonctionnement de la fonction avec le polymorphisme");
+					}
+				}
+			}
+		}
+		return typeEmprunteur;
 
     }
 
