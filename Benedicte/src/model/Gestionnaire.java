@@ -26,4 +26,26 @@ public class Gestionnaire extends Emprunteur {
         super(n, duree, id, nbMaxMateriel, m);
     }
 
+    /**
+     * Permet au gestionnaire de nommer gestionnaire un enseignant ou un etudiant . 
+     * L'emprunteur est alors remplace dans la databse par un gestionnaire ayant les memes
+     * parametres que lui .
+     * @param emprunteur
+     * 			L'emprunteur a promouvoir
+     * @param database
+     * 			La database 
+     */
+    public void creerGestionnaire(Emprunteur emprunteur,Database database){
+    	if(emprunteur instanceof Gestionnaire)
+    		return;
+    	String nom = emprunteur.getNom();
+    	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
+    	int id = emprunteur.getId();
+    	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
+    	Enseignement[] matieres = emprunteur.getMatieres();
+    	Gestionnaire gestionnaire = new Gestionnaire(nom,dureeMaxEmprunt,id,nbMaxAppareils,matieres);
+    	
+    	database.getEmprunteurs().remove(emprunteur);
+    	database.getEmprunteurs().add(gestionnaire);
+    }
 }

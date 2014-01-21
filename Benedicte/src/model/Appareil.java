@@ -23,6 +23,9 @@ public class Appareil {
 
     // OS de l'appareil
     private OS os;
+    
+    //Etat de l'appariel
+    private Etat etat;
 
     // Duree d'un emprunt maximal
     private int dureeEmpruntMax;
@@ -56,12 +59,16 @@ public class Appareil {
         // Initialisation de l'os
         this.os = (OS) configuration.get("OS");
 
+        //Initialisation de l'etat
+        this.etat = (Etat) configuration.get("Etat");
+        
         // Initialisation de la duree maximal pour un emprunt
         this.dureeEmpruntMax = (Integer) configuration.get("DureeEmpruntMax");
 
         // Initialisation de la liste des enseignement associe
         this.enseignementAssociee = (Enseignement[]) configuration
                 .get("Matieres");
+        
     }
 
     /**
@@ -80,11 +87,12 @@ public class Appareil {
      * @param id
      *            id de l'appareil
      */
-    public Appareil(String reference, Type type, OS os, int dureeEmpruntMax,
+    public Appareil(String reference, Type type, OS os,Etat etat, int dureeEmpruntMax,
             Enseignement[] matieresAssociee, int id) {
         this.reference = reference;
         this.type = type;
         this.os = os;
+        this.etat = etat;
         this.dureeEmpruntMax = dureeEmpruntMax;
         this.enseignementAssociee = matieresAssociee;
         this.id = id;
@@ -140,6 +148,22 @@ public class Appareil {
      */
     public OS getOs() {
         return os;
+    }
+    
+    /**
+     * modifie l'etat .
+     * @param etat
+     */
+    public void setEtat(Etat etat){
+    	this.etat = etat;
+    }
+    
+    /**
+     * 
+     * @return etat
+     */
+    public Etat getEtat() {
+    	return etat;
     }
 
     /**
