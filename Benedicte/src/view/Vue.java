@@ -104,57 +104,30 @@ public class Vue {
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
 
-			switch(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
+		switch(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
+		{
+			case 0:
 			{
-				case 0:
-				{
-					System.out.println("Une des informations entrees est invalide");
-					menuUtilisateur();
-					break;
-				}
-				case 1:
-				{
-					menuEmprunteur();
-					break;
-				}
-				case 2:
-				{
-					menuPrincipal();
-					break;
-				}
-				default:
-				{
-					System.out.println("Je ne sais pas comment t'es arrive dans ce cas, va te faire foutre :)");
-				}
+				System.out.println("Une des informations entrees est invalide");
+				menuUtilisateur();
+				break;
+			}
+			case 1:
+			{
+				menuEmprunteur();
+				break;
+			}
+			case 2:
+			{
+				menuPrincipal();
+				break;
+			}
+			default:
+			{
+				System.out.println("Je ne sais pas comment t'es arrive dans ce cas, va te faire foutre :)");
 			}
 		}
 	}
-
-    /**
-     * Lance l'affichage de l'application
-     */
-    public void initialisation() {
-        // Message de bienvenue
-        System.out
-                .println("Bienvenue, veuillez renseigner votre nom pour vous connecter : ");
-
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = reader.readLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
-
-        if (!(controller.connect(line))) {
-            System.out
-                    .println("Votre nom n'existe pas dans la base de donnees");
-            initialisation();
-        }
-
-        // Lance le traitement de l'entree clavier
-        traiterCommande();
-    }
 
     /**
      * Traite l'ensemble des entrees de l'utilisateur
