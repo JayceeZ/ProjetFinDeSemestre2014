@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import view.Vue;
 import model.Enseignant;
 import model.Etudiant;
-import model.Gestionnaire;
 import model.Appareil;
-import model.DataXML;
 import model.Database;
 import model.Emprunt;
 import model.Emprunteur;

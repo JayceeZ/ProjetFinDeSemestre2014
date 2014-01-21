@@ -41,11 +41,12 @@ public class Gestionnaire extends Emprunteur {
     	if(emprunteur instanceof Gestionnaire)
     		return;
     	String nom = emprunteur.getNom();
+    	String motDePasse = emprunteur.getMotDePasse();
     	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
     	int id = emprunteur.getId();
     	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
     	Enseignement[] matieres = emprunteur.getMatieres();
-    	Gestionnaire gestionnaire = new Gestionnaire(nom,dureeMaxEmprunt,id,nbMaxAppareils,matieres);
+    	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt,id,nbMaxAppareils,matieres);
     	
     	database.getEmprunteurs().remove(emprunteur);
     	database.getEmprunteurs().add(gestionnaire);

@@ -1,8 +1,5 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -154,7 +151,7 @@ public class Vue {
 		{
 			case 0:
 			{
-				menuUtilisateur();
+				controller.traitementCommande(Commande.CONNECT);
 				break;
 			}
 			case 1:
@@ -216,9 +213,17 @@ public class Vue {
 			menuRegistration();
 		}
 	}
+	
+	///////////////////////////////// PARTIE GESTIONNAIRE ///////////////////////////////////////////
+	private void menuPrincipal()
+	{
+		;
+	}
 
+	///////////////////////////////// PARTIE EMPRUNTEUR ///////////////////////////////////////////
+	
     /**
-     * Traite l'ensemble des entrees de l'utilisateur
+     * La methode menuEmprunteur permet a un emprunteur d'emprunter.
      */
     public void menuEmprunteur() 
     {
@@ -257,31 +262,6 @@ public class Vue {
 				menuEmprunteur();
         	}
         }
-
-        // Switch sur la commande de l'utilisateur
-        Commande action = null;
-        
-        switch (line) {
-        case "e":
-        case "E":
-            action = Commande.EMPRUNT;
-            break;
-        case "liste":
-        case "l":
-            action = Commande.LISTE;
-            break;
-        case "q":
-        case "Q":
-            action = Commande.QUITTER;
-            break;
-        case "c":
-        case "C":
-            action = Commande.CONNECT;
-            break;
-        }
-
-        // Lance le traitement de la commande
-        controller.traitementCommande(action);
     }
 
     /**
@@ -296,7 +276,7 @@ public class Vue {
         // Recuperation de l'entree de l'utilisateur
         String line = "";
         try {
-            line = reader.readLine();
+            line = sc.nextLine();
         } catch (Exception e) {
             System.out.println("Probleme dans la lecture");
         }
@@ -337,7 +317,7 @@ public class Vue {
         // Recuperation de l'entree de l'utilisateur
         String line = "";
         try {
-            line = reader.readLine();
+            line = sc.nextLine();
         } catch (Exception e) {
             System.out.println("Probleme dans la lecture");
         }
@@ -379,7 +359,7 @@ public class Vue {
         // Recuperation de l'entree de l'utilisateur
         String line = "";
         try {
-            line = reader.readLine();
+            line = sc.nextLine();
         } catch (Exception e) {
             System.out.println("Probleme dans la lecture");
         }
@@ -429,7 +409,7 @@ public class Vue {
 
             // Recuperation de l'entree de l'utilisateur
             try {
-                line = reader.readLine();
+                line = sc.nextLine();
             } catch (Exception e) {
                 System.out.println("Problème dans la lecture");
             }
@@ -456,7 +436,7 @@ public class Vue {
         else {
             System.out
                     .println("Aucun appareil voulu n'est disponible pour la date voulue, veuillez recommencer l'emprunt");
-            traiterCommande();
+            menuEmprunteur();
         }
     }
 
@@ -492,7 +472,7 @@ public class Vue {
         controller.ajouterEmpruntFinal();
 
         // Demande la prochaine action a l'utilisateur
-        traiterCommande();
+        menuEmprunteur();
 
     }
 
@@ -524,7 +504,7 @@ public class Vue {
                 .println("Indiquez les id des emprunts que vous voulez rejeter, separer par une virgule : ");
         String line = "";
         try {
-            line = reader.readLine();
+            line = sc.nextLine();
         } catch (Exception e) {
             System.out.println("Probleme dans la lecture");
         }
