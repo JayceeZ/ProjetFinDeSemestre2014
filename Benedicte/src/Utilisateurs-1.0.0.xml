@@ -1,6 +1,7 @@
 <list>
   <model.Enseignant>
     <nom>Sanders</nom>
+    <motDePasse>Sanders</motDePasse>
     <dureeMaxEmprunt>1000</dureeMaxEmprunt>
     <id>1</id>
     <nbMaxAppareils>1000</nbMaxAppareils>
@@ -13,6 +14,7 @@
   </model.Enseignant>
   <model.Etudiant>
     <nom>Elmoussaid</nom>
+    <motDePasse>Elmoussaid</motDePasse>
     <dureeMaxEmprunt>180</dureeMaxEmprunt>
     <id>2</id>
     <nbMaxAppareils>10</nbMaxAppareils>
@@ -22,6 +24,7 @@
   </model.Etudiant> 
   <model.Gestionnaire>
     <nom>Admin</nom>
+    <motDePasse>Admin</motDePasse>
     <dureeMaxEmprunt>1000</dureeMaxEmprunt>
     <id>3</id>
     <nbMaxAppareils>1000</nbMaxAppareils>
