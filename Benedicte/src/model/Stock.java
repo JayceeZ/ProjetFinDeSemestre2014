@@ -1,5 +1,8 @@
 package model;
 
+import Appareil;
+import Etat;
+
 import java.util.*;
 
 /**
@@ -97,16 +100,20 @@ public class Stock {
 	}
 
 	/**
-	 * Retire tous les appareils degrades du stock
-	 * 
+	 * Change l'état d'un certain nombre d'appareils en un autre état .
+	 * @param a
+	 * 			le type d'appareil à modifier
+	 * @param etat
+	 * 			l'état auquel on passe
+	 * @param nbre
+	 * 			le nombre d'appareils de type "a" affectés .
 	 */
-	public void retirerDegrades(){
-		Set cles = this.stock.keySet();
-		Iterator it = cles.iterator();
-		while(it.hasNext()){
-			Appareil appareil = (Appareil)it.next();
-			if(appareil.getEtat()==Etat.DEGRADE)
-				retirerAppareil(appareil);
-		}
+	public void changerEtat(Appareil a,Etat etat,int nbre) {
+		if (stock.get(a)==null)
+			return;
+		int nb_a = stock.get(a);
+		modifierStock(a,nb_a - nbre);
+		a.setEtat(etat);
+		ajouterAppareil(a,nbre);
 	}
 }
