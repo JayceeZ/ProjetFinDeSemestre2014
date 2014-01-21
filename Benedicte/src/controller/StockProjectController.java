@@ -291,7 +291,7 @@ public class StockProjectController {
 			if (emprunteurSuivant.getNom().equals(nom) && emprunteurSuivant.getMotDePasse().equals(motDePasse))
 			{
 				booleanIdentifiants = true;
-				switch((""+ emprunteurSuivant.getClass()).substring(18)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
+				switch((""+ emprunteurSuivant.getClass()).substring(12)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
 				{
 					case "Etudiant":
 					{
