@@ -215,10 +215,87 @@ public class Vue {
 	}
 	
 	///////////////////////////////// PARTIE GESTIONNAIRE ///////////////////////////////////////////
+	/**
+     * La methode menuPrincipal permet a un gestionnaire de choisir entre le menu gestionnaire et le menu emprunteur.
+     */
 	private void menuPrincipal()
 	{
-		;
+		// Variables utiles pour le menu registration
+		int choixMenuPrincipal = 0;
+				
+		System.out.println("Menu Principal");
+		System.out.println("Que voulez-vous faire ? \n 0. Se déconnecter \n 1. Accéder au menu Gestionnaire \n 2. Accéder au menu Emprunteur");
+		
+		try 
+		{
+			choixMenuPrincipal = sc.nextInt();
+			sc.nextLine();
+		}
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+        
+        switch(choixMenuPrincipal)
+        {
+        	case 0:
+        	{
+        		controller.traitementCommande(Commande.CONNECT);
+        		break;
+        	}
+        	case 1:
+        	{
+        		menuGestionnaire();
+        		break;
+        	}
+        	case 2:
+        	{
+        		menuEmprunteur();
+        		break;
+        	}
+        	default:
+        	{
+        		System.out.println("Veuillez choisir entre 0, 1 et 2");
+				menuPrincipal();
+        	}
+        }
 	}
+	
+	/**
+     * Affichage du texte pour le gestionnaire
+     */
+    public void menuGestionnaire() {
+        System.out
+                .println("Vous êtes connecte en tant que gestionnaire, voici la liste des emprunts");
+
+        affichageEmprunts();
+
+        System.out
+                .println("Indiquez les id des emprunts que vous voulez rejeter, separer par une virgule : ");
+        String line = "";
+        try {
+            line = sc.nextLine();
+        } catch (Exception e) {
+            System.out.println("Probleme dans la lecture");
+        }
+
+        // Recupere les id des appareils que l'utilisateur veut emprunter
+        String[] ids = line.split(",");
+
+        // Liste contenant les id des appareils
+        ArrayList<Integer> id = new ArrayList<Integer>();
+
+        for (String i : ids) {
+            id.add(Integer.parseInt(i));
+        }
+
+        controller.refuser(id);
+
+        controller.enregisterEmprunt();
+
+        System.exit(0);
+    }
 
 	///////////////////////////////// PARTIE EMPRUNTEUR ///////////////////////////////////////////
 	
@@ -489,41 +566,6 @@ public class Vue {
         for (Appareil a : s.getStock().keySet()) {
             System.out.println(a.toString() + s.getStock().get(a));
         }
-    }
-
-    /**
-     * Affichage du texte pour le gestionnaire
-     */
-    public void afficherVueGestionnaire() {
-        System.out
-                .println("Vous êtes connecte en tant que gestionnaire, voici la liste des emprunts");
-
-        affichageEmprunts();
-
-        System.out
-                .println("Indiquez les id des emprunts que vous voulez rejeter, separer par une virgule : ");
-        String line = "";
-        try {
-            line = sc.nextLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
-
-        // Recupere les id des appareils que l'utilisateur veut emprunter
-        String[] ids = line.split(",");
-
-        // Liste contenant les id des appareils
-        ArrayList<Integer> id = new ArrayList<Integer>();
-
-        for (String i : ids) {
-            id.add(Integer.parseInt(i));
-        }
-
-        controller.refuser(id);
-
-        controller.enregisterEmprunt();
-
-        System.exit(0);
     }
 
     /**
