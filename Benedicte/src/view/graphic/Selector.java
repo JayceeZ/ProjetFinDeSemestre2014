@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,24 +18,24 @@ public class Selector extends JPanel {
 	private JButton boutonVersDroite;
 	private JButton boutonVersGauche;
 	
-	private DefaultListModel modelGauche;
-	private DefaultListModel modelDroite;
+	private DefaultListModel<Object> modelGauche;
+	private DefaultListModel<Object> modelDroite;
 	
 	private JPanel listes;
-	private JList listeGauche;
-	private JList listeDroite;
+	private JList<Object> listeGauche;
+	private JList<Object> listeDroite;
 	
 	private JScrollPane ScrollPaneGauche;
 	private JScrollPane ScrollPaneDroite;
 	
 	public Selector(String actionListeGauche, Object[] liste) {
-		modelGauche = new DefaultListModel();
-		modelDroite = new DefaultListModel();
+		modelGauche = new DefaultListModel<Object>();
+		modelDroite = new DefaultListModel<Object>();
 		
 		remplirListeGauche(liste);
 		
-		listeGauche = new JList(modelGauche);
-		listeDroite = new JList(modelDroite);
+		listeGauche = new JList<Object>(modelGauche);
+		listeDroite = new JList<Object>(modelDroite);
 		
 		listeGauche.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listeDroite.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
