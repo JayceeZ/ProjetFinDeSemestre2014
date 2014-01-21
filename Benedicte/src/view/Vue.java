@@ -73,8 +73,7 @@ public class Vue {
 		{
 			case 0:
 			{
-				;
-				break;
+				controller.traitementCommande(Commande.QUITTER);
 			}
 			case 1:
 			{
@@ -88,7 +87,7 @@ public class Vue {
 			}
 			default:
 			{
-				System.out.println("Veuillez choisir entre 1 et 2");
+				System.out.println("Veuillez choisir entre 0, 1 et 2");
 				menuUtilisateur();
 			}
 		}
@@ -109,7 +108,7 @@ public class Vue {
 			case 0:
 			{
 				System.out.println("Une des informations entrees est invalide");
-				menuUtilisateur();
+				controller.traitementCommande(Commande.CONNECT);
 				break;
 			}
 			case 1:
@@ -124,25 +123,139 @@ public class Vue {
 			}
 			default:
 			{
-				System.out.println("Je ne sais pas comment t'es arrive dans ce cas, va te faire foutre :)");
+				System.out.println("Cas impossible");
 			}
+		}
+	}
+	
+	/**
+     * La methode menuRegistration permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
+     */
+	private void menuRegistration()
+	{
+		// Variables utiles pour le menu registration
+		int choixMenuRegistration = 0;
+		
+		System.out.println("Menu Registration");
+		System.out.println("Que voulez-vous faire ? \n 0.Retour \n 1. Créer un enseignant \n 2. Créer un étudiant \n");
+		
+		try 
+		{
+			choixMenuRegistration = sc.nextInt();
+			sc.nextLine();
+		}
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+
+		switch(choixMenuRegistration)
+		{
+			case 0:
+			{
+				menuUtilisateur();
+				break;
+			}
+			case 1:
+			{
+				menuRegistrationEnseignant(); 
+				break;
+			}
+			case 2:
+			{
+				menuRegistrationEtudiant();
+				break;
+			}
+			default:
+			{
+				System.out.println("Veuillez choisir entre 0, 1 et 2");
+				menuRegistration();
+			}
+		}
+	}
+	
+	/**
+     * La methode menuRegistrationEnseignant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur enseignant.
+     */
+	private void menuRegistrationEnseignant()
+	{
+		System.out.println("Entrez votre nom d'utilisateur");
+		String identifiantUtilisateur = sc.nextLine();
+
+		System.out.println("Entrez votre mot de passe");
+		String motDePasseUtilisateur = sc.nextLine();
+
+		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur))
+		{
+			menuEmprunteur();
+		}
+		else
+		{
+			menuRegistration();
+		}
+	}
+	
+	/**
+     * La methode menuRegistrationEtudiant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur etudiant.
+     */
+	private void menuRegistrationEtudiant()
+	{
+		System.out.println("Entrez votre nom d'utilisateur");
+		String identifiantUtilisateur = sc.nextLine();
+
+		System.out.println("Entrez votre mot de passe");
+		String motDePasseUtilisateur = sc.nextLine();
+
+		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur))
+		{
+			menuEmprunteur();
+		}
+		else
+		{
+			menuRegistration();
 		}
 	}
 
     /**
      * Traite l'ensemble des entrees de l'utilisateur
      */
-    public void traiterCommande() {
+    public void menuEmprunteur() 
+    {
+    	// Variables utiles pour le menu registration
+    	int choixMenuEmprunteur = 0;
+    	
+    	System.out.println("Menu Emprunteur");
+        System.out.println("Que voulez vous faire ? \n 0. Se déconnecter \n 1. Emprunter");
 
-        System.out
-                .println("Que voulez vous faire ? : Tapez E pour emprunter, Q pour quitter, C pour changer de compte ");
-
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = reader.readLine();
-        } catch (Exception e) {
-            System.out.println("Problème dans la lecture");
+        try 
+		{
+			choixMenuEmprunteur = sc.nextInt();
+			sc.nextLine();
+		}
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+        
+        switch(choixMenuEmprunteur)
+        {
+        	case 0:
+        	{
+        		controller.traitementCommande(Commande.CONNECT);
+        		break;
+        	}
+        	case 1:
+        	{
+        		controller.traitementCommande(Commande.EMPRUNT);
+        		break;
+        	}
+        	default:
+        	{
+        		System.out.println("Veuillez choisir entre 0 et 1");
+				menuEmprunteur();
+        	}
         }
 
         // Switch sur la commande de l'utilisateur
@@ -456,28 +569,5 @@ public class Vue {
             System.out.println("-----------------");
             
         }
-    }
-
-    /**
-     * Affichage du message de connexion
-     */
-    public void connexion() {
-        // Message de bienvenue
-        System.out
-                .println("Veuillez renseigner votre nom pour vous connecter : ");
-
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = reader.readLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
-
-        if (!(controller.connect(line))) {
-            System.out
-                    .println("Votre nom n'existe pas dans la base de donnees, veuillez recommencer");
-            connexion();
-        }
-    }    
+    }   
 }

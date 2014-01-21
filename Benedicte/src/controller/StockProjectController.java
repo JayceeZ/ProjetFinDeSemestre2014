@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import view.Vue;
+import model.Enseignant;
+import model.Etudiant;
 import model.Gestionnaire;
 import model.Appareil;
 import model.DataXML;
@@ -137,6 +139,82 @@ public class StockProjectController {
     public void setEmprunteur(Emprunteur emp) {
         this.emp = emp;
     }
+    
+    /**
+	* La methode ajouterEnseignant permet d'ajouter un enseignant a la liste d'emprunteurs.
+	* @param identifiant Le nom d'utilisateur de l'emprunteur.
+	* @param motDePasse Le mot de passe de l'emprunteur.
+	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
+	*/
+	public boolean ajouterEnseignant (String identifiant, String motDePasse)
+	{
+		boolean booleanTMP = true;
+		int i = 0;
+		// Recuperation de la liste des emprunteurs
+        ArrayList<Emprunteur> emprunteurs = db.getEmprunteurs();
+		// La boucle while permet de mettre booleanTMP a false s'il existe deja un utilisateur avec cet identifiant, sinon c'est que l'on peut creer un utilisateur.
+		while (i < emprunteurs.size() && booleanTMP)
+		{
+			if (emprunteurs.get(i).getNom().equals(identifiant))
+			{
+				booleanTMP = false;
+			}
+			else
+			{
+				i = i + 1;
+			}
+		}
+		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
+		if (booleanTMP)
+		{
+			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, 0, 0, 0, null));
+			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
+			booleanTMP = true;
+		}
+		else
+		{
+			System.out.println("Veuillez choisir un autre nom d'utilisateur");
+		}
+		return booleanTMP;
+	}
+	
+	/**
+	* La methode ajouterEtudiant permet d'ajouter un etudiant a la liste d'emprunteurs.
+	* @param identifiant Le nom d'utilisateur de l'emprunteur.
+	* @param motDePasse Le mot de passe de l'emprunteur.
+	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
+	*/
+	public boolean ajouterEtudiant (String identifiant, String motDePasse)
+	{
+		boolean booleanTMP = true;
+		int i = 0;
+		// Recuperation de la liste des emprunteurs
+        ArrayList<Emprunteur> emprunteurs = db.getEmprunteurs();
+		// La boucle while permet de mettre booleanTMP a false s'il existe deja un utilisateur avec cet identifiant, sinon c'est que l'on peut creer un utilisateur.
+		while (i < emprunteurs.size() && booleanTMP)
+		{
+			if (emprunteurs.get(i).getNom().equals(identifiant))
+			{
+				booleanTMP = false;
+			}
+			else
+			{
+				i = i + 1;
+			}
+		}
+		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
+		if (booleanTMP)
+		{
+			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, 0, 0, 0, null));
+			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
+			booleanTMP = true;
+		}
+		else
+		{
+			System.out.println("Veuillez choisir un autre nom d'utilisateur");
+		}
+		return booleanTMP;
+	}
 
     /**
      * Recoie les commandes de la vue et les traite
@@ -160,7 +238,7 @@ public class StockProjectController {
             nouvelEmprunt();
 
         case CONNECT:
-            vue.connexion();
+            vue.menuUtilisateur();
 
         case LISTE:
             vue.affichageEmprunts();
@@ -207,8 +285,8 @@ public class StockProjectController {
     	boolean booleanIdentifiants = false;
     	// Indique le type d'emprunteur que l'on est.
     	int typeEmprunteur = 0;
-        // Recuperation de la liste des personnes pouvant emprunter
-        List<Emprunteur> emprunteurs = db.getEmprunteurs();
+        // Recuperation de la liste des emprunteurs
+        ArrayList<Emprunteur> emprunteurs = db.getEmprunteurs();
         Iterator<Emprunteur> it = emprunteurs.iterator();
 
         // Boucle sur la liste des emprunteurs

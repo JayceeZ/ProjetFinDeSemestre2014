@@ -104,6 +104,17 @@ public class Database {
     public void ajouterEmprunt(Emprunt e) {
         emprunts.add(e);
     }
+    
+    /**
+     * Ajout d'un emprunteur a liste des emprunteurs
+     * 
+     * @param e
+     *            Emprunteur a ajouter
+     */
+    public void ajouterEmprunteur(Emprunteur e)
+    {
+    	emprunteurs.add(e);
+    }
 
     /**
      * Enregistre la liste des emprunts dans un fichier xml
