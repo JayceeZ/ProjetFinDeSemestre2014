@@ -52,16 +52,6 @@ public class Vue {
      */
 	public void menuUtilisateur()
 	{
-
-		System.out.println(" _____ _             _     ___  ___");
-		System.out.println("/  ___| |           | |    |  \\/  |");
-		System.out.println("\\ `--.| |_ ___   ___| | __ | .  . | __ _ _ __   __ _  __ _  ___ _ __");
-		System.out.println(" `--. \\ __/ _ \\ / __| |/ / | |\\/| |/ _` | '_ \\ / _` |/ _` |/ _ \\ '__|");
-		System.out.println("/\\__/ / || (_) | (__|   <  | |  | | (_| | | | | (_| | (_| |  __/ |");
-		System.out.println("\\____/ \\__\\___/ \\___|_|\\_\\ \\_|  |_/\\__,_|_| |_|\\__,_|\\__, |\\___|_|");
-		System.out.println("                                                      __/ |");
-		System.out.println("                 2013-2014  Version 2.0              |___/");
-		
 		// Variables utiles pour le menu utilisateur
 		int choixMenuUtilisateur = 0;
 
