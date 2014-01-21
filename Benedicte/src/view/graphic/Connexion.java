@@ -58,23 +58,29 @@ public class Connexion extends JPanel {
 	}
 	
 	private void valider_formulaire() {
-		String nomUtilisateur = this.login.getText();
-		String motDePasse = this.psw.getPassword().toString();
-		if(nomUtilisateur == null) {
-			connexionError("Veuillez remplir les champs");
-		} else {
-			if(motDePasse == null) {
-				motDePasse = "";
-			}
-			switch(parent.getController().connect(nomUtilisateur,motDePasse)) {
-			case 1:
-				parent.setMode("emprunteur");
-				break;
-			case 2:
-				parent.setMode("gestionnaire");
-				break;
-			default:
-				connexionError("Identifiants incorrects");
+		String nomUtilisateur = "";
+		String motDePasse = "";
+		try {
+			nomUtilisateur = this.login.getText();
+			motDePasse = this.psw.getPassword().toString();
+		} finally {
+		
+			if(nomUtilisateur == null) {
+				connexionError("Veuillez remplir les champs");
+			} else {
+				if(motDePasse == null) {
+					motDePasse = "";
+				}
+				switch(parent.getController().connect(nomUtilisateur,motDePasse)) {
+				case 1:
+					parent.setMenu("emprunteur");
+					break;
+				case 2:
+					parent.setMenu("gestionnaire");
+					break;
+				default:
+					connexionError("Identifiants incorrects");
+				}
 			}
 		}
 	}

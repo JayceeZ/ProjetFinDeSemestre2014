@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.Stock;
 import controller.StockProjectController;
 
 @SuppressWarnings("serial")
@@ -19,18 +20,20 @@ public class Window extends JFrame {
 	public Window() {
 		this.setLayout(new BorderLayout());
 
-		this.add(new Connexion(this), BorderLayout.CENTER);
+		panel = new Connexion(this);
+		this.add(panel, BorderLayout.CENTER);
 
 		this.pack();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
 	}
 
-	public void changePanel(JPanel panel) {
-		this.removeAll();
-		this.panel = panel;
-		this.add(panel, BorderLayout.CENTER);
-		this.revalidate();
+	public void changePanel(Dimension d, JPanel p) {
+		this.panel = p;
+		panel.setPreferredSize(d);
+		this.getContentPane().removeAll();
+		this.getContentPane().add(panel, BorderLayout.CENTER);
+		this.validate();
+		this.pack();
 	}
 	
 	public JPanel getPanel() {
@@ -47,10 +50,27 @@ public class Window extends JFrame {
 	
 	public void createSelectorPanel(String action, Object[] list) {
 		panel = new Selector(action, list);
-		changePanel(panel);
+		changePanel(new Dimension(500,500), panel);
 	}
 
-	public void setMode(String string) {
+	public void setMenu(String string) {
 		this.mode = string;
+		changePanel(new Dimension(300,300), new Menu(this, mode));
+	}
+	
+	public void menuUtilisateur() {
+		this.setVisible(true);
+	}
+	
+	public void affichageEmprunts() {
+		//TODO
+	}
+	
+	public void printStock(Stock stock) {
+		//TODO
+	}
+	
+	public void nouvelEmprunt() {
+		//TODO
 	}
 }
