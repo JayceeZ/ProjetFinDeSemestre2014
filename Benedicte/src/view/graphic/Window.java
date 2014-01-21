@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.Appareil;
 import model.Stock;
 import controller.StockProjectController;
 
@@ -16,6 +17,7 @@ public class Window extends JFrame {
 	private String mode;
 	
 	private JPanel panel;
+	private Stock stock;
 
 	public Window() {
 		this.setLayout(new BorderLayout());
@@ -66,11 +68,11 @@ public class Window extends JFrame {
 		//TODO
 	}
 	
-	public void printStock(Stock stock) {
-		//TODO
+	public void printStock(Stock s) {
+		this.stock = s;
 	}
-	
 	public void nouvelEmprunt() {
-		//TODO
+		panel = new Selector("Choisir dans le stock",stock.getStock().keySet().toArray());
+		changePanel(new Dimension(400,400),panel);
 	}
 }

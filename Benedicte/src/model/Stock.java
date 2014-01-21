@@ -1,7 +1,5 @@
 package model;
 
-import Appareil;
-import Etat;
 
 import java.util.*;
 

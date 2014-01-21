@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import view.Vue;
+
+import view.graphic.Window;
 import model.Enseignant;
 import model.Etudiant;
 import model.Appareil;
@@ -28,7 +29,7 @@ public class StockProjectController {
     private Systeme systeme;
 
     // Reference sur la vue
-    private Vue vue;
+    private Window vue;
 
     // Reference sur la base de donnees
     private Database db;
@@ -45,7 +46,7 @@ public class StockProjectController {
     public StockProjectController() {
 
         // Initialisation de la vue
-        vue = new Vue();
+        vue = new Window();
 
         // Envoie de la reference du controleur a la vue
         vue.setController(this);
@@ -87,18 +88,8 @@ public class StockProjectController {
      * 
      * @return the vue
      */
-    public Vue getVue() {
+    public Object getVue() {
         return vue;
-    }
-
-    /**
-     * Definit la vue
-     * 
-     * @param vue
-     *            the vue a fixer
-     */
-    public void setVue(Vue vue) {
-        this.vue = vue;
     }
 
     /**
@@ -229,20 +220,20 @@ public class StockProjectController {
         // Initialisation de la vue
         case INIT:
             initialisation();
-
+            break;
             // Creation d'un nouvel emprunt
         case EMPRUNT:
             nouvelEmprunt();
-
+            break;
         case CONNECT:
             vue.menuUtilisateur();
-
+            break;
         case LISTE:
             vue.affichageEmprunts();
-
+            break;
         case QUITTER:
             System.exit(0);
-
+            break;
         default:
             break;
         }

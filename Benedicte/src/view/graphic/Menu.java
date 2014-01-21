@@ -20,7 +20,7 @@ public class Menu extends JPanel {
 	
 	public Menu(Window parent, String mode) {
 		this.parent = parent;
-		
+		parent.setTitle("Menu");
 		this.setLayout(new GridLayout(5,1));
 		
 		emprunter = new JButton("Emprunter");

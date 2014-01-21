@@ -54,6 +54,7 @@ public class Connexion extends JPanel {
 		this.add(texts,BorderLayout.CENTER);
 		this.add(valide,BorderLayout.EAST);
 		
+		parent.setResizable(false);
 		this.setVisible(true);
 	}
 	
@@ -61,8 +62,10 @@ public class Connexion extends JPanel {
 		String nomUtilisateur = "";
 		String motDePasse = "";
 		try {
-			nomUtilisateur = this.login.getText();
-			motDePasse = this.psw.getPassword().toString();
+			nomUtilisateur = login.getText();
+			motDePasse = String.valueOf(psw.getPassword());
+		} catch(Exception e) {
+			System.err.println(e);
 		} finally {
 		
 			if(nomUtilisateur == null) {
