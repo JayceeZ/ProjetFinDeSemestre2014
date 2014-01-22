@@ -347,7 +347,7 @@ public class StockProjectController {
      *            Liste des id pour creer l'emprunt
      * @return Vrai si l'emprunt a ete cree, faux sinon
      */
-    public boolean creerEmprunt(ArrayList<String> id) {
+    public boolean creerEmprunt(ArrayList<Integer> id) {
         // Creation d'un hashmap temporaire
         HashMap<Appareil, Integer> w = new HashMap<Appareil, Integer>();
 
