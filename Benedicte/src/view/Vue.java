@@ -93,7 +93,7 @@ public class Vue {
 	/**
      * La methode menuConnection permet a un utilisateur de se connecter si il appartient a liste des utilisateurs.
      */
-	private void menuConnection()
+	public void menuConnection()
 	{
 		System.out.println("Entrez votre identifiant utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
@@ -110,12 +110,12 @@ public class Vue {
 			}
 			case 1:
 			{
-				menuEmprunteur();
+				controller.traitementCommande(Commande.EMPRUNTEUR);
 				break;
 			}
 			case 2:
 			{
-				menuPrincipal();
+				controller.traitementCommande(Commande.PRINCIPAL);
 				break;
 			}
 			default:
@@ -128,7 +128,7 @@ public class Vue {
 	/**
      * La methode menuRegistration permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
      */
-	private void menuRegistration()
+	public void menuRegistration()
 	{
 		// Variables utiles pour le menu registration
 		int choixMenuRegistration = 0;
@@ -151,12 +151,12 @@ public class Vue {
 		{
 			case 0:
 			{
-				controller.traitementCommande(Commande.CONNECT);
+				controller.traitementCommande(Commande.INIT);
 				break;
 			}
 			case 1:
 			{
-				menuRegistrationEnseignant(); 
+				menuRegistrationEnseignantMatieres(); 
 				break;
 			}
 			case 2:
@@ -170,6 +170,40 @@ public class Vue {
 				menuRegistration();
 			}
 		}
+	}
+	
+	private void menuRegistrationEnseignantMatieres()
+	{
+		System.out.println("Choisissez les enseignements séparés par une virgule sans espaces en respectant les majuscules.");
+		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
+		System.out.println("Exemple : SI,MAM");
+		
+		// Recuperation de l'entree de l'utilisateur
+        String line = "";
+        line = sc.nextLine();
+
+        // Recupere les matieres de l'utilisateur
+        String[] matieres = line.split(",");
+
+        // Liste contenant les matieres
+        ArrayList<String> id = new ArrayList<String>();
+
+        // boucle sur les id et ajout a la liste
+        for (String i : ids) {
+            id.add(Integer.parseInt(i));
+        }
+
+        // Test si les id entreer sont correct
+        if (controller.creerEmprunt(id)) {
+            // Lance le traitement de la date d'emprnt
+            nouvelleDate();
+        } else {
+            // Les id n'existent pas
+            System.out.println("Veuillez entrer des id existants");
+
+            // Recommence l'emprunt
+            nouvelEmprunt(stock);
+        }
 	}
 	
 	/**
@@ -380,7 +414,7 @@ public class Vue {
             System.out.println("Veuillez entrer des id existants");
 
             // Recommence l'emprunt
-            nouvelEmprunt();
+            nouvelEmprunt(stock);
         }
     }
 
