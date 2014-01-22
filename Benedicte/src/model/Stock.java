@@ -109,8 +109,8 @@ public class Stock {
 	public void changerEtat(Appareil a,Etat etat,int nbre) {
 		if (stock.get(a)==null)
 			return;
-		int nbA = stock.get(a);
-		modifierStock(a,nbA - nbre);
+		int nb_a = stock.get(a);
+		modifierStock(a,nb_a - nbre);
 		a.setEtat(etat);
 		ajouterAppareil(a,nbre);
 	}

@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.Emprunteur;
-import model.Gestionnaire;
 import controller.Commande;
 
 public class Menu extends JPanel {
@@ -20,7 +18,7 @@ public class Menu extends JPanel {
 	JButton changerDeCompte;
 	JButton quitter;
 	
-	public Menu(Window parent, Emprunteur e) {
+	public Menu(Window parent, String mode) {
 		this.parent = parent;
 		parent.setTitle("Menu");
 		this.setLayout(new GridLayout(5,1));
@@ -38,7 +36,7 @@ public class Menu extends JPanel {
 		      }
 		    });
 		
-		if(e instanceof Gestionnaire) {
+		if(mode.contains("gestionnaire")) {
 			gestion = new JButton("Gestion des données");
 			gestion.addActionListener(new ActionListener() {
 			      public void actionPerformed(ActionEvent e) {
