@@ -23,9 +23,9 @@ public class Gestionnaire extends Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Gestionnaire(String n, String motDePasse, int duree, int id, int nbMaxMateriel,
+    public Gestionnaire(String n, String motDePasse, int duree, int nbMaxMateriel,
             Enseignement[] m) {
-        super(n, motDePasse, duree, id, nbMaxMateriel, m);
+        super(n, motDePasse, duree, nbMaxMateriel, m);
     }
 
     /**
@@ -43,10 +43,9 @@ public class Gestionnaire extends Emprunteur {
     	String nom = emprunteur.getNom();
     	String motDePasse = emprunteur.getMotDePasse();
     	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
-    	int id = emprunteur.getId();
     	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
     	Enseignement[] matieres = emprunteur.getMatieres();
-    	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt,id,nbMaxAppareils,matieres);
+    	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt, nbMaxAppareils,matieres);
     	
     	database.getEmprunteurs().remove(emprunteur);
     	database.getEmprunteurs().add(gestionnaire);

@@ -31,9 +31,9 @@ public class Etudiant extends Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Etudiant(String n, String motDePasse, int duree, int id, int nbMaxMateriel,
+    public Etudiant(String n, String motDePasse,
             Enseignement[] m) {
-        super(n, motDePasse, duree, id, nbMaxMateriel, m);
+        super(n, motDePasse, 20, 3, m);
     }
 
 }

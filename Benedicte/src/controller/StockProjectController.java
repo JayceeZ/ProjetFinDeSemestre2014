@@ -152,7 +152,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, 0, 0, 0, null));
+			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, null));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
@@ -191,7 +191,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, 0, 0, 0, null));
+			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, null));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
