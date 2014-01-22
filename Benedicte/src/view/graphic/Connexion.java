@@ -74,16 +74,10 @@ public class Connexion extends JPanel {
 				if(motDePasse == null) {
 					motDePasse = "";
 				}
-				switch(parent.getController().connect(nomUtilisateur,motDePasse)) {
-				case 1:
-					parent.setMenu("emprunteur");
-					break;
-				case 2:
-					parent.setMenu("gestionnaire");
-					break;
-				default:
-					connexionError("Identifiants incorrects");
-				}
+				if(!parent.getController().connect(nomUtilisateur,motDePasse)) {
+ 					connexionError("Identifiants incorrects");
+ 				}
+
 			}
 		}
 	}
