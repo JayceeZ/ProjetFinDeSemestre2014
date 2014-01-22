@@ -17,7 +17,6 @@ public class Window extends JFrame {
 	private String mode;
 	
 	private JPanel panel;
-	private Stock stock;
 
 	public Window() {
 		this.setLayout(new BorderLayout());
@@ -67,12 +66,9 @@ public class Window extends JFrame {
 	public void affichageEmprunts() {
 		//TODO
 	}
-	
-	public void printStock(Stock s) {
-		this.stock = s;
-	}
-	public void nouvelEmprunt() {
-		panel = new Selector("Choisir dans le stock",stock.getStock().keySet().toArray());
+
+	public void nouvelEmprunt(Stock s) {
+		panel = new Selector("Choisir dans le stock", s.getStock().keySet().toArray());
 		changePanel(new Dimension(400,400),panel);
 	}
 }

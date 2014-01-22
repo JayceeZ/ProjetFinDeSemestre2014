@@ -7,5 +7,17 @@ package model;
  * 
  */
 public enum OS {
-    ANDROID, IOS, NOOS
+	ANDROID("Android"), IOS("IOS"), NOOS("Aucun");
+	 
+	
+	private String description;
+	private OS(String d) {
+		this.description = d;
+	}
+	
+	@Override
+	public String toString() {
+		return this.description;
+	}
+   
 }
