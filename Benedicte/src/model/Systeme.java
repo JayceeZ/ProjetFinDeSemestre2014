@@ -1,8 +1,6 @@
 package model;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.ArrayList;
 
 
 public class Systeme {
@@ -190,7 +188,7 @@ public class Systeme {
 		
 		int avant = -1;
 		int apres = 1;
-		for(Emprunt emprunt : (ArrayList<Emprunt>)database.getEmprunts()){
+		for(Emprunt emprunt : database.getEmprunts()){
             avant = empruntEnCours.getDateDebut().compareTo(emprunt.getDateFin());
 		    apres = empruntEnCours.getDateFin().compareTo(emprunt.getDateDebut());
 		    if(avant < 0 || apres > 0){

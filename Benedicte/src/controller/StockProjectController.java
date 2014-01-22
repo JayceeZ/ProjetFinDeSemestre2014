@@ -15,7 +15,6 @@ import model.Emprunteur;
 import model.Systeme;
 import model.Stock;
 
-@SuppressWarnings("unchecked")
 /**
  * Classe central du projet, coordonne la communication entre la vue et le modele.
  * La classe est appeler par la vue des qu'il y a besoin de modifier ou d'effectuer
@@ -348,7 +347,7 @@ public class StockProjectController {
      *            Liste des id pour creer l'emprunt
      * @return Vrai si l'emprunt a ete cree, faux sinon
      */
-    public boolean creerEmprunt(ArrayList id) {
+    public boolean creerEmprunt(ArrayList<String> id) {
         // Creation d'un hashmap temporaire
         HashMap<Appareil, Integer> w = new HashMap<Appareil, Integer>();
 

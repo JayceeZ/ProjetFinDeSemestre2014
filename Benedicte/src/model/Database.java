@@ -1,16 +1,8 @@
 package model;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @SuppressWarnings("unchecked")
 /**
@@ -62,7 +54,7 @@ public class Database {
      * 
      * @return liste des emprunts
      */
-    public List getEmprunts() {
+    public List<Emprunt> getEmprunts() {
         return emprunts;
     }
 
@@ -72,7 +64,7 @@ public class Database {
      * @param emprunts
      *            Nouvel etat des emprunts
      */
-    public void setEmprunts(ArrayList emprunts) {
+    public void setEmprunts(List<Emprunt> emprunts) {
         this.emprunts = emprunts;
     }
 

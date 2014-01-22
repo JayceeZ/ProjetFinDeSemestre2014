@@ -1,9 +1,7 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Classe representant un emprunt. Un emprunt est composé un dictionnaire lui
