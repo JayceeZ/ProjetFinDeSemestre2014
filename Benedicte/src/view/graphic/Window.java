@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Appareil;
+import model.Emprunteur;
 import model.Stock;
 import controller.StockProjectController;
 
@@ -54,21 +54,45 @@ public class Window extends JFrame {
 		changePanel(new Dimension(500,500), panel);
 	}
 
-	public void setMenu(String string) {
-		this.mode = string;
-		changePanel(new Dimension(300,300), new Menu(this, mode));
+	public void setMenu(Emprunteur e) {
+		changePanel(new Dimension(300,300), new Menu(this, e));
 	}
 	
+	/**
+	 * Menu de choix, se connecter ou s'enregistrer
+	 */
 	public void menuUtilisateur() {
 		this.setVisible(true);
 	}
 	
-	public void affichageEmprunts() {
+	/**
+	 * Menu de connexion
+	 */
+	public void menuConnexion() {
 		//TODO
+	}
+	
+	/**
+	 * Menu d'enregistrement
+	 */
+	public void menuRegistration() {
+		//TODO
+	}
+	
+	/**
+	 * Menu principal (actions disponibles en tant qu'utilisateur connecté)
+	 */
+	//TODO Doit dépendre du type d'utilisateur (gestionnaire ou emprunteur)
+	public void menuPrincipal() {
+		this.setMenu(controller.getEmprunteur());
 	}
 
 	public void nouvelEmprunt(Stock s) {
 		panel = new Selector("Choisir dans le stock", s.getStock().keySet().toArray());
 		changePanel(new Dimension(400,400),panel);
+	}
+	
+	public void affichageEmprunts() {
+		//TODO
 	}
 }
