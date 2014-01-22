@@ -100,28 +100,9 @@ public class Vue {
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
 
-		switch(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
+		if(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
 		{
-			case 0:
-			{
-				System.out.println("Une des informations entrees est invalide");
-				controller.traitementCommande(Commande.INIT);
-				break;
-			}
-			case 1:
-			{
-				controller.traitementCommande(Commande.EMPRUNTEUR);
-				break;
-			}
-			case 2:
-			{
-				controller.traitementCommande(Commande.PRINCIPAL);
-				break;
-			}
-			default:
-			{
-				System.out.println("Cas impossible");
-			}
+			controller.traitementCommande(Commande.CHOIX);
 		}
 	}
 	

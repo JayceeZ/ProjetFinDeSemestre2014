@@ -19,7 +19,7 @@ public enum Enseignement {
     	return nom;
     }
     
-    public Enum getEnum(String s) {
+    public Enum<Enseignement> getEnum(String s) {
     	
     	
     	return e;

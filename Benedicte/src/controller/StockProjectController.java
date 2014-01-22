@@ -12,6 +12,7 @@ import model.Appareil;
 import model.Database;
 import model.Emprunt;
 import model.Emprunteur;
+import model.Gestionnaire;
 import model.Systeme;
 import model.Stock;
 
@@ -233,6 +234,19 @@ public class StockProjectController {
         case EMPRUNTEUR:
         	vue.menuEmprunteur();
         	break;
+        case CHOIX:
+        	if (emp instanceof Enseignant)
+        	{
+        		vue.menuEmprunteur();
+        	}
+        	if (emp instanceof Etudiant)
+        	{
+        		vue.menuEmprunteur();
+        	}
+        	if (emp instanceof Gestionnaire)
+        	{
+        		vue.menuPrincipal();
+        	}
         // Creation d'un nouvel emprunt
         case EMPRUNT:
             vue.nouvelEmprunt(stock);
@@ -262,12 +276,10 @@ public class StockProjectController {
      *            Nom de l'utilisateur
      * @return Vrai si l'utilisateur existe dans la base de donnees
      */
-    public int connect(String nom, String motDePasse) 
+    public boolean connect(String nom, String motDePasse) 
     {
     	// variable permettant de savoir si les identifiants correspondent à quelqu'un de la base de donnée.
     	boolean booleanIdentifiants = false;
-    	// Indique le type d'emprunteur que l'on est.
-    	int typeEmprunteur = 0;
         // Recuperation de la liste des emprunteurs
         ArrayList<Emprunteur> emprunteurs = db.getEmprunteurs();
         Iterator<Emprunteur> it = emprunteurs.iterator();
@@ -280,32 +292,9 @@ public class StockProjectController {
 			{
 				emp = emprunteur;
 				booleanIdentifiants = true;
-				switch((""+ emprunteur.getClass()).substring(12)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
-				{
-					case "Etudiant":
-					{
-						typeEmprunteur = 1;
-						break;
-					}
-					case "Enseignant":
-					{
-						typeEmprunteur = 1;
-						break;
-					}
-					case "Gestionnaire":
-					{
-						typeEmprunteur = 2;
-						break;
-					}
-					default:
-					{
-						typeEmprunteur = 0;
-						System.out.println("Erreur sur le fonctionnement de la fonction avec le polymorphisme");
-					}
-				}
 			}
 		}
-		return typeEmprunteur;
+		return booleanIdentifiants;
 
     }
 
