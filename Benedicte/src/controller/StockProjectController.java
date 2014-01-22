@@ -231,6 +231,9 @@ public class StockProjectController {
         case CONNECT:
             vue.menuConnection();
             break;
+        case REGISTER:
+        	vue.menuRegistration();
+        	break;
         case LISTE:
             vue.affichageEmprunts();
             break;

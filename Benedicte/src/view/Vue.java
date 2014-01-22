@@ -74,7 +74,7 @@ public class Vue {
 			}
 			case 1:
 			{
-				menuConnection(); 
+				controller.traitementCommande(Commande.CONNECT); 
 				break;
 			}
 			case 2:

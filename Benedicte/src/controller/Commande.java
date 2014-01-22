@@ -7,5 +7,5 @@ package controller;
  * 
  */
 public enum Commande {
-    EMPRUNT, QUITTER, LISTE, INIT, CONNECT
+    EMPRUNT, QUITTER, LISTE, INIT, CONNECT, REGISTER
 }
