@@ -220,11 +220,20 @@ public class StockProjectController {
         // Switch sur les cas possibles
         switch (commande) {
 
-        // Initialisation de la vue
+        // Initialisation de la vue - Menu de départ
         case INIT:
             vue.menuUtilisateur();
             break;
-            // Creation d'un nouvel emprunt
+        case PRINCIPAL:
+        	vue.menuPrincipal();
+        	break;
+        case GESTIONNAIRE:
+        	vue.menuGestionnaire();
+        	break;
+        case EMPRUNTEUR:
+        	vue.menuEmprunteur();
+        	break;
+        // Creation d'un nouvel emprunt
         case EMPRUNT:
             vue.nouvelEmprunt(stock);
             break;

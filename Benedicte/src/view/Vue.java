@@ -79,13 +79,13 @@ public class Vue {
 			}
 			case 2:
 			{
-				menuRegistration();
+				controller.traitementCommande(Commande.REGISTER);
 				break;
 			}
 			default:
 			{
 				System.out.println("Veuillez choisir entre 0, 1 et 2");
-				menuUtilisateur();
+				controller.traitementCommande(Commande.INIT);
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public class Vue {
 			case 0:
 			{
 				System.out.println("Une des informations entrees est invalide");
-				controller.traitementCommande(Commande.CONNECT);
+				controller.traitementCommande(Commande.INIT);
 				break;
 			}
 			case 1:
