@@ -197,8 +197,14 @@ public class Vue {
 
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
+		
+		System.out.println("Entrez votre nom de famille");
+		String nomDeFamille = sc.nextLine();
+		
+		System.out.println("Entrez votre prénom");
+		String prenom = sc.nextLine();
 
-		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur))
+		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase()))
 		{
 			menuEmprunteur();
 		}
@@ -218,8 +224,14 @@ public class Vue {
 
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
+		
+		System.out.println("Entrez votre nom de famille");
+		String nomDeFamille = sc.nextLine();
+		
+		System.out.println("Entrez votre prénom");
+		String prenom = sc.nextLine();
 
-		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur))
+		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase()))
 		{
 			menuEmprunteur();
 		}
@@ -235,7 +247,7 @@ public class Vue {
      */
 	private void menuPrincipal()
 	{
-		// Variables utiles pour le menu registration
+		// Variables utiles pour le menu principal
 		int choixMenuPrincipal = 0;
 				
 		System.out.println("Menu Principal");
@@ -256,29 +268,29 @@ public class Vue {
         {
         	case 0:
         	{
-        		controller.traitementCommande(Commande.CONNECT);
+        		controller.traitementCommande(Commande.INIT);
         		break;
         	}
         	case 1:
         	{
-        		menuGestionnaire();
+        		controller.traitementCommande(Commande.GESTIONNAIRE);
         		break;
         	}
         	case 2:
         	{
-        		menuEmprunteur();
+        		controller.traitementCommande(Commande.EMPRUNTEUR);
         		break;
         	}
         	default:
         	{
         		System.out.println("Veuillez choisir entre 0, 1 et 2");
-				menuPrincipal();
+        		controller.traitementCommande(Commande.PRINCIPAL);
         	}
         }
 	}
 	
 	/**
-     * Affichage du texte pour le gestionnaire
+     * La methode menuGestionnaire permet a un gestionnaire de choisir entre plusieurs commandes.
      */
     public void menuGestionnaire() {
         System.out
