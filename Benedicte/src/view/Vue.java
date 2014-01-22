@@ -345,7 +345,9 @@ public class Vue {
      * Affichage des messages pour un nouvel emprunt et traitement des entrees
      * utilisateur.
      */
-    public void nouvelEmprunt() {
+    public void nouvelEmprunt(Stock stock) {
+        // Affichage du stock pour un nouvel emprunt
+        printStock(stock);
         System.out
                 .println("Entrez les id des appareils que vous voulez emprunter, espace "
                         + "par une virgule");

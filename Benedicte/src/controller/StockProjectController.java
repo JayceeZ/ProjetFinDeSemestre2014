@@ -60,7 +60,7 @@ public class StockProjectController {
         systeme = new Systeme(stock, db);
 
         // Initialisation de l'application
-        initialisation();
+        traitementCommande(Commande.INIT);
     }
 
     /**
@@ -129,9 +129,11 @@ public class StockProjectController {
 	* La methode ajouterEnseignant permet d'ajouter un enseignant a la liste d'emprunteurs.
 	* @param identifiant Le nom d'utilisateur de l'emprunteur.
 	* @param motDePasse Le mot de passe de l'emprunteur.
+	* @param nomDeFamille Le nom de famille de l'emprunteur.
+	* @param prenom Le prenom de l'emprunteur.
 	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
 	*/
-	public boolean ajouterEnseignant (String identifiant, String motDePasse)
+	public boolean ajouterEnseignant (String identifiant, String motDePasse, String nomDeFamille, String prenom)
 	{
 		boolean booleanTMP = true;
 		int i = 0;
@@ -152,7 +154,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, null));
+			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, nomDeFamille + "." + prenom, null));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
@@ -168,9 +170,11 @@ public class StockProjectController {
 	* La methode ajouterEtudiant permet d'ajouter un etudiant a la liste d'emprunteurs.
 	* @param identifiant Le nom d'utilisateur de l'emprunteur.
 	* @param motDePasse Le mot de passe de l'emprunteur.
+	* @param nomDeFamille Le nom de famille de l'emprunteur.
+	* @param prenom Le prenom de l'emprunteur.
 	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
 	*/
-	public boolean ajouterEtudiant (String identifiant, String motDePasse)
+	public boolean ajouterEtudiant (String identifiant, String motDePasse, String nomDeFamille, String prenom)
 	{
 		boolean booleanTMP = true;
 		int i = 0;
@@ -191,7 +195,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, null));
+			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, nomDeFamille + "." + prenom, null));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
@@ -218,14 +222,14 @@ public class StockProjectController {
 
         // Initialisation de la vue
         case INIT:
-            initialisation();
+            vue.menuUtilisateur();
             break;
             // Creation d'un nouvel emprunt
         case EMPRUNT:
-            nouvelEmprunt();
+            vue.nouvelEmprunt(stock);
             break;
         case CONNECT:
-            vue.menuUtilisateur();
+            vue.menuConnection();
             break;
         case LISTE:
             vue.affichageEmprunts();
@@ -236,26 +240,6 @@ public class StockProjectController {
         default:
             break;
         }
-    }
-
-    /**
-     * Appel des methodes necessaires a la creation d'un nouvel emprunt
-     * 
-     */
-    private void nouvelEmprunt() {
-        // Affichage du stock pour un nouvel emprunt
-        vue.printStock(stock);
-
-        // Affichage des informations necessaires
-        vue.nouvelEmprunt();
-    }
-
-    /**
-     * Initialise le stock, et lance la vue
-     */
-    private void initialisation() {
-        // Lancement de l'affichage
-        vue.menuUtilisateur();
     }
 
     /**
@@ -279,11 +263,12 @@ public class StockProjectController {
         // Boucle sur la liste des emprunteurs
         while (!booleanIdentifiants && it.hasNext())
 		{
-			Emprunteur emprunteurSuivant = it.next();
-			if (emprunteurSuivant.getNom().equals(nom) && emprunteurSuivant.getMotDePasse().equals(motDePasse))
+			Emprunteur emprunteur = it.next();
+			if (emprunteur.getNom().equals(nom) && emprunteur.getMotDePasse().equals(motDePasse))
 			{
+				emp = emprunteur;
 				booleanIdentifiants = true;
-				switch((""+ emprunteurSuivant.getClass()).substring(12)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
+				switch((""+ emprunteur.getClass()).substring(12)) // Il faut transformer cela en string car on ne peut faire un switch sur des classes.
 				{
 					case "Etudiant":
 					{

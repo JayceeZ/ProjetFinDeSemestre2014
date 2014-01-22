@@ -18,7 +18,7 @@ public abstract class Emprunteur {
     private int dureeMaxEmprunt;
 
     // Id de l'emprunteur
-    private static int id = 0;
+    private String id;
 
     // Nombre max d'appareils a emprunter
     private int nbMaxAppareils;
@@ -49,7 +49,7 @@ public abstract class Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Emprunteur(String n, String motDePasse, int duree, int nbMaxAppareils,
+    public Emprunteur(String n, String motDePasse, int duree, String id, int nbMaxAppareils,
             Enseignement[] m) {
         // Initialisation du nom
         this.nom = n;
@@ -61,7 +61,7 @@ public abstract class Emprunteur {
         this.dureeMaxEmprunt = duree;
 
         // Initialisation de l'id
-        id = id + 1;
+        this.id = id;
 
         // Initialisation du nombre max d'appareils
         this.nbMaxAppareils = nbMaxAppareils;
@@ -110,7 +110,7 @@ public abstract class Emprunteur {
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -118,7 +118,7 @@ public abstract class Emprunteur {
      * @param id
      *            the id to set
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
