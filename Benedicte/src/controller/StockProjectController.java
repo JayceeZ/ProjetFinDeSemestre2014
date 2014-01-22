@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import view.graphic.Window;
 import model.Enseignant;
+import model.Enseignement;
 import model.Etudiant;
 import model.Appareil;
 import model.Database;
@@ -295,7 +296,89 @@ public class StockProjectController {
 			}
 		}
 		return booleanIdentifiants;
-
+    }
+    
+    /**
+     * Affiche la liste des emprunteurs sans les gestionnaires
+     */
+    public void afficherEmprunteurs()
+    {
+    	// L'arraylist contenant tous les utilisateurs
+    	ArrayList<Emprunteur> utilisateurs = db.getEmprunteurs();
+    	// l'arraylist contenant tous le sutilisateurs sauf les gestionnaires
+    	ArrayList<String> emprunteurs = new ArrayList<String>();
+    	for (Emprunteur emp : utilisateurs)
+    	{
+    		if (emp instanceof Etudiant || emp instanceof Enseignant)
+    		{
+    			emprunteurs.add(emp.getId());
+    		}
+    	}
+    	System.out.println(emprunteurs);
+    }
+    
+    /**
+     * Verifie si un emprunteur existe a partir de son id.
+     * 
+     * @param idEmprunteur
+     *            L'ID de l'emprunteur
+     * @return Vrai si l'utilisateur existe dans la base de donnees
+     */
+    public boolean verifierEmprunteur(String idEmprunteur)
+    {
+    	// L'arraylist contenant tous les utilisateurs
+    	ArrayList<Emprunteur> utilisateurs = db.getEmprunteurs();
+    	for (Emprunteur emp : utilisateurs)
+    	{
+    		if (emp.getId().equals(idEmprunteur))
+    		{
+    			return true;
+    		}    		
+    	}
+    	return false;
+    }
+    
+    /**
+     * Permet de renvoyer un emprunteur a partir de son ID.
+     * 
+     * @param idEmprunteur
+     *            L'ID de l'emprunteur
+     * @return L'emprunteur
+     */
+    public Emprunteur renvoyerEmprunteur(String idEmprunteur)
+    {
+    	// L'arraylist contenant tous les utilisateurs
+    	ArrayList<Emprunteur> utilisateurs = db.getEmprunteurs();
+    	for (Emprunteur emp : utilisateurs)
+    	{
+    		if (emp.getId().equals(idEmprunteur))
+    		{
+    			return emp;
+    		}    		
+    	}
+    	return null;
+    }
+    
+    /**
+     * Permet de transformer un emprunteur en gestionnaire. 
+     * L'emprunteur est alors remplace dans la database par un gestionnaire ayant les memes
+     * parametres que lui .
+     * @param emprunteur
+     * 			L'emprunteur a promouvoir
+     */
+    public void transformerEmprunteur(Emprunteur emprunteur){
+    	if(emprunteur instanceof Gestionnaire)
+    		return;
+    	String nom = emprunteur.getNom();
+    	String motDePasse = emprunteur.getMotDePasse();
+    	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
+    	String id = emprunteur.getId();
+    	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
+    	Enseignement[] matieres = emprunteur.getMatieres();
+    	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt, id, nbMaxAppareils,matieres);
+    	
+    	db.getEmprunteurs().remove(emprunteur);
+    	db.getEmprunteurs().add(gestionnaire);
     }
 
     /**

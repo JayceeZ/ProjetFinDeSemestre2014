@@ -5,6 +5,7 @@ import java.util.*;
 
 import model.Appareil;
 import model.Emprunt;
+import model.Emprunteur;
 import model.Stock;
 import controller.Commande;
 import controller.StockProjectController;
@@ -292,10 +293,59 @@ public class Vue {
 	/**
      * La methode menuGestionnaire permet a un gestionnaire de choisir entre plusieurs commandes.
      */
-    public void menuGestionnaire() {
-        System.out
-                .println("Vous êtes connecte en tant que gestionnaire, voici la liste des emprunts");
+    public void menuGestionnaire() 
+    {
+    	// Variables utiles pour cette methode
+    	int choixMenuGestionnaire = 0;
 
+    	System.out.println("Menu Gestionnaire");
+    	System.out.println("Que voulez-vous faire ? \n 0. Retour \n 1. Promouvoir un emprunteur \n 2. Acheter un materiel \n 3. Informations sur les stocks \n 4. Statistiques \n");
+
+    	try 
+		{
+			choixMenuGestionnaire = sc.nextInt();
+			sc.nextLine();
+		}
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+
+		switch(choixMenuGestionnaire)
+		{
+			case 0:
+			{
+				controller.traitementCommande(Commande.PRINCIPAL);
+				break;
+			}
+			case 1:
+			{
+				menuPromotion();
+				break;
+			}
+			case 2:
+			{
+				acheterMateriel();
+				break;
+			}
+			case 3:
+			{
+				information();
+				break;
+			}
+			case 4:
+			{
+				statistique();
+				break;
+			}
+			default:
+			{
+				System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
+				controller.traitementCommande(Commande.GESTIONNAIRE);
+			}
+		}
+    	
         affichageEmprunts();
 
         System.out
@@ -323,6 +373,30 @@ public class Vue {
 
         System.exit(0);
     }
+    
+    /**
+     * La methode menuPromotion permet de promouvoir un emprunteur en gestionnaire.
+     */
+    public void menuPromotion()
+    {
+    	// Variables utiles pour le menu promotion
+    	String choixMenuPromotion = "";
+    	
+    	System.out.println("Veuillez choisir un emprunteur dans la liste suivante :");
+    	controller.afficherEmprunteurs();
+    	
+    	choixMenuPromotion = sc.nextLine();
+    	
+    	if (controller.verifierEmprunteur(choixMenuPromotion))
+    	{
+    		controller.transformerEmprunteur(controller.renvoyerEmprunteur(choixMenuPromotion));
+    	}
+    	else
+    	{
+    		System.out.println("Nom invalide");
+    		controller.traitementCommande(Commande.GESTIONNAIRE);
+    	}
+    }
 
 	///////////////////////////////// PARTIE EMPRUNTEUR ///////////////////////////////////////////
 	
@@ -331,7 +405,7 @@ public class Vue {
      */
     public void menuEmprunteur() 
     {
-    	// Variables utiles pour le menu registration
+    	// Variables utiles pour le menu emprunteur
     	int choixMenuEmprunteur = 0;
     	
     	System.out.println("Menu Emprunteur");
