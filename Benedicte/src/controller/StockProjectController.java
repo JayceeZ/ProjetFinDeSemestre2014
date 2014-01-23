@@ -158,7 +158,10 @@ public class StockProjectController {
 					enumsMatieres.add(Enseignement.getEnum(m));
 				}
 			} else {
-				status = 2;
+				if (enumsMatieres.size()>0)
+				{
+					status = 2;
+				}
 			}
 		}
 		Emprunteur emp;
