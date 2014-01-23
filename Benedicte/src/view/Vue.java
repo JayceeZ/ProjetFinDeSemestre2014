@@ -6,7 +6,6 @@ import java.util.*;
 import model.Appareil;
 import model.Emprunt;
 import model.Emprunteur;
-import model.Enseignement;
 import model.Stock;
 import controller.Commande;
 import controller.StockProjectController;
@@ -158,11 +157,8 @@ public class Vue {
 	private void menuRegistrationEnseignantMatieres()
 	{
 		System.out.println("Choisissez les enseignements séparés par une virgule sans espaces en respectant les majuscules.");
-		System.out.print("Enseignements disponibles :");
-		for (Enseignement e:Enseignement.values()) {
-			System.out.print(e+", ");
-		}
-		System.out.println("\nExemple : SI,MAM");
+		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
+		System.out.println("Exemple : SI,MAM");
 		
 		// Recuperation de l'entree de l'utilisateur
         String line = "";
@@ -171,13 +167,24 @@ public class Vue {
         // Recupere les matieres de l'utilisateur
         String[] matieres = line.split(",");
 
-        //TODO Que doit faire cette fonction ?
-        if(false) {
-            // Les id n'existent pas
-            System.out.println("Veuillez entrer des matieres existantes");
+        // Liste contenant les matieres
+        ArrayList<String> id = new ArrayList<String>();
 
-            // Recommence
-            menuRegistrationEnseignantMatieres();
+        // boucle sur les id et ajout a la liste
+        for (String i : ids) {
+            id.add(Integer.parseInt(i));
+        }
+
+        // Test si les id entreer sont correct
+        if (controller.creerEmprunt(id)) {
+            // Lance le traitement de la date d'emprnt
+            nouvelleDate();
+        } else {
+            // Les id n'existent pas
+            System.out.println("Veuillez entrer des id existants");
+
+            // Recommence l'emprunt
+            nouvelEmprunt(stock);
         }
 	}
 	
@@ -319,20 +326,17 @@ public class Vue {
 			}
 			case 2:
 			{
-				//TODO
-				//acheterMateriel();
+				acheterMateriel();
 				break;
 			}
 			case 3:
 			{
-				//TODO
-				//information();
+				information();
 				break;
 			}
 			case 4:
 			{
-				//TODO
-				//statistique();
+				statistique();
 				break;
 			}
 			default:
