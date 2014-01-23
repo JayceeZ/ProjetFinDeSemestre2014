@@ -361,6 +361,11 @@ public class StockProjectController {
     	return null;
     }
     
+    public boolean methodeSansNomPOurInstant()
+    {
+    	return false;
+    }
+    
     /**
      * Permet de transformer un emprunteur en gestionnaire. 
      * L'emprunteur est alors remplace dans la database par un gestionnaire ayant les memes

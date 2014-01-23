@@ -178,11 +178,11 @@ public class Vue {
         // Boucle sur les matières.
         for (String i : matieres) 
         {
-            if (verifieEnum(i))
+            if (Enseignement.verifieEnum(i))
             {
-            	if !(matiere.contains(getEnum(i)))
+            	if (!matiere.contains(Enseignement.getEnum(i)))
             	{
-            		matiere.add(getEnum(i));
+            		matiere.add(Enseignement.getEnum(i));
             	}
             }
         }
@@ -247,11 +247,11 @@ public class Vue {
         ArrayList<Enseignement> matiere = new ArrayList<Enseignement>();
 
         // Vérifie si l'enseignement existe
-        if (verifieEnum(i))
+        if (Enseignement.verifieEnum(line))
         {
-            if !(matiere.contains(getEnum(i)))
+            if (!matiere.contains(Enseignement.getEnum(line)))
             {
-            	matiere.add(getEnum(i));
+            	matiere.add(Enseignement.getEnum(line));
             }
         }
 

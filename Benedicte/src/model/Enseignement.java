@@ -19,14 +19,14 @@ public enum Enseignement {
     	return nom;
     }
     
-    public boolean verifieEnum(String s) {
+    public static boolean verifieEnum(String s) {
     	if(getEnum(s) != null) {
     		return true;
     	}
     	return false;
     }
     
-    public Enseignement getEnum(String s) {
+    public static Enseignement getEnum(String s) {
     	for (Enseignement e : values()) {
     		if (e.toString().equals(s)) {
     			return e;
