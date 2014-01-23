@@ -14,14 +14,20 @@ public enum Enseignement {
     	this.nom = n;
     }
     
+    public Enseignement[] getAll() {
+    	return values();
+    }
     
     public String toString() {
     	return nom;
     }
     
-    public Enum<Enseignement> getEnum(String s) {
-    	
-    	
-    	return e;
+    public Enseignement getEnum(String s) {
+    	for(Enseignement e:values()) {
+    		if(e.toString().equals(s)) {
+    			return e;
+    		}
+    	}
+    	return null;
     }
 }
