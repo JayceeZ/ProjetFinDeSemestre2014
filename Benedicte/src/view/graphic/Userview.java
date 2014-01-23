@@ -11,6 +11,7 @@ import model.Emprunteur;
 import model.Gestionnaire;
 import model.Stock;
 import controller.StockProjectController;
+import view.graphic.Selector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,9 +23,12 @@ public class Userview extends JPanel {
 	private StockProjectController controller;
 	private Emprunteur emp;
 	
+	private JPanel menucards;
 	private JPanel cards;
 
 	private JLabel infosUser;
+	
+	private Selector empruntSelector;
 	
 	public Userview(Window parent, StockProjectController c) {
 		this.parent = parent;
@@ -33,17 +37,29 @@ public class Userview extends JPanel {
 		this.setLayout(new BorderLayout());
 		infosUser = new JLabel();
 		
-		this.add(infosUser,BorderLayout.PAGE_START);
+		this.add(infosUser,BorderLayout.NORTH);
+		menucards = new JPanel(new CardLayout());
+		menucards.add(new Menu(parent, "Menu Emprunteur", menuEmprunteur()),"menuemprunteur");
+		menucards.add(new Menu(parent, "Menu Gestionnaire", menuGestionnaire()),"menugestionnaire");
 		cards = new JPanel(new CardLayout());
-		cards.add(new Menu(parent, "Menu Emprunteur", menuEmprunteur()),"menuemprunteur");
-		cards.add(new Menu(parent, "Menu Gestionnaire", menuGestionnaire()),"menugestionnaire");
+		empruntSelector = new Selector("Ajouter a l'emprunt");
+		cards.add(new JLabel(),"empty");
+		cards.add(empruntSelector,"emprunt");
 		
-		this.add(cards);
+		this.add(menucards, BorderLayout.SOUTH);
+		this.add(cards, BorderLayout.CENTER);
+		
+		
 	}
 	
 	private void changeMenu() {
+		CardLayout cl = (CardLayout) menucards.getLayout();
+		cl.next(menucards);
+	}
+	
+	private void changeZone(String s) {
 		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.next(cards);
+		cl.show(cards,s);
 	}
 	
 	public void updateInfosUser() {
@@ -52,7 +68,6 @@ public class Userview extends JPanel {
 		if(emp instanceof Gestionnaire) {
 			changeMenu();
 		}
-		parent.pack();
 	}
 	
 	public Map<String, ActionListener> menuEmprunteur() {
@@ -74,21 +89,11 @@ public class Userview extends JPanel {
 	
 	
 	public void nouvelEmprunt(Stock s) {
-		createSelectorPanel("Choisir dans le stock", s.getStock().keySet().toArray());
+		empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
 	}
 
 	public void affichageEmprunts() {
 		//TODO
-	}
-	
-	//TODO Pas terminé
-	/**
-	 * Permet de creer un panel ou on choisi des items dans une liste
-	 * @param action Un mot qui decrit ce que l'on choisi
-	 * @param list La liste des choix possibles
-	 */
-	public void createSelectorPanel(String action, Object[] list) {
-		new Selector(action, list);
 	}
 	
 	/**
