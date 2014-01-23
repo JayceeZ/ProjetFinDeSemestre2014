@@ -133,9 +133,10 @@ public class StockProjectController {
 	* @param motDePasse Le mot de passe de l'emprunteur.
 	* @param nomDeFamille Le nom de famille de l'emprunteur.
 	* @param prenom Le prenom de l'emprunteur.
+	* @param matiere La liste des enseignements de l'emprunteur.
 	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
 	*/
-	public boolean ajouterEnseignant (String identifiant, String motDePasse, String nomDeFamille, String prenom)
+	public boolean ajouterEnseignant (String identifiant, String motDePasse, String nomDeFamille, String prenom, ArrayList<Enseignement> matiere)
 	{
 		boolean booleanTMP = true;
 		int i = 0;
@@ -156,7 +157,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, nomDeFamille + "." + prenom, null));
+			db.ajouterEmprunteur(new Enseignant (identifiant, motDePasse, nomDeFamille + "." + prenom, matiere));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
@@ -174,9 +175,10 @@ public class StockProjectController {
 	* @param motDePasse Le mot de passe de l'emprunteur.
 	* @param nomDeFamille Le nom de famille de l'emprunteur.
 	* @param prenom Le prenom de l'emprunteur.
+	* @param matiere La matiere de l'etudiant.
 	* @return Un boolean indiquant true si l'utilisateur a ete cree et false si il existait deja.
 	*/
-	public boolean ajouterEtudiant (String identifiant, String motDePasse, String nomDeFamille, String prenom)
+	public boolean ajouterEtudiant (String identifiant, String motDePasse, String nomDeFamille, String prenom, ArrayList<Enseignement> matiere)
 	{
 		boolean booleanTMP = true;
 		int i = 0;
@@ -197,7 +199,7 @@ public class StockProjectController {
 		// Si booleanTMP = true alors on ajoute l'emprunteur a la liste des emprunteurs.
 		if (booleanTMP)
 		{
-			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, nomDeFamille + "." + prenom, null));
+			db.ajouterEmprunteur(new Etudiant (identifiant, motDePasse, nomDeFamille + "." + prenom, matiere));
 			db.enregistrerListeEmprunteur();
 			System.out.println("Votre compte Emprunteur a bien ete cree et ajoute a notre base de donnee");
 			booleanTMP = true;
@@ -374,7 +376,7 @@ public class StockProjectController {
     	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
     	String id = emprunteur.getId();
     	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
-    	Enseignement[] matieres = emprunteur.getMatieres();
+    	ArrayList<Enseignement> matieres = emprunteur.getMatieres();
     	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt, id, nbMaxAppareils,matieres);
     	
     	db.getEmprunteurs().remove(emprunteur);

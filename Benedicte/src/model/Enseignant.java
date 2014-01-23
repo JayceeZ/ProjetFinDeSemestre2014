@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Classe representant un enseignant, derivant de la classe emprunteur.
  * 
@@ -31,7 +33,7 @@ public class Enseignant extends Emprunteur {
      * @param m
      *            Liste des enseignement
      */
-    public Enseignant(String n, String motDePasse, String id, Enseignement[] m) 
+    public Enseignant(String n, String motDePasse, String id, ArrayList<Enseignement> m) 
     {
         super(n, motDePasse, 30, id, 24, m);
     }

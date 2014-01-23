@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Super classe representant les emprunteurs en general.
  * 
@@ -24,7 +26,7 @@ public abstract class Emprunteur {
     private int nbMaxAppareils;
 
     // Liste des enseignement de l'emprunteur
-    private Enseignement[] matieres;
+    private ArrayList<Enseignement> matieres;
 
     /**
      * Constructeur par defaut
@@ -50,7 +52,7 @@ public abstract class Emprunteur {
      *            Liste des enseignement
      */
     public Emprunteur(String n, String motDePasse, int duree, String id, int nbMaxAppareils,
-            Enseignement[] m) {
+            ArrayList<Enseignement> m) {
         // Initialisation du nom
         this.nom = n;
         
@@ -140,7 +142,7 @@ public abstract class Emprunteur {
     /**
      * @return the matieres
      */
-    public Enseignement[] getMatieres() {
+    public ArrayList<Enseignement> getMatieres() {
         return matieres;
     }
 
@@ -148,7 +150,7 @@ public abstract class Emprunteur {
      * @param matieres
      *            the matieres to set
      */
-    public void setMatieres(Enseignement[] matieres) {
+    public void setMatieres(ArrayList<Enseignement> matieres) {
         this.matieres = matieres;
     }
     

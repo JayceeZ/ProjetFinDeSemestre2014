@@ -6,6 +6,7 @@ import java.util.*;
 import model.Appareil;
 import model.Emprunt;
 import model.Emprunteur;
+import model.Enseignement;
 import model.Stock;
 import controller.Commande;
 import controller.StockProjectController;
@@ -143,7 +144,7 @@ public class Vue {
 			}
 			case 2:
 			{
-				menuRegistrationEtudiant();
+				menuRegistrationEtudiantMatieres();
 				break;
 			}
 			default:
@@ -154,9 +155,13 @@ public class Vue {
 		}
 	}
 	
+	/**
+     * La methode menuRegistrationEnseignantMatieres permet a un enseignant de choisir ses enseignements.
+     */
 	private void menuRegistrationEnseignantMatieres()
 	{
 		System.out.println("Choisissez les enseignements séparés par une virgule sans espaces en respectant les majuscules.");
+		System.out.println("Evitez les doublons !");
 		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
 		System.out.println("Exemple : SI,MAM");
 		
@@ -164,34 +169,44 @@ public class Vue {
         String line = "";
         line = sc.nextLine();
 
-        // Recupere les matieres de l'utilisateur
+        // Recupere les matieres que l'utilisateur a entre
         String[] matieres = line.split(",");
 
         // Liste contenant les matieres
-        ArrayList<String> id = new ArrayList<String>();
+        ArrayList<Enseignement> matiere = new ArrayList<Enseignement>();
 
-        // boucle sur les id et ajout a la liste
-        for (String i : ids) {
-            id.add(Integer.parseInt(i));
+        // Boucle sur les matières.
+        for (String i : matieres) 
+        {
+            if (verifieEnum(i))
+            {
+            	if !(matiere.contains(getEnum(i)))
+            	{
+            		matiere.add(getEnum(i));
+            	}
+            }
         }
 
         // Test si les id entreer sont correct
-        if (controller.creerEmprunt(id)) {
-            // Lance le traitement de la date d'emprnt
-            nouvelleDate();
-        } else {
-            // Les id n'existent pas
-            System.out.println("Veuillez entrer des id existants");
+        if (matieres.length == matiere.size())
+        {
+        	menuRegistrationEnseignant(matiere);
+        } 
+        else 
+        {
+            // Problème
+            System.out.println("Un problème a eu lieu, veuillez respecter les consignes");
 
-            // Recommence l'emprunt
-            nouvelEmprunt(stock);
+            // Recommence le choix
+            menuRegistration();
         }
 	}
 	
 	/**
      * La methode menuRegistrationEnseignant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur enseignant.
+     * @param matiere La liste des enseignements de l'enseignant.
      */
-	private void menuRegistrationEnseignant()
+	private void menuRegistrationEnseignant(ArrayList<Enseignement> matiere)
 	{
 		System.out.println("Entrez votre nom d'utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
@@ -205,7 +220,7 @@ public class Vue {
 		System.out.println("Entrez votre prénom");
 		String prenom = sc.nextLine();
 
-		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase()))
+		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase(), matiere))
 		{
 			menuEmprunteur();
 		}
@@ -216,9 +231,50 @@ public class Vue {
 	}
 	
 	/**
-     * La methode menuRegistrationEtudiant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur etudiant.
+     * La methode menuRegistrationEtudiantMatieres permet a un etudiant de choisir son enseignement.
      */
-	private void menuRegistrationEtudiant()
+	private void menuRegistrationEtudiantMatieres()
+	{
+		System.out.println("Choisis ta filière :");
+		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
+		System.out.println("Exemple : SI");
+		
+		// Recuperation de l'entree de l'utilisateur
+        String line = "";
+        line = sc.nextLine();
+
+        // Liste contenant les matieres
+        ArrayList<Enseignement> matiere = new ArrayList<Enseignement>();
+
+        // Vérifie si l'enseignement existe
+        if (verifieEnum(i))
+        {
+            if !(matiere.contains(getEnum(i)))
+            {
+            	matiere.add(getEnum(i));
+            }
+        }
+
+        // Test si les id entreer sont correct
+        if (matiere.size() == 1)
+        {
+        	menuRegistrationEtudiant(matiere);
+        } 
+        else 
+        {
+            // Problème
+            System.out.println("Un problème a eu lieu, veuillez respecter les consignes");
+
+            // Recommence le choix
+            menuRegistration();
+        }
+	}
+	
+	/**
+     * La methode menuRegistrationEtudiant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur etudiant.
+     * @param matiere L'enseignement de l'etudiant.
+     */
+	private void menuRegistrationEtudiant(ArrayList<Enseignement> matiere)
 	{
 		System.out.println("Entrez votre nom d'utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
@@ -232,7 +288,7 @@ public class Vue {
 		System.out.println("Entrez votre prénom");
 		String prenom = sc.nextLine();
 
-		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase()))
+		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase(), matiere))
 		{
 			menuEmprunteur();
 		}

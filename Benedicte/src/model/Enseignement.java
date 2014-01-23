@@ -19,9 +19,29 @@ public enum Enseignement {
     	return nom;
     }
     
-    public Enum<Enseignement> getEnum(String s) {
+    public boolean verifieEnum(String s) 
+    {
+    	for (Enseignement e : Enseignement.values)
+    	{
+    		if (s.equals(e))
+    		{
+    			return true;
+    		}
+    	}
     	
+    	return false;
+    }
+    
+    public Enum<Enseignement> getEnum(String s) 
+    {
+    	for (Enseignement e : Enseignement.values)
+    	{
+    		if (s.equals(e))
+    		{
+    			return e;
+    		}
+    	}
     	
-    	return e;
+    	return null;
     }
 }

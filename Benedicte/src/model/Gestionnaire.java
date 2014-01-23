@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Modelise le gestionnaire de l'application
  * @author Nabil ELMOUSSAID
@@ -24,7 +26,7 @@ public class Gestionnaire extends Emprunteur {
      *            Liste des enseignement
      */
     public Gestionnaire(String n, String motDePasse, int duree, String id, int nbMaxMateriel,
-            Enseignement[] m) {
+    		ArrayList<Enseignement> m) {
         super(n, motDePasse, duree, id, nbMaxMateriel, m);
     }
 
@@ -45,7 +47,7 @@ public class Gestionnaire extends Emprunteur {
     	int dureeMaxEmprunt = emprunteur.getDureeMaxEmprunt();
     	String id = emprunteur.getId();
     	int nbMaxAppareils = emprunteur.getNbMaxMateriel();
-    	Enseignement[] matieres = emprunteur.getMatieres();
+    	ArrayList<Enseignement> matieres = emprunteur.getMatieres();
     	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt, id, nbMaxAppareils,matieres);
     	
     	database.getEmprunteurs().remove(emprunteur);
