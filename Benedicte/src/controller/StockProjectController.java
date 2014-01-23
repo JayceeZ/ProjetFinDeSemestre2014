@@ -293,8 +293,9 @@ public class StockProjectController {
     	ArrayList<Enseignement> matieres = emprunteur.getMatieres();
     	Gestionnaire gestionnaire = new Gestionnaire(nom, motDePasse, dureeMaxEmprunt, id, nbMaxAppareils,matieres);
     	
-    	db.getEmprunteurs().remove(emprunteur);
-    	db.getEmprunteurs().add(gestionnaire);
+    	db.retirerEmprunteur(emprunteur);
+    	db.ajouterEmprunteur(gestionnaire);
+    	db.enregistrerListeEmprunteur();
     }
 
     /**

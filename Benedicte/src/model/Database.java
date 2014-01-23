@@ -107,6 +107,17 @@ public class Database {
     {
     	emprunteurs.add(e);
     }
+    
+    /**
+     * Retire un emprunteur a liste des emprunteurs
+     * 
+     * @param e
+     *            Emprunteur a ajouter
+     */
+    public void retirerEmprunteur(Emprunteur e)
+    {
+    	emprunteurs.remove(e);
+    }
 
     /**
      * Enregistre la liste des emprunts dans un fichier xml
