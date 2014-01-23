@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import view.graphic.Window;
+import view.Vue;
 import model.Enseignant;
 import model.Enseignement;
 import model.Etudiant;
@@ -18,7 +18,7 @@ import model.Systeme;
 import model.Stock;
 
 /**
- * Classe central du projet, coordonne la communication entre la vue et le modele.
+ * Classe centrale du projet, coordonne la communication entre la vue et le modele.
  * La classe est appeler par la vue des qu'il y a besoin de modifier ou d'effectuer
  * des traitements sur les données.
  * @author Nabil ELMOUSSAID
@@ -30,7 +30,7 @@ public class StockProjectController {
     private Systeme systeme;
 
     // Reference sur la vue
-    private Window vue;
+    private Vue vue;
 
     // Reference sur la base de donnees
     private Database db;
@@ -45,24 +45,14 @@ public class StockProjectController {
      * Constructeur par defaut. Initialise les attributs necessaires.
      */
     public StockProjectController() {
-
-        // Initialisation de la vue
-        vue = new Window();
-
-        // Envoie de la reference du controleur a la vue
-        vue.setController(this);
-
         // Initialisation de la base de donnes
         db = new Database();
-
         // Initialisation du stock d'appareils
         stock = new Stock();
-
         // Initialisation du systeme
         systeme = new Systeme(stock, db);
-
-        // Initialisation de l'application
-        traitementCommande(Commande.INIT);
+        // Initialisation de la vue
+        vue = new Vue(this);
     }
 
     /**
@@ -89,7 +79,7 @@ public class StockProjectController {
      * 
      * @return the vue
      */
-    public Object getVue() {
+    public Vue getVue() {
         return vue;
     }
 
@@ -212,66 +202,6 @@ public class StockProjectController {
 	}
 
     /**
-     * Recoie les commandes de la vue et les traite
-     * 
-     * @param commande
-     */
-    public void traitementCommande(Commande commande) {
-        // Test si la commande est nulle
-        if (commande == null)
-            return;
-
-        // Switch sur les cas possibles
-        switch (commande) {
-
-        // Initialisation de la vue - Menu de départ
-        case INIT:
-            vue.menuUtilisateur();
-            break;
-        case PRINCIPAL:
-        	vue.menuPrincipal();
-        	break;
-        case GESTIONNAIRE:
-        	vue.menuGestionnaire();
-        	break;
-        case EMPRUNTEUR:
-        	vue.menuEmprunteur();
-        	break;
-        case CHOIX:
-        	if (emp instanceof Enseignant)
-        	{
-        		vue.menuEmprunteur();
-        	}
-        	if (emp instanceof Etudiant)
-        	{
-        		vue.menuEmprunteur();
-        	}
-        	if (emp instanceof Gestionnaire)
-        	{
-        		vue.menuPrincipal();
-        	}
-        // Creation d'un nouvel emprunt
-        case EMPRUNT:
-            vue.nouvelEmprunt(stock);
-            break;
-        case CONNECT:
-            vue.menuConnection();
-            break;
-        case REGISTER:
-        	vue.menuRegistration();
-        	break;
-        case LISTE:
-            vue.affichageEmprunts();
-            break;
-        case QUITTER:
-            System.exit(0);
-            break;
-        default:
-            break;
-        }
-    }
-
-    /**
      * Test si l'utilisateur actuel de l'application existe dans la base de
      * donnees
      * 
@@ -359,11 +289,6 @@ public class StockProjectController {
     		}    		
     	}
     	return null;
-    }
-    
-    public boolean methodeSansNomPOurInstant()
-    {
-    	return false;
     }
     
     /**
@@ -512,5 +437,12 @@ public class StockProjectController {
      */
     public void refuser(ArrayList<Integer> id) {
         db.retirerEmprunts(id);
+    }
+    
+    /**
+     * Quitte l'application
+     */
+    public void quitter() {
+    	System.exit(0);
     }
 }
