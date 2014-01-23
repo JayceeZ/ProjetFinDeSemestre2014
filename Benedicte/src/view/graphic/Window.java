@@ -2,8 +2,6 @@ package view.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -12,8 +10,6 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Emprunteur;
-import model.Stock;
 import controller.StockProjectController;
 
 @SuppressWarnings("serial")

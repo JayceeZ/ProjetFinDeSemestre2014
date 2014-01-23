@@ -28,11 +28,9 @@ public class Selector extends JPanel {
 	private JScrollPane ScrollPaneGauche;
 	private JScrollPane ScrollPaneDroite;
 	
-	public Selector(String actionListeGauche, Object[] liste) {
+	public Selector(String actionListeGauche) {
 		modelGauche = new DefaultListModel<Object>();
 		modelDroite = new DefaultListModel<Object>();
-		
-		remplirListeGauche(liste);
 		
 		listeGauche = new JList<Object>(modelGauche);
 		listeDroite = new JList<Object>(modelDroite);
