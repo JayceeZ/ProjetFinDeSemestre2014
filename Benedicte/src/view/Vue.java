@@ -369,6 +369,7 @@ public class Vue {
 		if (controller.verifierEmprunteur(choixMenuPromotion)) {
 			controller.transformerEmprunteur(controller
 					.renvoyerEmprunteur(choixMenuPromotion));
+			menuGestionnaire();
 		} else {
 			System.out.println("Nom invalide");
 			menuGestionnaire();
