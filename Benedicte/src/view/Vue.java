@@ -83,7 +83,7 @@ public class Vue {
 
 	/**
 	 * La methode menuConnection permet a un utilisateur de se connecter si il
-	 * appartient a liste des utilisateurs.
+	 * appartient a la liste des utilisateurs.
 	 */
 	public void menuConnexion() {
 		System.out.println("Entrez votre identifiant utilisateur");
@@ -202,7 +202,7 @@ public class Vue {
 				nomDeFamille.toLowerCase(), prenom.toLowerCase(), matieres)) {
 		case 1:// nom d'utilisateur deja pris
 			System.err.println("Le nom d'utilisateur est deje pris");
-			registration(typeUtilisateur);
+			menuRegistration();
 			break;
 		case 2:// matieres ignoree
 			System.out

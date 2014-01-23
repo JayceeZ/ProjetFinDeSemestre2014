@@ -152,7 +152,11 @@ public class StockProjectController {
 		ArrayList<Enseignement> enumsMatieres = new ArrayList<Enseignement>(); 
 		for(String m:matieres) {
 			if(Enseignement.verifieEnum(m)) {
-				enumsMatieres.add(Enseignement.getEnum(m));
+				// Permet d'éviter les doublons
+				if (!enumsMatieres.contains(Enseignement.getEnum(m)))
+				{
+					enumsMatieres.add(Enseignement.getEnum(m));
+				}
 			} else {
 				status = 2;
 			}
