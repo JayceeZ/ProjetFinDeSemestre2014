@@ -14,7 +14,7 @@ import controller.StockProjectController;
  * Classe modelisant la vue, soit l'interface graphique de l'application. Cette
  * classe s'occupe de l'affichage en console de l'application
  * 
- * @author Nabil ELMOUSSAID
+ * @author Guillaume RAHBARI
  * 
  */
 public class Vue {
