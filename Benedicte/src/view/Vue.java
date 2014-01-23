@@ -14,7 +14,7 @@ import controller.StockProjectController;
  * Classe modelisant la vue, soit l'interface graphique de l'application. Cette
  * classe s'occupe de l'affichage en console de l'application
  * 
- * @author Nabil ELMOUSSAID
+ * @author Guillaume RAHBARI
  * 
  */
 public class Vue {
@@ -146,6 +146,7 @@ public class Vue {
 	 */
 	private ArrayList<String> menuSelector(String what, Enum[] choix) {
 		System.out.println("Choisissez les " + what + ":");
+		System.out.println("Ne mettez pas d'espaces, et séparez les choix par une virgule");
 		System.out.print("Choix disponibles : ");
 		for (Enum e : choix) {
 			System.out.print(e+" ");
@@ -181,7 +182,6 @@ public class Vue {
 		String prenom = sc.nextLine();
 
 		// On demande des matieres
-		// TODO better tester ici l'existance des matieres
 		if (typeUtilisateur.equals("etudiant")) {
 			System.out
 					.println("Un etudiant ne peut choisir qu'une seule matiere !");
@@ -214,6 +214,10 @@ public class Vue {
 		case 3:
 			System.err.println(typeUtilisateur + " est inconnu");
 			menuUtilisateur();
+			break;
+		case 4:
+			System.out.println("Pas assez de matières");
+			menuRegistration();
 			break;
 		default:
 			System.err.println("Evenement inconnu.");
@@ -364,6 +368,7 @@ public class Vue {
 		if (controller.verifierEmprunteur(choixMenuPromotion)) {
 			controller.transformerEmprunteur(controller
 					.renvoyerEmprunteur(choixMenuPromotion));
+			menuGestionnaire();
 		} else {
 			System.out.println("Nom invalide");
 			menuGestionnaire();

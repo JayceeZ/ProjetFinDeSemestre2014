@@ -1,46 +1,48 @@
 package view.graphic;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Emprunteur;
-import model.Stock;
 import controller.StockProjectController;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	// Reference vers le controleur
 	private StockProjectController controller;
-	private String mode;
 	
-	private JPanel panel;
+	private JPanel cards;
+	private Userview userview;
 
-	public Window() {
+	public Window(StockProjectController c) {
+		this.controller = c;
 		this.setLayout(new BorderLayout());
-
-		panel = new Connexion(this);
-		this.add(panel, BorderLayout.CENTER);
+		
+		cards = new JPanel(new CardLayout());
+		cards.add(new Menu(this,"Menu Principal",menuUtilisateur()), "menuutilisateur");
+		cards.add(new Connexion(this), "connect");
+		userview = new Userview(this,c);
+		cards.add(userview, "userview");
+		
+		this.setTitle("Application");
+		this.add(cards,BorderLayout.CENTER);
 
 		this.pack();
+		this.setVisible(true);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	public void changePanel(Dimension d, JPanel p) {
-		this.panel = p;
-		panel.setPreferredSize(d);
-		this.getContentPane().removeAll();
-		this.getContentPane().add(panel, BorderLayout.CENTER);
-		this.validate();
-		this.pack();
-	}
-	
-	public JPanel getPanel() {
-		return panel;
-	}
-	
+	/**
+	 * Permet de changer le controller
+	 * @param c Le nouveau controller
+	 */
 	public void setController(StockProjectController c) {
 		this.controller = c;
 	}
@@ -49,50 +51,49 @@ public class Window extends JFrame {
 		return controller;
 	}
 	
-	public void createSelectorPanel(String action, Object[] list) {
-		panel = new Selector(action, list);
-		changePanel(new Dimension(500,500), panel);
-	}
-	
-	public void setMenu() {
-		changePanel(new Dimension(300,300), new Menu(this));
-	}
-		 	
 	/**
-	* Menu de choix, se connecter ou s'enregistrer
-	*/
-	public void menuUtilisateur() {
-		 this.setVisible(true);
-	}
-	
-	/**
-	* Menu de connexion
+	 * Conserve la meme fenetre pour le nouveau panel
+	 * @param panel La reference pour ce panel
 	 */
-	public void menuConnexion() {
-		//TODO
-	}
-
-	/**
-	* Menu d'enregistrement
-	*/
-	public void menuRegistration() {
-		//TODO
+	public void changePanel(String panel) {
+		CardLayout cl = (CardLayout) cards.getLayout();
+		cl.show(cards,panel);
 	}
 	
 	/**
-	* Menu principal (actions disponibles en tant qu'utilisateur connecté)
+	* Menu utilisateur (actions disponibles au demarrage de l'application)
 	*/
-	//TODO Doit dépendre du type d'utilisateur (gestionnaire ou emprunteur)
-	public void menuPrincipal() {
-		this.setMenu(controller.getEmprunteur());
-	}
-		 
-	public void nouvelEmprunt(Stock s) {
-		panel = new Selector("Choisir dans le stock", s.getStock().keySet().toArray());
-		changePanel(new Dimension(400,400),panel);
+	public Map<String, ActionListener> menuUtilisateur() {
+		Map<String, ActionListener> m = new HashMap<String,ActionListener>();
+		m.put("Se connecter", new ActionPanel(this,"connect"));
+		m.put("S'inscrire", new ActionPanel(this,"register"));
+		return m;
 	}
 
-	public void affichageEmprunts() {
-		//TODO
+	public boolean connect(String nomUtilisateur, String motDePasse) {
+		if(controller.connect(nomUtilisateur, motDePasse)) {
+			System.out.println("Connexion réussie");
+			userview.updateInfosUser();
+			changePanel("userview");
+		}
+		return false;
+	}
+
+	
+	/**
+	 * Action possibles
+	 */
+	private class ActionPanel implements ActionListener {
+		private Window window;
+		private String panel;
+		
+		public ActionPanel(Window parent, String p) {
+			this.window = parent;
+			this.panel = p;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			window.changePanel(panel);
+		}
 	}
 }

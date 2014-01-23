@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class Connexion extends JPanel {
 	Window parent;
 	
@@ -53,8 +53,6 @@ public class Connexion extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(texts,BorderLayout.CENTER);
 		this.add(valide,BorderLayout.EAST);
-		
-		parent.setResizable(false);
 		this.setVisible(true);
 	}
 	
@@ -74,7 +72,7 @@ public class Connexion extends JPanel {
 				if(motDePasse == null) {
 					motDePasse = "";
 				}
-				if(!parent.getController().connect(nomUtilisateur,motDePasse)) {
+				if(!parent.connect(nomUtilisateur,motDePasse)) {
  					connexionError("Identifiants incorrects");
  				}
 

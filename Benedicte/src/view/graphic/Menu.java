@@ -1,84 +1,29 @@
 package view.graphic;
 
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Emprunteur;
-import model.Gestionnaire;
-import controller.Commande;
-
-public class Menu extends JPanel {
-	Window parent;
-	
-	JButton gestion;
-	JButton emprunter;
-	JButton liste;
-	JButton changerDeCompte;
-	JButton quitter;
-	
-	public Menu(Window parent) {
-		this.parent = parent;
-		parent.setTitle("Menu");
-		this.setLayout(new GridLayout(5,1));
+@SuppressWarnings("serial")
+public class Menu extends JPanel {	
+	public Menu(JFrame parent, String title, Map<String,ActionListener> boutonsActions) {
+		parent.setTitle(title);
+		this.setLayout(new FlowLayout());
 		
-		emprunter = new JButton("Emprunter");
-		emprunter.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  bouton_action(e);
-		      }
-		    });
-		liste = new JButton("Afficher mes emprunts");
-		liste.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  bouton_action(e);
-		      }
-		    });
-		
-		if(e instanceof Gestionnaire) {
-			gestion = new JButton("Gestion des données");
-			gestion.addActionListener(new ActionListener() {
-			      public void actionPerformed(ActionEvent e) {
-			    	  bouton_action(e);
-			      }
-			    });
-			this.add(gestion);
+		for(String bouton:boutonsActions.keySet()) {
+			JButton newbutton = new JButton(bouton);
+			newbutton.addActionListener(boutonsActions.get(bouton));
+			this.add(newbutton);
 		}
 		
-		changerDeCompte = new JButton("Changer de compte");
-		changerDeCompte.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  bouton_action(e);
-		      }
-		    });
-		quitter = new JButton("Quitter");
-		quitter.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  bouton_action(e);
-		      }
-		    });
-		
-		this.add(emprunter);
-		this.add(liste);
-		this.add(changerDeCompte);
-		this.add(quitter);
-	}
+		Dimension preferredSize = new Dimension(200,boutonsActions.size()*50);
+		parent.setSize(preferredSize);
 
-	//TODO 4 actions boutons
-	private void bouton_action(ActionEvent e) {
-		if(e.getSource() == gestion) {
-			//TODO
-		} else if(e.getSource() == emprunter) {
-			parent.getController().traitementCommande(Commande.EMPRUNT);
-		} else if (e.getSource() == liste) {
-			//TODO
-		} else if (e.getSource() == changerDeCompte) {
-			//TODO
-		} else {
-			parent.getController().traitementCommande(Commande.QUITTER);
-		}
+		this.setVisible(true);
 	}
 }

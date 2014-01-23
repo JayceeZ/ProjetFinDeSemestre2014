@@ -6,11 +6,11 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 /**
- * Classe modelisant la base de donnees contenant la liste des emprunts et des emprunteurs.
- * La liste des emprunts est vide au depart mais pas la liste des emprunteurs.
- * @author Nabil ELMOUSSAID
- *
- */
+* Classe modelisant la base de donnees contenant la liste des emprunts et des emprunteurs.
+* La liste des emprunts est vide au depart mais pas la liste des emprunteurs.
+* @author Nabil ELMOUSSAID
+*
+*/
 public class Database {
 
     // Liste des emprunts
@@ -32,9 +32,9 @@ public class Database {
     private String versionFichierEmprunts = "1.0.0";
 
     /**
-     * Constructeur par defaut. Recupere la liste des emprunts depuis le fichier
-     * xml.
-     */
+* Constructeur par defaut. Recupere la liste des emprunts depuis le fichier
+* xml.
+*/
     public Database() {
         // Charge le fichier decrivant les personnes pouvant emprunter
         emprunteurs = (ArrayList<Emprunteur>) DataXML.load(fichierUtilisateurs,
@@ -50,39 +50,39 @@ public class Database {
     }
 
     /**
-     * Retourne la liste des emprunts
-     * 
-     * @return liste des emprunts
-     */
+* Retourne la liste des emprunts
+*
+* @return liste des emprunts
+*/
     public List<Emprunt> getEmprunts() {
         return emprunts;
     }
 
     /**
-     * Fixe un nouvel etat des emprunts
-     * 
-     * @param emprunts
-     *            Nouvel etat des emprunts
-     */
+* Fixe un nouvel etat des emprunts
+*
+* @param emprunts
+* Nouvel etat des emprunts
+*/
     public void setEmprunts(List<Emprunt> emprunts) {
         this.emprunts = emprunts;
     }
 
     /**
-     * Retourne la liste des emprunteurs potentiels
-     * 
-     * @return liste des emprunteurs potentiels
-     */
+* Retourne la liste des emprunteurs potentiels
+*
+* @return liste des emprunteurs potentiels
+*/
     public ArrayList<Emprunteur> getEmprunteurs() {
         return emprunteurs;
     }
 
     /**
-     * Fixe la liste des emprunteurs potentiel
-     * 
-     * @param emprunteurs
-     *            liste des emprunteurs potentiel
-     */
+* Fixe la liste des emprunteurs potentiel
+*
+* @param emprunteurs
+* liste des emprunteurs potentiel
+*/
     public void setEmprunteurs(ArrayList<Emprunteur> emprunteurs) {
         this.emprunteurs = emprunteurs;
     }
@@ -110,6 +110,7 @@ public class Database {
     	}
     	return id;
     }
+    
     /**
      * Ajout d'un emprunteur a liste des emprunteurs
      * 
@@ -121,6 +122,7 @@ public class Database {
     	e.setId(this.getPlusGrosIdEmprunteur());
     	emprunteurs.add(e);
     }
+    
 /**
  * Retourne le plus gros id des emprunteurs déjà existants
  * @return
@@ -133,26 +135,40 @@ public class Database {
     	}
     	return Integer.toString(id);
     }
+    
+
+    
     /**
-     * Enregistre la liste des emprunts dans un fichier xml
-     */
+* Retire un emprunteur a liste des emprunteurs
+*
+* @param e
+* Emprunteur a ajouter
+*/
+    public void retirerEmprunteur(Emprunteur e)
+    {
+            emprunteurs.remove(e);
+    }
+
+    /**
+* Enregistre la liste des emprunts dans un fichier xml
+*/
     public void enregistrerListeEmprunt() {
         DataXML.store(emprunts, fichierEmprunts, versionFichierEmprunts);
     }
     
     /**
-     * Enregistre la liste des emprunteurs dans un fichier xml
-     */
+* Enregistre la liste des emprunteurs dans un fichier xml
+*/
     public void enregistrerListeEmprunteur() {
         DataXML.store(emprunteurs, fichierUtilisateurs, versionFichierUtilisateurs);
     }
 
     /**
-     * Retire les emprunts specifie en parametre
-     * 
-     * @param ids
-     *            Liste des emprunts a retirer
-     */
+* Retire les emprunts specifie en parametre
+*
+* @param ids
+* Liste des emprunts a retirer
+*/
     public void retirerEmprunts(List<Integer> ids) {
         Iterator<Emprunt> iter = emprunts.iterator();
         while (iter.hasNext()) {
@@ -166,3 +182,5 @@ public class Database {
     }
 
 }
+
+
