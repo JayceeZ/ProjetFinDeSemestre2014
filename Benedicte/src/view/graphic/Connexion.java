@@ -53,8 +53,6 @@ public class Connexion extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(texts,BorderLayout.CENTER);
 		this.add(valide,BorderLayout.EAST);
-		
-		parent.setResizable(false);
 		this.setVisible(true);
 	}
 	
@@ -74,7 +72,7 @@ public class Connexion extends JPanel {
 				if(motDePasse == null) {
 					motDePasse = "";
 				}
-				if(!parent.getController().connect(nomUtilisateur,motDePasse)) {
+				if(!parent.connect(nomUtilisateur,motDePasse)) {
  					connexionError("Identifiants incorrects");
  				}
 
