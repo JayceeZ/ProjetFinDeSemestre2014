@@ -146,6 +146,7 @@ public class Vue {
 	 */
 	private ArrayList<String> menuSelector(String what, Enum[] choix) {
 		System.out.println("Choisissez les " + what + ":");
+		System.out.println("Ne mettez pas d'espaces, et séparez les choix par une virgule");
 		System.out.print("Choix disponibles : ");
 		for (Enum e : choix) {
 			System.out.print(e+" ");
