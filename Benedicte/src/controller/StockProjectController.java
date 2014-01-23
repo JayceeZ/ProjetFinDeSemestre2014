@@ -158,26 +158,26 @@ public class StockProjectController {
 					enumsMatieres.add(Enseignement.getEnum(m));
 				}
 			} else {
-				if (enumsMatieres.size()>0)
-				{
 					status = 2;
-				}
 			}
 		}
 		Emprunteur emp;
-		switch(type) {
-		case "enseignant":
-			emp = new Enseignant(identifiant, motDePasse, nomDeFamille + "." + prenom, enumsMatieres);
-			break;
-		case "etudiant":
-			emp = new Etudiant(identifiant, motDePasse, nomDeFamille + "." + prenom, enumsMatieres);
-			break;
-		default: 
-			System.err.println("Ce type d'utilisateur est inconnu.");
-			return 3;
-		}
+		if (enumsMatieres.size()>0)
+		{
+			switch(type) {
+			case "enseignant":
+				emp = new Enseignant(identifiant, motDePasse, nomDeFamille + "." + prenom, enumsMatieres);
+				break;
+			case "etudiant":
+				emp = new Etudiant(identifiant, motDePasse, nomDeFamille + "." + prenom, enumsMatieres);
+				break;
+			default: 
+				System.err.println("Ce type d'utilisateur est inconnu.");
+				return 3;
+			}
 		db.ajouterEmprunteur(emp);
 		db.enregistrerListeEmprunteur();
+		}
 		return status;
 	}
 
