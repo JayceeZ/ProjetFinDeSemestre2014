@@ -94,9 +94,22 @@ public class Database {
      *            Emprunt a ajouter
      */
     public void ajouterEmprunt(Emprunt e) {
-        emprunts.add(e);
+        e.setId(getPlusGrosIdEmprunt());
+    	emprunts.add(e);
+        
     }
-    
+    /**
+     * Retourne le plus gros id des emprunts déjà existants
+     * @return
+     */
+    public int getPlusGrosIdEmprunt() {
+    	int id = 0;
+    	for(Emprunt emprunt : this.emprunts){
+    		if (emprunt.getId() > id)
+    			id = emprunt.getId();
+    	}
+    	return id;
+    }
     /**
      * Ajout d'un emprunteur a liste des emprunteurs
      * 
@@ -105,9 +118,21 @@ public class Database {
      */
     public void ajouterEmprunteur(Emprunteur e)
     {
+    	e.setId(this.getPlusGrosIdEmprunteur());
     	emprunteurs.add(e);
     }
-
+/**
+ * Retourne le plus gros id des emprunteurs déjà existants
+ * @return
+ */
+    public String getPlusGrosIdEmprunteur() {
+    	int id = 0;
+    	for(Emprunteur emprunteur : this.emprunteurs){
+    		if (Integer.parseInt(emprunteur.getId()) > id)
+    			id = Integer.parseInt(emprunteur.getId());
+    	}
+    	return Integer.toString(id);
+    }
     /**
      * Enregistre la liste des emprunts dans un fichier xml
      */

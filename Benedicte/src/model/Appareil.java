@@ -32,6 +32,7 @@ public class Appareil {
 
     // Liste des enseignement associes
     private Enseignement[] enseignementAssociee;
+    
 
     /**
      * Constructeur par defaut
@@ -48,7 +49,7 @@ public class Appareil {
      */
     public Appareil(Map<String, Object> configuration) {
         // Initialisation de l'id
-        this.id = (Integer) configuration.get("Id");
+    	this.id = 0;
 
         // Initialisation de la reference de l'appareil
         this.reference = ((String) configuration.get("Nom"));
@@ -68,7 +69,6 @@ public class Appareil {
         // Initialisation de la liste des enseignement associe
         this.enseignementAssociee = (Enseignement[]) configuration
                 .get("Matieres");
-        
     }
 
     /**
@@ -88,16 +88,17 @@ public class Appareil {
      *            id de l'appareil
      */
     public Appareil(String reference, Type type, OS os,Etat etat, int dureeEmpruntMax,
-            Enseignement[] matieresAssociee, int id) {
+            Enseignement[] matieresAssociee) {
         this.reference = reference;
         this.type = type;
         this.os = os;
         this.etat = etat;
         this.dureeEmpruntMax = dureeEmpruntMax;
         this.enseignementAssociee = matieresAssociee;
-        this.id = id;
+        this.id = 0;
     }
 
+    
     /**
      * @return the id
      */

@@ -5,8 +5,22 @@ package model;
  *
  */
 public enum Etat {
-NEUF,
-BIEN,
-MOYEN,
-DEGRADE;
+NEUF("Neuf"),
+BIEN("Bien"),
+MOYEN("Moyen"),
+DEGRADE("Degrade");
+
+private String description;
+private Etat(String description) {
+	this.description = description;
+}
+
+public String getDescription(){
+	return this.description;
+}
+
+@Override
+public String toString() {
+	return this.description;
+}
 }

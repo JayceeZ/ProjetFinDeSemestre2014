@@ -63,7 +63,7 @@ public abstract class Emprunteur {
         this.dureeMaxEmprunt = duree;
 
         // Initialisation de l'id
-        this.id = id;
+        this.id = "0";
 
         // Initialisation du nombre max d'appareils
         this.nbMaxAppareils = nbMaxAppareils;

@@ -66,6 +66,8 @@ public class Stock {
 	public void ajouterAppareil(Appareil a, Integer i) {
 		if (a == null || i == null)
 			return;
+		int nextId = getPlusGrosId();
+		a.setId(nextId);
 		stock.put(a, i);
 	}
 
@@ -98,6 +100,19 @@ public class Stock {
 	}
 
 	/**
+	 * Récupère l'id le plus grand existant parmis tous les appareils présents .
+	 * @return
+	 */
+	public int getPlusGrosId() {
+		int id = 0;
+		Set<Appareil> liste = this.stock.keySet();
+		for(Appareil app : liste) {
+			if (app.getId() > id)
+				id = app.getId();
+		}
+		return id;
+	}
+	/**
 	 * Change l'état d'un certain nombre d'appareils en un autre état .
 	 * @param a
 	 * 			le type d'appareil à modifier
@@ -113,5 +128,16 @@ public class Stock {
 		modifierStock(a,nbA - nbre);
 		a.setEtat(etat);
 		ajouterAppareil(a,nbre);
+	}
+	
+	public Map<Appareil,Integer> getAppareilsParEtatTypeOs(Etat etat,Type type,OS os) {
+		Map<Appareil,Integer> liste = new HashMap<Appareil,Integer>();
+		Set<Appareil> liste_totale = this.stock.keySet();
+		
+		for(Appareil app : liste_totale) {
+			if ((app.getEtat() == etat) && (app.getType() == type) && (app.getOs() == os))
+				liste.put(app, this.get(app));
+		}
+		return liste;
 	}
 }

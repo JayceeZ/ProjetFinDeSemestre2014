@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Calendar;
 
 /**
- * Classe representant un emprunt. Un emprunt est composé un dictionnaire lui
- * même contenant la liste des appareils et le nombre voulu, une date de debut,
+ * Classe representant un emprunt. Un emprunt est composï¿½ un dictionnaire lui
+ * mï¿½me contenant la liste des appareils et le nombre voulu, une date de debut,
  * de fin et l'emprunteur.
  * 
  * @author Nabil ELMOUSSAID
@@ -48,7 +48,7 @@ public class Emprunt {
      *            Emprunteur
      */
     public Emprunt(HashMap<Appareil, Integer> a, Calendar debut, Calendar fin,
-            Emprunteur emprunteur, int id) {
+            Emprunteur emprunteur) {
         
         // Initialisation du dictionnaire
         this.listeAppareils = a;
@@ -62,7 +62,7 @@ public class Emprunt {
         // Initialisation de l'emprunteur
         this.emprunteur = emprunteur;
         
-        this.id = id;
+        this.id = 0;
         
     }
 
