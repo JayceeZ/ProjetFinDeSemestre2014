@@ -215,6 +215,10 @@ public class Vue {
 			System.err.println(typeUtilisateur + " est inconnu");
 			menuUtilisateur();
 			break;
+		case 4:
+			System.out.println("Pas assez de matières");
+			menuRegistration();
+			break;
 		default:
 			System.err.println("Evenement inconnu.");
 			menuUtilisateur();

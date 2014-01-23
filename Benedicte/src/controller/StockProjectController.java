@@ -178,6 +178,10 @@ public class StockProjectController {
 		db.ajouterEmprunteur(emp);
 		db.enregistrerListeEmprunteur();
 		}
+		else
+		{
+			status = 4;
+		}
 		return status;
 	}
 
