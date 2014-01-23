@@ -5,750 +5,652 @@ import java.util.*;
 
 import model.Appareil;
 import model.Emprunt;
-import model.Emprunteur;
+import model.Gestionnaire;
 import model.Enseignement;
 import model.Stock;
-import controller.Commande;
 import controller.StockProjectController;
 
 /**
- * Classe modelisant la vue, soit l'interface graphique de l'application. 
- * Cette classe s'occupe de l'affichage en console de l'application
+ * Classe modelisant la vue, soit l'interface graphique de l'application. Cette
+ * classe s'occupe de l'affichage en console de l'application
  * 
  * @author Nabil ELMOUSSAID
- *
+ * 
  */
 public class Vue {
-
-    // Reference vers le controleur
-    private StockProjectController controller;
-
-    // Entree de la lecture clavier
-    private Scanner sc;
-
-    /**
-     * Constructeur par defaut
-     */
-    public Vue() {
-    	sc = new Scanner(System.in);
-    }
-
-    /**
-     * Fixe le controleur
-     * 
-     * @param c
-     *            controleur de l'application
-     */
-    public void setController(StockProjectController c) {
-        this.controller = c;
-    }
-    
-	///////////////////////////////// PARTIE CONNECTION ET REGISTRATION ///////////////////////////////////////////
+	// Reference vers le controleur
+	private StockProjectController controller;
+	// Entree de la lecture clavier
+	private Scanner sc;
 
 	/**
-	 * Lance l'affichage de l'application.
-     * La methode menuUtilisateur permet de se connecter ou de s'enregistrer.
-     */
-	public void menuUtilisateur()
-	{
+	 * Constructeur par defaut
+	 */
+	public Vue(StockProjectController c) {
+		this.controller = c;
+		this.sc = new Scanner(System.in);
+		menuUtilisateur();
+	}
+
+	/**
+	 * Fixe le controleur
+	 * 
+	 * @param c
+	 *            controleur de l'application
+	 */
+	public void setController(StockProjectController c) {
+		this.controller = c;
+	}
+
+	// /////////////////////////////// PARTIE CONNECTION ET REGISTRATION
+	// ///////////////////////////////////////////
+
+	/**
+	 * Lance l'affichage de l'application. La methode menuUtilisateur permet de
+	 * se connecter ou de s'enregistrer.
+	 */
+	public void menuUtilisateur() {
 		// Variables utiles pour le menu utilisateur
 		int choixMenuUtilisateur = 0;
 
 		System.out.println("Menu utilisateur");
-		System.out.println("Que voulez-vous faire ? \n 0. Quitter \n 1. Se connecter \n 2. S'enregistrer\n");
-        
-		try 
-		{
+		System.out
+				.println("Que voulez-vous faire ? \n 0. Quitter \n 1. Se connecter \n 2. S'enregistrer\n");
+
+		try {
 			choixMenuUtilisateur = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (InputMismatchException e) 
-		{
+		} catch (InputMismatchException e) {
 			System.out.println("Veuillez saisir un chiffre.");
 			sc.next();
 		}
 
-		switch(choixMenuUtilisateur)
-		{
-			case 0:
-			{
-				controller.traitementCommande(Commande.QUITTER);
-			}
-			case 1:
-			{
-				controller.traitementCommande(Commande.CONNECT); 
-				break;
-			}
-			case 2:
-			{
-				controller.traitementCommande(Commande.REGISTER);
-				break;
-			}
-			default:
-			{
-				System.out.println("Veuillez choisir entre 0, 1 et 2");
-				controller.traitementCommande(Commande.INIT);
-			}
+		switch (choixMenuUtilisateur) {
+		case 0:
+			controller.quitter();
+			break;
+		case 1:
+			menuConnexion();
+			break;
+		case 2:
+			menuRegistration();
+			break;
+		default:
+			System.out.println("Entrée invalide");
+			menuUtilisateur();
 		}
 	}
-	
+
 	/**
-     * La methode menuConnection permet a un utilisateur de se connecter si il appartient a liste des utilisateurs.
-     */
-	public void menuConnection()
-	{
+	 * La methode menuConnection permet a un utilisateur de se connecter si il
+	 * appartient a liste des utilisateurs.
+	 */
+	public void menuConnexion() {
 		System.out.println("Entrez votre identifiant utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
 
-		if(controller.connect(identifiantUtilisateur, motDePasseUtilisateur))
-		{
-			controller.traitementCommande(Commande.CHOIX);
+		if (!controller.connect(identifiantUtilisateur, motDePasseUtilisateur)) {
+			// Si on a pas reconnu l'utilisateur
+			System.err.println("Identifiants non connus du système.");
+			menuUtilisateur();
+		} else {
+			if (controller.getEmprunteur() instanceof Gestionnaire) {
+				menuPrincipal();
+			} else {
+				menuEmprunteur();
+			}
 		}
 	}
-	
+
 	/**
-     * La methode menuRegistration permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
-     */
-	public void menuRegistration()
-	{
+	 * La methode menuRegistration permet a un utilisateur de s'enregistrer et
+	 * d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
+	 */
+	public void menuRegistration() {
 		// Variables utiles pour le menu registration
 		int choixMenuRegistration = 0;
-		
-		System.out.println("Menu Registration");
-		System.out.println("Que voulez-vous faire ? \n 0.Retour \n 1. Créer un enseignant \n 2. Créer un étudiant \n");
-		
-		try 
-		{
+
+		System.out.println("Menu d'enregistrement");
+		System.out
+				.println("Que voulez-vous faire ? \n 0.Retour \n 1. Créer un enseignant \n 2. Créer un étudiant \n");
+
+		try {
 			choixMenuRegistration = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (InputMismatchException e) 
-		{
-			System.out.println("Veuillez saisir un chiffre.");
+		} catch (InputMismatchException e) {
+			System.out.println("Entrée invalide.");
 			sc.next();
 		}
 
-		switch(choixMenuRegistration)
-		{
-			case 0:
-			{
-				controller.traitementCommande(Commande.INIT);
-				break;
-			}
-			case 1:
-			{
-				menuRegistrationEnseignantMatieres(); 
-				break;
-			}
-			case 2:
-			{
-				menuRegistrationEtudiantMatieres();
-				break;
-			}
-			default:
-			{
-				System.out.println("Veuillez choisir entre 0, 1 et 2");
-				menuRegistration();
-			}
+		switch (choixMenuRegistration) {
+		case 0:
+			menuUtilisateur();
+			break;
+		case 1:
+			registration("enseignant");
+			break;
+		case 2:
+			registration("etudiant");
+			break;
+		default:
+			System.out.println("Veuillez choisir entre 0, 1 et 2");
+			menuRegistration();
 		}
 	}
-	
+
 	/**
-     * La methode menuRegistrationEnseignantMatieres permet a un enseignant de choisir ses enseignements.
-     */
-	private void menuRegistrationEnseignantMatieres()
-	{
-		System.out.println("Choisissez les enseignements séparés par une virgule sans espaces en respectant les majuscules.");
-		System.out.println("Evitez les doublons !");
-		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
-		System.out.println("Exemple : SI,MAM");
-		
+	 * La methode menuSelector permet à l'utilsiateur de choisir parmis des
+	 * possibilités
+	 */
+	private ArrayList<String> menuSelector(String what, Enum[] choix) {
+		System.out.println("Choisissez les " + what + ":");
+		System.out.println("Choix disponibles :");
+		for (Enum e : choix) {
+			System.out.println(e);
+		}
+
 		// Recuperation de l'entree de l'utilisateur
-        String line = "";
-        line = sc.nextLine();
+		String line = "";
+		line = sc.nextLine();
 
-        // Recupere les matieres que l'utilisateur a entre
-        String[] matieres = line.split(",");
-
-        // Liste contenant les matieres
-        ArrayList<Enseignement> matiere = new ArrayList<Enseignement>();
-
-        // Boucle sur les matières.
-        for (String i : matieres) 
-        {
-            if (Enseignement.verifieEnum(i))
-            {
-            	if (!matiere.contains(Enseignement.getEnum(i)))
-            	{
-            		matiere.add(Enseignement.getEnum(i));
-            	}
-            }
-        }
-
-        // Test si les id entreer sont correct
-        if (matieres.length == matiere.size())
-        {
-        	menuRegistrationEnseignant(matiere);
-        } 
-        else 
-        {
-            // Problème
-            System.out.println("Un problème a eu lieu, veuillez respecter les consignes");
-
-            // Recommence le choix
-            menuRegistration();
-        }
+		// Recupere les matieres que l'utilisateur a entre
+		ArrayList<String> strings = new ArrayList<String>();
+		for (String m : line.split(",")) {
+			strings.add(m);
+		}
+		return strings;
 	}
-	
+
 	/**
-     * La methode menuRegistrationEnseignant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur enseignant.
-     * @param matiere La liste des enseignements de l'enseignant.
-     */
-	private void menuRegistrationEnseignant(ArrayList<Enseignement> matiere)
-	{
+	 * La methode registration permet a un utilisateur de s'enregistrer et
+	 * d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
+	 */
+	private void registration(String typeUtilisateur) {
 		System.out.println("Entrez votre nom d'utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
 
 		System.out.println("Entrez votre mot de passe");
 		String motDePasseUtilisateur = sc.nextLine();
-		
+
 		System.out.println("Entrez votre nom de famille");
 		String nomDeFamille = sc.nextLine();
-		
+
 		System.out.println("Entrez votre prénom");
 		String prenom = sc.nextLine();
 
-		if (controller.ajouterEnseignant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase(), matiere))
-		{
-			menuEmprunteur();
+		// On demande des matières
+		// TODO better tester ici l'existance des matières
+		if (typeUtilisateur.equals("etudiant")) {
+			System.out
+					.println("Un étudiant ne peut choisir qu'une seule matière !");
 		}
-		else
-		{
-			menuRegistration();
+		ArrayList<String> matieres = new ArrayList<String>();
+		while (matieres.size() < 1) {
+			System.err.println("Vous devez choisir au moins une matière.");
+			matieres = menuSelector("enseignements", Enseignement.values());
 		}
-	}
-	
-	/**
-     * La methode menuRegistrationEtudiantMatieres permet a un etudiant de choisir son enseignement.
-     */
-	private void menuRegistrationEtudiantMatieres()
-	{
-		System.out.println("Choisis ta filière :");
-		System.out.println("Enseignements disponibles : SI, MAM, ELEC, GE, GB, BAT");
-		System.out.println("Exemple : SI");
-		
-		// Recuperation de l'entree de l'utilisateur
-        String line = "";
-        line = sc.nextLine();
-
-        // Liste contenant les matieres
-        ArrayList<Enseignement> matiere = new ArrayList<Enseignement>();
-
-        // Vérifie si l'enseignement existe
-        if (Enseignement.verifieEnum(line))
-        {
-            if (!matiere.contains(Enseignement.getEnum(line)))
-            {
-            	matiere.add(Enseignement.getEnum(line));
-            }
-        }
-
-        // Test si les id entreer sont correct
-        if (matiere.size() == 1)
-        {
-        	menuRegistrationEtudiant(matiere);
-        } 
-        else 
-        {
-            // Problème
-            System.out.println("Un problème a eu lieu, veuillez respecter les consignes");
-
-            // Recommence le choix
-            menuRegistration();
-        }
-	}
-	
-	/**
-     * La methode menuRegistrationEtudiant permet a un utilisateur de s'enregistrer et d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur etudiant.
-     * @param matiere L'enseignement de l'etudiant.
-     */
-	private void menuRegistrationEtudiant(ArrayList<Enseignement> matiere)
-	{
-		System.out.println("Entrez votre nom d'utilisateur");
-		String identifiantUtilisateur = sc.nextLine();
-
-		System.out.println("Entrez votre mot de passe");
-		String motDePasseUtilisateur = sc.nextLine();
-		
-		System.out.println("Entrez votre nom de famille");
-		String nomDeFamille = sc.nextLine();
-		
-		System.out.println("Entrez votre prénom");
-		String prenom = sc.nextLine();
-
-		if (controller.ajouterEtudiant(identifiantUtilisateur, motDePasseUtilisateur, nomDeFamille.toLowerCase(), prenom.toLowerCase(), matiere))
-		{
-			menuEmprunteur();
+		while (typeUtilisateur.equals("etudiant") && matieres.size() != 1) {
+			System.err
+					.println("Un étudiant ne peut choisir qu'une seule matière !");
+			matieres = menuSelector("enseignements", Enseignement.values());
 		}
-		else
-		{
-			menuRegistration();
+
+		switch (controller.ajouterEmprunteur(typeUtilisateur,
+				identifiantUtilisateur, motDePasseUtilisateur,
+				nomDeFamille.toLowerCase(), prenom.toLowerCase(), matieres)) {
+		case 1:// nom d'utilisateur deja pris
+			System.err.println("Le nom d'utilisateur est déjà pris");
+			registration(typeUtilisateur);
+			break;
+		case 2:// matieres ignoree
+			System.out
+					.println("Certaine matieres n'existaient pas et ont été ignorée.");
+		case 0:
+			System.out.println("Compte créé, vous pouvez vous connecter.");
+			menuConnexion();
+			break;
+		case 3:
+			System.err.println(typeUtilisateur + " est inconnu");
+			menuUtilisateur();
+			break;
+		default:
+			System.err.println("Evenement inconnu.");
+			menuUtilisateur();
 		}
 	}
-	
-	///////////////////////////////// PARTIE GESTIONNAIRE ///////////////////////////////////////////
+
+	// /////////////////////////////// PARTIE GESTIONNAIRE
+	// ///////////////////////////////////////////
 	/**
-     * La methode menuPrincipal permet a un gestionnaire de choisir entre le menu gestionnaire et le menu emprunteur.
-     */
-	private void menuPrincipal()
-	{
+	 * La methode menuPrincipal permet a un gestionnaire de choisir entre le
+	 * menu gestionnaire et le menu emprunteur.
+	 */
+	private void menuPrincipal() {
 		// Variables utiles pour le menu principal
 		int choixMenuPrincipal = 0;
-				
+
 		System.out.println("Menu Principal");
-		System.out.println("Que voulez-vous faire ? \n 0. Se déconnecter \n 1. Accéder au menu Gestionnaire \n 2. Accéder au menu Emprunteur");
-		
-		try 
-		{
+		System.out
+				.println("Que voulez-vous faire ? \n 0. Se déconnecter \n 1. Accéder au menu Gestionnaire \n 2. Accéder au menu Emprunteur");
+
+		try {
 			choixMenuPrincipal = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (InputMismatchException e) 
-		{
+		} catch (InputMismatchException e) {
 			System.out.println("Veuillez saisir un chiffre.");
 			sc.next();
 		}
-        
-        switch(choixMenuPrincipal)
-        {
-        	case 0:
-        	{
-        		controller.traitementCommande(Commande.INIT);
-        		break;
-        	}
-        	case 1:
-        	{
-        		controller.traitementCommande(Commande.GESTIONNAIRE);
-        		break;
-        	}
-        	case 2:
-        	{
-        		controller.traitementCommande(Commande.EMPRUNTEUR);
-        		break;
-        	}
-        	default:
-        	{
-        		System.out.println("Veuillez choisir entre 0, 1 et 2");
-        		controller.traitementCommande(Commande.PRINCIPAL);
-        	}
-        }
+
+		switch (choixMenuPrincipal) {
+		case 0: {
+			menuUtilisateur();
+			break;
+		}
+		case 1: {
+			menuGestionnaire();
+			break;
+		}
+		case 2: {
+			menuEmprunteur();
+			break;
+		}
+		default: {
+			System.out.println("Veuillez choisir entre 0, 1 et 2");
+			menuPrincipal();
+		}
+		}
 	}
-	
+
 	/**
-     * La methode menuGestionnaire permet a un gestionnaire de choisir entre plusieurs commandes.
-     */
-    public void menuGestionnaire() 
-    {
-    	// Variables utiles pour cette methode
-    	int choixMenuGestionnaire = 0;
+	 * La methode menuGestionnaire permet a un gestionnaire de choisir entre
+	 * plusieurs commandes.
+	 */
+	public void menuGestionnaire() {
+		// Variables utiles pour cette methode
+		int choixMenuGestionnaire = 0;
 
-    	System.out.println("Menu Gestionnaire");
-    	System.out.println("Que voulez-vous faire ? \n 0. Retour \n 1. Promouvoir un emprunteur \n 2. Acheter un materiel \n 3. Informations sur les stocks \n 4. Statistiques \n");
+		System.out.println("Menu Gestionnaire");
+		System.out
+				.println("Que voulez-vous faire ? \n 0. Retour \n 1. Promouvoir un emprunteur \n 2. Acheter un materiel \n 3. Informations sur les stocks \n 4. Statistiques \n 5. Rejeter des emprunts\n");
 
-    	try 
-		{
+		try {
 			choixMenuGestionnaire = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (InputMismatchException e) 
-		{
+		} catch (InputMismatchException e) {
 			System.out.println("Veuillez saisir un chiffre.");
 			sc.next();
 		}
 
-		switch(choixMenuGestionnaire)
-		{
-			case 0:
-			{
-				controller.traitementCommande(Commande.PRINCIPAL);
-				break;
-			}
-			case 1:
-			{
-				menuPromotion();
-				break;
-			}
-			case 2:
-			{
-				acheterMateriel();
-				break;
-			}
-			case 3:
-			{
-				information();
-				break;
-			}
-			case 4:
-			{
-				statistique();
-				break;
-			}
-			default:
-			{
-				System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
-				controller.traitementCommande(Commande.GESTIONNAIRE);
-			}
+		switch (choixMenuGestionnaire) {
+		case 0: {
+			menuPrincipal();
+			break;
 		}
-    	
-        affichageEmprunts();
+		case 1: {
+			menuPromotion();
+			break;
+		}
+		// TODO Le reste
+		case 2:
+			// acheterMateriel();
+			break;
+		case 3:
+			// information();
+			break;
+		case 4:
+			// statistique();
+			break;
+		case 5:
+			validerEmprunts();
+			break;
+		default:
+			System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
+			menuGestionnaire();
+		}
+	}
 
-        System.out
-                .println("Indiquez les id des emprunts que vous voulez rejeter, separer par une virgule : ");
-        String line = "";
-        try {
-            line = sc.nextLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
+	/**
+	 * Affiche la liste de tous emprunts en attente de validation
+	 */
+	public void validerEmprunts() {
+		affichageEmprunts();
+		System.out
+				.println("Indiquez les id des emprunts que vous voulez rejeter, separés par une virgule : ");
+		String line = "";
+		try {
+			line = sc.nextLine();
+		} catch (Exception e) {
+			System.out.println("Probleme dans la lecture");
+		}
 
-        // Recupere les id des appareils que l'utilisateur veut emprunter
-        String[] ids = line.split(",");
+		// Recupere les id des appareils que l'utilisateur veut emprunter
+		String[] ids = line.split(",");
 
-        // Liste contenant les id des appareils
-        ArrayList<Integer> id = new ArrayList<Integer>();
+		// Liste contenant les id des appareils
+		ArrayList<Integer> id = new ArrayList<Integer>();
 
-        for (String i : ids) {
-            id.add(Integer.parseInt(i));
-        }
+		for (String i : ids) {
+			id.add(Integer.parseInt(i));
+		}
 
-        controller.refuser(id);
+		controller.refuser(id);
+		controller.enregisterEmprunt();
+	}
 
-        controller.enregisterEmprunt();
+	/**
+	 * La methode menuPromotion permet de promouvoir un emprunteur en
+	 * gestionnaire.
+	 */
+	public void menuPromotion() {
+		// Variables utiles pour le menu promotion
+		String choixMenuPromotion = "";
 
-        System.exit(0);
-    }
-    
-    /**
-     * La methode menuPromotion permet de promouvoir un emprunteur en gestionnaire.
-     */
-    public void menuPromotion()
-    {
-    	// Variables utiles pour le menu promotion
-    	String choixMenuPromotion = "";
-    	
-    	System.out.println("Veuillez choisir un emprunteur dans la liste suivante :");
-    	controller.afficherEmprunteurs();
-    	
-    	choixMenuPromotion = sc.nextLine();
-    	
-    	if (controller.verifierEmprunteur(choixMenuPromotion))
-    	{
-    		controller.transformerEmprunteur(controller.renvoyerEmprunteur(choixMenuPromotion));
-    	}
-    	else
-    	{
-    		System.out.println("Nom invalide");
-    		controller.traitementCommande(Commande.GESTIONNAIRE);
-    	}
-    }
+		System.out
+				.println("Veuillez choisir un emprunteur dans la liste suivante :");
+		controller.afficherEmprunteurs();
 
-	///////////////////////////////// PARTIE EMPRUNTEUR ///////////////////////////////////////////
-	
-    /**
-     * La methode menuEmprunteur permet a un emprunteur d'emprunter.
-     */
-    public void menuEmprunteur() 
-    {
-    	// Variables utiles pour le menu emprunteur
-    	int choixMenuEmprunteur = 0;
-    	
-    	System.out.println("Menu Emprunteur");
-        System.out.println("Que voulez vous faire ? \n 0. Se déconnecter \n 1. Emprunter");
+		choixMenuPromotion = sc.nextLine();
 
-        try 
-		{
+		if (controller.verifierEmprunteur(choixMenuPromotion)) {
+			controller.transformerEmprunteur(controller
+					.renvoyerEmprunteur(choixMenuPromotion));
+		} else {
+			System.out.println("Nom invalide");
+			menuGestionnaire();
+		}
+	}
+
+	// /////////////////////////////// PARTIE EMPRUNTEUR
+	// ///////////////////////////////////////////
+
+	/**
+	 * La methode menuEmprunteur permet a un emprunteur d'emprunter.
+	 */
+	public void menuEmprunteur() {
+		// Variables utiles pour le menu emprunteur
+		int choixMenuEmprunteur = 0;
+
+		System.out.println("Menu Emprunteur");
+		System.out
+				.println("Que voulez vous faire ? \n 0. Se déconnecter \n 1. Emprunter");
+
+		try {
 			choixMenuEmprunteur = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (InputMismatchException e) 
-		{
+		} catch (InputMismatchException e) {
 			System.out.println("Veuillez saisir un chiffre.");
 			sc.next();
 		}
-        
-        switch(choixMenuEmprunteur)
-        {
-        	case 0:
-        	{
-        		controller.traitementCommande(Commande.CONNECT);
-        		break;
-        	}
-        	case 1:
-        	{
-        		controller.traitementCommande(Commande.EMPRUNT);
-        		break;
-        	}
-        	default:
-        	{
-        		System.out.println("Veuillez choisir entre 0 et 1");
-				menuEmprunteur();
-        	}
-        }
-    }
 
-    /**
-     * Affichage des messages pour un nouvel emprunt et traitement des entrees
-     * utilisateur.
-     */
-    public void nouvelEmprunt(Stock stock) {
-        // Affichage du stock pour un nouvel emprunt
-        printStock(stock);
-        System.out
-                .println("Entrez les id des appareils que vous voulez emprunter, espace "
-                        + "par une virgule");
+		switch (choixMenuEmprunteur) {
+		case 0: {
+			menuUtilisateur();
+			break;
+		}
+		case 1: {
+			nouvelEmprunt();
+			break;
+		}
+		default: {
+			System.out.println("Veuillez choisir entre 0 et 1");
+			menuEmprunteur();
+		}
+		}
+	}
 
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = sc.nextLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
+	/**
+	 * Affichage des messages pour un nouvel emprunt et traitement des entrees
+	 * utilisateur.
+	 */
+	public void nouvelEmprunt() {
+		// Affichage du stock pour un nouvel emprunt
+		printStock(controller.getStock());
+		System.out
+				.println("Entrez les id des appareils que vous voulez emprunter, espace "
+						+ "par une virgule");
 
-        // Recupere les id des appareils que l'utilisateur veut emprunter
-        String[] ids = line.split(",");
+		// Recuperation de l'entree de l'utilisateur
+		String line = "";
+		try {
+			line = sc.nextLine();
+		} catch (Exception e) {
+			System.out.println("Probleme dans la lecture");
+		}
 
-        // Liste contenant les id des appareils
-        ArrayList<Integer> id = new ArrayList<Integer>();
+		// Recupere les id des appareils que l'utilisateur veut emprunter
+		String[] ids = line.split(",");
 
-        // boucle sur les id et ajout a la liste
-        for (String i : ids) {
-            id.add(Integer.parseInt(i));
-        }
+		// Liste contenant les id des appareils
+		ArrayList<Integer> id = new ArrayList<Integer>();
 
-        // Test si les id entreer sont correct
-        if (controller.creerEmprunt(id)) {
-            // Lance le traitement de la date d'emprnt
-            nouvelleDate();
-        } else {
-            // Les id n'existent pas
-            System.out.println("Veuillez entrer des id existants");
+		// boucle sur les id et ajout a la liste
+		for (String i : ids) {
+			id.add(Integer.parseInt(i));
+		}
 
-            // Recommence l'emprunt
-            nouvelEmprunt(stock);
-        }
-    }
+		// Test si les id entreer sont correct
+		if (controller.creerEmprunt(id)) {
+			// Lance le traitement de la date d'emprnt
+			nouvelleDate();
+		} else {
+			// Les id n'existent pas
+			System.out.println("Veuillez entrer des id existants");
 
-    /**
-     * Affichage des messages pour traiter la date de debut de l'emprunt
-     */
-    private void nouvelleDate() {
-        System.out
-                .println("Veuillez entrer la date de debut de votre emprunt au format suivant : "
-                        + "JJ/MM/AAAA");
-        Calendar dateDebut = Calendar.getInstance();
+			// Recommence l'emprunt
+			nouvelEmprunt();
+		}
+	}
 
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = sc.nextLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
+	/**
+	 * Affichage des messages pour traiter la date de debut de l'emprunt
+	 */
+	private void nouvelleDate() {
+		System.out
+				.println("Veuillez entrer la date de debut de votre emprunt au format suivant : "
+						+ "JJ/MM/AAAA");
+		Calendar dateDebut = Calendar.getInstance();
 
-        // Recupere la date
-        String[] date = line.split("/");
-        if (date.length < 3) {
-            System.out.println("Erreur dans la date");
-            nouvelleDate();
-        }
+		// Recuperation de l'entree de l'utilisateur
+		String line = "";
+		try {
+			line = sc.nextLine();
+		} catch (Exception e) {
+			System.out.println("Probleme dans la lecture");
+		}
 
-        // Stockage de la date
-        dateDebut.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[0]));
-        dateDebut.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
-        dateDebut.set(Calendar.YEAR, Integer.parseInt(date[2]));
+		// Recupere la date
+		String[] date = line.split("/");
+		if (date.length < 3) {
+			System.out.println("Erreur dans la date");
+			nouvelleDate();
+		}
 
-        // Verification que la date est correct
-        if (!(controller.ajouterDateDebutEmprunt(dateDebut))) {
-            System.out
-                    .println("La date entree n'est pas valide (la date de début est avant aujourd'hui)");
-            nouvelleDate();
-        }
+		// Stockage de la date
+		dateDebut.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[0]));
+		dateDebut.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
+		dateDebut.set(Calendar.YEAR, Integer.parseInt(date[2]));
 
-        dateFin();
+		// Verification que la date est correct
+		if (!(controller.ajouterDateDebutEmprunt(dateDebut))) {
+			System.out
+					.println("La date entree n'est pas valide (la date de début est avant aujourd'hui)");
+			nouvelleDate();
+		}
 
-    }
+		dateFin();
 
-    /**
-     * Affichage des messages pour traiter la date de fin de l'emprunt
-     * 
-     * @param dateDebut
-     *            Date de debut de l'emprunt
-     */
-    private void dateFin() {
-        System.out
-                .println("Veuillez entrer la date de fin de votre emprunt au format suivant : "
-                        + "JJ/MM/AAAA");
+	}
 
-        // Recuperation de l'entree de l'utilisateur
-        String line = "";
-        try {
-            line = sc.nextLine();
-        } catch (Exception e) {
-            System.out.println("Probleme dans la lecture");
-        }
+	/**
+	 * Affichage des messages pour traiter la date de fin de l'emprunt
+	 * 
+	 * @param dateDebut
+	 *            Date de debut de l'emprunt
+	 */
+	private void dateFin() {
+		System.out
+				.println("Veuillez entrer la date de fin de votre emprunt au format suivant : "
+						+ "JJ/MM/AAAA");
 
-        // Creation de la date de fin
-        Calendar dateFin = Calendar.getInstance();
+		// Recuperation de l'entree de l'utilisateur
+		String line = "";
+		try {
+			line = sc.nextLine();
+		} catch (Exception e) {
+			System.out.println("Probleme dans la lecture");
+		}
 
-        // Recuperation de la date entree par l'utilisateur
-        String[] date = line.split("/");
-        date = line.split("/");
+		// Creation de la date de fin
+		Calendar dateFin = Calendar.getInstance();
 
-        // Test si la date entree est correct
-        if (date.length < 3) {
-            System.out.println("La date entree n'est pas valide");
-            nouvelleDate();
-        }
+		// Recuperation de la date entree par l'utilisateur
+		String[] date = line.split("/");
+		date = line.split("/");
 
-        // Stockage de la date
-        dateFin.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[0]));
-        dateFin.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
-        dateFin.set(Calendar.YEAR, Integer.parseInt(date[2]));
+		// Test si la date entree est correct
+		if (date.length < 3) {
+			System.out.println("La date entree n'est pas valide");
+			nouvelleDate();
+		}
 
-        // Verification que la date est correct
-        if (!(controller.ajouterDateFinEmprunt(dateFin))) {
-            System.out
-                    .println("La date entree n'est pas valide (la date de fin est avant le début de l'emprunt)");
-            dateFin();
-        }
+		// Stockage de la date
+		dateFin.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[0]));
+		dateFin.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
+		dateFin.set(Calendar.YEAR, Integer.parseInt(date[2]));
 
-        nombreAppareils();
-    }
+		// Verification que la date est correct
+		if (!(controller.ajouterDateFinEmprunt(dateFin))) {
+			System.out
+					.println("La date entree n'est pas valide (la date de fin est avant le début de l'emprunt)");
+			dateFin();
+		}
 
-    /**
-     * Affichage des messages pour traiter le nombre d'appareils pour l'emprunt
-     */
-    private void nombreAppareils() {
-        Emprunt enCours = controller.getGestionnaire().getEmpruntEnCours();
-        System.out
-                .println("Veuillez entrer le nombre d'appareils que vous souhaitez emprunter pour chaque reference : ");
-        String line = " ";
-        boolean vide = true;
-        ArrayList<Appareil> aRetirer = new ArrayList<Appareil>();
+		nombreAppareils();
+	}
 
-        // Boucle sur la liste des appareils de l'emprunt
-        for (Appareil a : enCours.getEmprunte().keySet()) {
-            System.out.println("Combien voulez vous de : " + a.getNom() + " ?");
+	/**
+	 * Affichage des messages pour traiter le nombre d'appareils pour l'emprunt
+	 */
+	private void nombreAppareils() {
+		Emprunt enCours = controller.getGestionnaire().getEmpruntEnCours();
+		System.out
+				.println("Veuillez entrer le nombre d'appareils que vous souhaitez emprunter pour chaque reference : ");
+		String line = " ";
+		boolean vide = true;
+		ArrayList<Appareil> aRetirer = new ArrayList<Appareil>();
 
-            // Recuperation de l'entree de l'utilisateur
-            try {
-                line = sc.nextLine();
-            } catch (Exception e) {
-                System.out.println("Problème dans la lecture");
-            }
+		// Boucle sur la liste des appareils de l'emprunt
+		for (Appareil a : enCours.getEmprunte().keySet()) {
+			System.out.println("Combien voulez vous de : " + a.getNom() + " ?");
 
-            // Test sur le nombre d'appareil voulu par l'utilisateur
-            if (controller.ajouterAppareilEmprunt(a, Integer.parseInt(line))) {
-                System.out.println(line + " " + a.getNom()
-                        + " ajoute a l'emprunt");
-                vide = false;
-            } else {
-                System.out.println("Il n'y a pas assez de " + a.getNom()
-                        + " pour cet emprunt");
-                aRetirer.add(a);
-            }
-        }
+			// Recuperation de l'entree de l'utilisateur
+			try {
+				line = sc.nextLine();
+			} catch (Exception e) {
+				System.out.println("Problème dans la lecture");
+			}
 
-        if (aRetirer.size() > 0) {
-            for (Appareil w : aRetirer) {
-                controller.retirerAppareil(w);
-            }
-        }
-        if (!vide)
-            resume();
-        else {
-            System.out
-                    .println("Aucun appareil voulu n'est disponible pour la date voulue, veuillez recommencer l'emprunt");
-            menuEmprunteur();
-        }
-    }
+			// Test sur le nombre d'appareil voulu par l'utilisateur
+			if (controller.ajouterAppareilEmprunt(a, Integer.parseInt(line))) {
+				System.out.println(line + " " + a.getNom()
+						+ " ajoute a l'emprunt");
+				vide = false;
+			} else {
+				System.out.println("Il n'y a pas assez de " + a.getNom()
+						+ " pour cet emprunt");
+				aRetirer.add(a);
+			}
+		}
 
-    /**
-     * Affichage final de l'emprunt complet de l'utilisateur.
-     */
-    private void resume() {
-        System.out.println("\nResume de l'emprunt : \nMonsieur "
-                + controller.getGestionnaire().getEmpruntEnCours()
-                        .getEmprunteur().getNom() + " emprunte :");
+		if (aRetirer.size() > 0) {
+			for (Appareil w : aRetirer) {
+				controller.retirerAppareil(w);
+			}
+		}
+		if (!vide)
+			resume();
+		else {
+			System.out
+					.println("Aucun appareil voulu n'est disponible pour la date voulue, veuillez recommencer l'emprunt");
+			menuEmprunteur();
+		}
+	}
 
-        // Boucle sur la liste des appareils de l'emprunt
-        for (Appareil a : controller.getGestionnaire().getEmpruntEnCours()
-                .getEmprunte().keySet()) {
-            System.out.println(controller.getGestionnaire().getEmpruntEnCours()
-                    .getEmprunte().get(a)
-                    + " " + a.getNom());
-        }
+	/**
+	 * Affichage final de l'emprunt complet de l'utilisateur.
+	 */
+	private void resume() {
+		System.out.println("\nResume de l'emprunt : \nMonsieur "
+				+ controller.getGestionnaire().getEmpruntEnCours()
+						.getEmprunteur().getNom() + " emprunte :");
 
-        // Formatage de la date
-        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+		// Boucle sur la liste des appareils de l'emprunt
+		for (Appareil a : controller.getGestionnaire().getEmpruntEnCours()
+				.getEmprunte().keySet()) {
+			System.out.println(controller.getGestionnaire().getEmpruntEnCours()
+					.getEmprunte().get(a)
+					+ " " + a.getNom());
+		}
 
-        // Application du formatage aux dates d'emprunt
-        String dateDebut = format1.format(controller.getGestionnaire()
-                .getEmpruntEnCours().getDateDebut().getTime());
-        String dateFin = format1.format(controller.getGestionnaire()
-                .getEmpruntEnCours().getDateFin().getTime());
+		// Formatage de la date
+		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
 
-        // Affichage de la date
-        System.out.println("du " + dateDebut + " au " + dateFin);
+		// Application du formatage aux dates d'emprunt
+		String dateDebut = format1.format(controller.getGestionnaire()
+				.getEmpruntEnCours().getDateDebut().getTime());
+		String dateFin = format1.format(controller.getGestionnaire()
+				.getEmpruntEnCours().getDateFin().getTime());
 
-        // Sauvegarder l'emprunt dans un fichier
-        controller.ajouterEmpruntFinal();
+		// Affichage de la date
+		System.out.println("du " + dateDebut + " au " + dateFin);
 
-        // Demande la prochaine action a l'utilisateur
-        menuEmprunteur();
+		// Sauvegarder l'emprunt dans un fichier
+		controller.ajouterEmpruntFinal();
 
-    }
+		// Demande la prochaine action a l'utilisateur
+		menuEmprunteur();
 
-    /**
-     * Affichage du stock
-     * 
-     * @param s
-     *            Stock a afficher
-     */
-    public void printStock(Stock s) {
-        System.out.println("Stock : ");
-        System.out
-                .println("ID  | Type       | Réference            | Nombre en stock");
-        for (Appareil a : s.getStock().keySet()) {
-            System.out.println(a.toString() + s.getStock().get(a));
-        }
-    }
+	}
 
-    /**
-     * Affichage de la liste des emprunts
-     */
-    public void affichageEmprunts() {
-        Iterator<Emprunt> iterator = controller.getDatabase()
-                .getEmprunts().iterator();
-        while(iterator.hasNext()){
-            Emprunt tmp = iterator.next();
-            if(iterator.hasNext()){
-                if(iterator.equals(iterator.next())){
-                    iterator.next();
-                }
-            }
-            System.out.println("Numero de l'emprunt : " + tmp.getId());
-            System.out.println(tmp.getEmprunteur() + " veut emprunter");
-            for (Appareil a : tmp.getEmprunte().keySet()) {
-                System.out.println(tmp.getEmprunte().get(a) + " " + a.getNom());
-            }
-            System.out.println("Du : " + tmp.getDateDebut().getTime() + " au "
-                    + tmp.getDateFin().getTime());
-            System.out.println("-----------------");
-            
-        }
-    }   
+	/**
+	 * Affichage du stock
+	 * 
+	 * @param s
+	 *            Stock a afficher
+	 */
+	public void printStock(Stock s) {
+		System.out.println("Stock : ");
+		System.out
+				.println("ID  | Type       | Réference            | Nombre en stock");
+		for (Appareil a : s.getStock().keySet()) {
+			System.out.println(a.toString() + s.getStock().get(a));
+		}
+	}
+
+	/**
+	 * Affichage de la liste des emprunts
+	 */
+	public void affichageEmprunts() {
+		Iterator<Emprunt> iterator = controller.getDatabase().getEmprunts()
+				.iterator();
+		while (iterator.hasNext()) {
+			Emprunt tmp = iterator.next();
+			if (iterator.hasNext()) {
+				if (iterator.equals(iterator.next())) {
+					iterator.next();
+				}
+			}
+			System.out.println("Numero de l'emprunt : " + tmp.getId());
+			System.out.println(tmp.getEmprunteur() + " veut emprunter");
+			for (Appareil a : tmp.getEmprunte().keySet()) {
+				System.out.println(tmp.getEmprunte().get(a) + " " + a.getNom());
+			}
+			System.out.println("Du : " + tmp.getDateDebut().getTime() + " au "
+					+ tmp.getDateFin().getTime());
+			System.out.println("-----------------");
+
+		}
+	}
 }
