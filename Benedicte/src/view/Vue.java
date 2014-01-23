@@ -284,14 +284,12 @@ public class Vue {
 		}
 
 		switch (choixMenuGestionnaire) {
-		case 0: {
+		case 0:
 			menuPrincipal();
 			break;
-		}
-		case 1: {
+		case 1:
 			menuPromotion();
 			break;
-		}
 		// TODO Le reste
 		case 2:
 			// acheterMateriel();
@@ -309,6 +307,16 @@ public class Vue {
 			System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
 			menuGestionnaire();
 		}
+	}
+	
+	/**
+	 * La methode acheterMateriel permet a un gestionnaire 
+	 * d'acheter un nouveau materiel pour le stock.
+	 */
+	public void acheterMateriel()
+	{
+		// TODO
+		;
 	}
 
 	/**
