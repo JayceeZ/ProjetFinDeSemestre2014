@@ -1,7 +1,7 @@
 package view.graphic;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class Menu extends JPanel {	
 	public Menu(JFrame parent, String title, Map<String,ActionListener> boutonsActions) {
 		parent.setTitle(title);
-		this.setLayout(new FlowLayout());
+		this.setLayout(new GridLayout(boutonsActions.size(),1));
 		
 		for(String bouton:boutonsActions.keySet()) {
 			JButton newbutton = new JButton(bouton);

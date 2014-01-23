@@ -2,15 +2,19 @@ package view.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
 public class Connexion extends JPanel {
@@ -28,7 +32,6 @@ public class Connexion extends JPanel {
 	
 	public Connexion(Window parent) {
 		this.parent = parent;
-		parent.setTitle("Veuillez vous authentifier");
 		
 		username = new JLabel("Nom d'utilisateur: ");
 		password = new JLabel("Mot de passe: ");
@@ -45,15 +48,20 @@ public class Connexion extends JPanel {
 		
 		texts = new JPanel();
 		texts.setLayout(new GridLayout(2,2));
+
 		texts.add(username);
 		texts.add(login);
 		texts.add(password);
 		texts.add(psw);
 		
-		this.setLayout(new BorderLayout());
-		this.add(texts,BorderLayout.CENTER);
-		this.add(valide,BorderLayout.EAST);
-		this.setVisible(true);
+		erreur = new JLabel("Entrez vos identifiants");
+		texts.add(erreur);
+		
+		this.setLayout(new FlowLayout());
+		this.add(erreur);
+		this.add(texts);
+		this.add(valide);
+		this.setPreferredSize(new Dimension(240,150));
 	}
 	
 	private void valider_formulaire() {
@@ -81,14 +89,7 @@ public class Connexion extends JPanel {
 	}
 
 	private void connexionError(String string) {
-		if(erreur != null) {
-			erreur.setText(string);
-		} else {	
-			erreur = new JLabel(string);
-			erreur.setForeground(Color.red);
-			this.add(erreur, BorderLayout.NORTH);
-		}
-		parent.revalidate();
-		parent.pack();
+		erreur.setForeground(Color.red);
+		erreur.setText(string);
 	}
 }

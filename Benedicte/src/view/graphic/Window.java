@@ -2,6 +2,8 @@ package view.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -31,9 +33,8 @@ public class Window extends JFrame {
 		cards.add(userview, "userview");
 		
 		this.setTitle("Application");
-		this.add(cards,BorderLayout.CENTER);
+		this.add(cards, BorderLayout.CENTER);
 
-		this.pack();
 		this.setVisible(true);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -58,6 +59,19 @@ public class Window extends JFrame {
 	public void changePanel(String panel) {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards,panel);
+		this.setSize(getPanel().getPreferredSize());
+	}
+	
+	/**
+	 * Recuperer le panel actuellement affiche
+	 */
+	public JPanel getPanel() {
+		for(Component c:cards.getComponents()) {
+			if(c.isVisible()) {
+				return (JPanel) c;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -65,8 +79,8 @@ public class Window extends JFrame {
 	*/
 	public Map<String, ActionListener> menuUtilisateur() {
 		Map<String, ActionListener> m = new HashMap<String,ActionListener>();
-		m.put("Se connecter", new ActionPanel(this,"connect"));
-		m.put("S'inscrire", new ActionPanel(this,"register"));
+		m.put("Se connecter", new ActionPanel(this,"connect","Veuillez vous authentifier"));
+		m.put("S'inscrire", new ActionPanel(this,"register","S'inscrire"));
 		return m;
 	}
 
@@ -81,19 +95,22 @@ public class Window extends JFrame {
 
 	
 	/**
-	 * Action possibles
+	 * Actions possibles
 	 */
 	private class ActionPanel implements ActionListener {
 		private Window window;
 		private String panel;
+		private String description;
 		
-		public ActionPanel(Window parent, String p) {
+		public ActionPanel(Window parent, String p, String d) {
 			this.window = parent;
 			this.panel = p;
+			this.description = d;
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			window.changePanel(panel);
+			window.setTitle(description);
 		}
 	}
 }

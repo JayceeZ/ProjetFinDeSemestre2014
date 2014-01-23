@@ -2,6 +2,7 @@ package view.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -29,6 +30,8 @@ public class Userview extends JPanel {
 	private JLabel infosUser;
 	
 	private Selector empruntSelector;
+
+	private boolean empruntencours;
 	
 	public Userview(Window parent, StockProjectController c) {
 		this.parent = parent;
@@ -48,8 +51,7 @@ public class Userview extends JPanel {
 		
 		this.add(menucards, BorderLayout.SOUTH);
 		this.add(cards, BorderLayout.CENTER);
-		
-		
+		this.setPreferredSize(new Dimension(800,600));
 	}
 	
 	private void changeMenu() {
@@ -74,7 +76,6 @@ public class Userview extends JPanel {
 		Map<String, ActionListener> m = new HashMap<String,ActionListener>();
 		m.put("Emprunter", new ActionUtilisateur("emprunter"));
 		m.put("Voir mes emprunts", new ActionUtilisateur("emprunts"));
-		m.put("Changer des informations", new ActionUtilisateur("changedatas"));
 		return m;
 	}
 	
@@ -89,9 +90,18 @@ public class Userview extends JPanel {
 	
 	
 	public void nouvelEmprunt(Stock s) {
-		empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
+		if(empruntencours  == false) {
+			empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
+			empruntencours = true;
+		}
+		changeZone("emprunt");
 	}
 
+	public void validerEmprunt() {
+		
+		empruntencours = false;
+	}
+	
 	public void affichageEmprunts() {
 		//TODO
 	}
@@ -109,8 +119,13 @@ public class Userview extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(action);
 			switch(action) {
+			case "emprunter":
+				nouvelEmprunt(controller.getStock());
+				break;
 			case "switchmenus":
 				changeMenu();
+				break;
+			default: break;
 			}
 		}
 	}
