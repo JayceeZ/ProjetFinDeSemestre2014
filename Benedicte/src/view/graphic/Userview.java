@@ -5,17 +5,23 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import model.Emprunteur;
 import model.Gestionnaire;
 import model.Stock;
+import model.Appareil;
 import controller.StockProjectController;
 import view.graphic.Selector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import net.sourceforge.jdatepicker.*;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 @SuppressWarnings("serial")
 public class Userview extends JPanel {
@@ -93,17 +99,42 @@ public class Userview extends JPanel {
 		if(empruntencours  == false) {
 			empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
 			empruntencours = true;
+		} else if (empruntencours == true) {
+			validerEmprunt();
 		}
 		changeZone("emprunt");
 	}
 
 	public void validerEmprunt() {
-		
-		empruntencours = false;
+		ArrayList<Integer> i = new ArrayList();
+		for(Object a: empruntSelector.getSelected()) {
+			if(a instanceof Appareil) {
+				i.add(((Appareil) a).getId());
+			}
+		}
+		if(controller.creerEmprunt(i)) {
+			nouvelleDate();
+		}
 	}
 	
+	public void nouvelleDate() {
+		Calendar dateDebut = empruntSelector.getDateStart();
+		if(!controller.ajouterDateDebutEmprunt(dateDebut)) {
+			empruntSelector.setDateText("La date de début est incorrecte.");
+		} else {
+			Calendar dateFin = empruntSelector.getDateEnd();
+			if(!controller.ajouterDateFinEmprunt(dateFin)) {
+				empruntSelector.setDateText("La date de fin est incorrecte.");
+			} else {
+				empruntencours = false;
+				System.out.println("Emprunt cree !");
+				affichageEmprunts();
+			}
+		}
+	}
+		
 	public void affichageEmprunts() {
-		//TODO
+		changeZone("emprunts");
 	}
 	
 	/**
