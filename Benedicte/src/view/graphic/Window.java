@@ -54,8 +54,8 @@ public class Window extends JFrame {
 		changePanel(new Dimension(500,500), panel);
 	}
 	
-	public void setMenu(Emprunteur e) {
-		changePanel(new Dimension(300,300), new Menu(this, e));
+	public void setMenu() {
+		changePanel(new Dimension(300,300), new Menu(this));
 	}
 		 	
 	/**
