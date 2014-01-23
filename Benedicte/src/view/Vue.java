@@ -182,7 +182,6 @@ public class Vue {
 		String prenom = sc.nextLine();
 
 		// On demande des matieres
-		// TODO better tester ici l'existance des matieres
 		if (typeUtilisateur.equals("etudiant")) {
 			System.out
 					.println("Un etudiant ne peut choisir qu'une seule matiere !");
