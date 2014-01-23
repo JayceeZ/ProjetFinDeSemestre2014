@@ -207,7 +207,6 @@ public class Vue {
 		case 2:// matieres ignoree
 			System.out
 					.println("Certaine matieres n'existaient pas et ont ete ignoree.");
-			break;
 		case 0:
 			System.out.println("Compte cree, vous pouvez vous connecter.");
 			menuConnexion();
