@@ -287,8 +287,7 @@ public class Vue {
 				"\n 3. Informations sur les stocks " +
 				"\n 4. Statistiques " +
 				"\n 5. Rejeter des emprunts" +
-				"\n 6. Envoyer un materiel en reparation" +
-				"\n 7. Remettre un materiel");
+				"\n 6. Envoyer un materiel en reparation");
 
 		try {
 			choixMenuGestionnaire = sc.nextInt();
@@ -320,9 +319,6 @@ public class Vue {
 			break;
 		case 6:
 			reparation();
-			break;
-		case 7:
-			remettreMateriel();
 			break;
 		default:
 			System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
@@ -540,7 +536,53 @@ public class Vue {
 			menuGestionnaire();
 		}
 	}
+
+	// /////////////////////////////// PARTIE EMPRUNTEUR
+	// ///////////////////////////////////////////
+
+	/**
+	 * La methode menuEmprunteur permet a un emprunteur d'emprunter.
+	 */
+	public void menuEmprunteur() {
+		// Variables utiles pour le menu emprunteur
+		int choixMenuEmprunteur = 0;
+
+		System.out.println("Menu Emprunteur");
+		System.out
+		.println("Que voulez vous faire ? \n 0. Se deconnecter \n 1. Emprunter \n 2. Remettre un materiel");
+
+		try {
+			choixMenuEmprunteur = sc.nextInt();
+			sc.nextLine();
+		} catch (InputMismatchException e) {
+			System.out.println("Veuillez saisir un chiffre.");
+			sc.next();
+		}
+
+		switch (choixMenuEmprunteur) {
+		case 0: {
+			menuUtilisateur();
+			break;
+		}
+		case 1: {
+			nouvelEmprunt();
+			break;
+		}
+		case 2:
+		{
+			remettreMateriel();
+			break;
+		}
+		default: {
+			System.out.println("Veuillez choisir entre 0 et 1");
+			menuEmprunteur();
+		}
+		}
+	}
 	
+	/**
+	 * Cette methode permet a un emprunteur de rendre un materiel.
+	 */
 	private void remettreMateriel()
 	{
 		affichageEmprunts();
@@ -577,44 +619,6 @@ public class Vue {
 			System.out.println("Impossible de deplacer le nombres de materiels demande");
 		}
 		menuGestionnaire();
-	}
-
-	// /////////////////////////////// PARTIE EMPRUNTEUR
-	// ///////////////////////////////////////////
-
-	/**
-	 * La methode menuEmprunteur permet a un emprunteur d'emprunter.
-	 */
-	public void menuEmprunteur() {
-		// Variables utiles pour le menu emprunteur
-		int choixMenuEmprunteur = 0;
-
-		System.out.println("Menu Emprunteur");
-		System.out
-		.println("Que voulez vous faire ? \n 0. Se deconnecter \n 1. Emprunter");
-
-		try {
-			choixMenuEmprunteur = sc.nextInt();
-			sc.nextLine();
-		} catch (InputMismatchException e) {
-			System.out.println("Veuillez saisir un chiffre.");
-			sc.next();
-		}
-
-		switch (choixMenuEmprunteur) {
-		case 0: {
-			menuUtilisateur();
-			break;
-		}
-		case 1: {
-			nouvelEmprunt();
-			break;
-		}
-		default: {
-			System.out.println("Veuillez choisir entre 0 et 1");
-			menuEmprunteur();
-		}
-		}
 	}
 
 	/**
