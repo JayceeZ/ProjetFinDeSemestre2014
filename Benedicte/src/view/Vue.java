@@ -432,7 +432,7 @@ public class Vue {
 			break;
 		default:
 			System.out.println("Veuillez choisir entre 0, 1, et 2");
-			menuGestionnaire();
+			information();
 		}
 	}
 	/**
