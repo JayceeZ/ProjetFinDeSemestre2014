@@ -218,7 +218,7 @@ public class Vue {
 					menuUtilisateur();
 					break;
 				case 4:
-					System.out.println("Pas assez de mati�res");
+					System.err.println("Pas assez de mati�res");
 					menuRegistration();
 					break;
 				default:
@@ -351,15 +351,15 @@ public class Vue {
 		int r = this.controller.reparation(reparation);
 		if(r==1) {
 			System.out.println("Vous avez mal rentré les informations");
-			reparation();
+			menuGestionnaire();
 		}
 		else if(r==2) {
 			System.out.println("L'id que vous avez rentré est incorrect");
-			reparation();
+			menuGestionnaire();
 		}
 		else {
 			System.out.println("Réparation effectuée !");
-			reparation();
+			menuGestionnaire();
 		}
 	}
 	/**
