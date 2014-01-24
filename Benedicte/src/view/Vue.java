@@ -359,7 +359,7 @@ public class Vue {
 			sc.next();
 		}
 		
-		if (controller.deplacer(controller.getStock("Rendu"), controller.getStock("Reparation"), id, nb))
+		if (controller.deplacerStockVersStock(controller.getStock("Rendu"), controller.getStock("Reparation"), id, nb))
 		{
 			System.out.println("Le nombre de materiels a ete deplace");
 		}

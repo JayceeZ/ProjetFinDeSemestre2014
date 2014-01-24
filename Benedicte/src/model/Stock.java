@@ -121,6 +121,11 @@ public class Stock {
 		return id;
 	}
 	
+	/**
+	 * Permet de recuperer un appareil a partir de son id
+	 * @param id L'id de l'appareil
+	 * @return L'appareil correspondant.
+	 */
 	public Appareil getAppareilParId(int id) {
 		for(Appareil app : this.stock.keySet()){
 			if(app.getId()==id)

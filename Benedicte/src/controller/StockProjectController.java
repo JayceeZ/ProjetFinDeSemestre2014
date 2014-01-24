@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.event.RowSorterEvent.Type;
 
@@ -343,6 +344,7 @@ public class StockProjectController {
 		}
 		return booleanIdentifiants;
 	}
+	
 	/**
 	 * Permet de transferer un certain nombre d'un meme materiel d'un stock vers un autre.
 	 * @param stockDepart Le stock de depart.
@@ -351,9 +353,31 @@ public class StockProjectController {
 	 * @param nb Le nb de materiel a deplacer.
 	 * @return Un boolean inquant si le materiel a ete deplace ou non.
 	 */
-	public boolean deplacer(Stock stockDepart, Stock stockArrivee, int id, int nb)
+	public boolean deplacerStockVersStock(Stock stockDepart, Stock stockArrivee, int id, int nb)
 	{
 		Appareil appareil = stockDepart.getAppareilParId(id);
+		int nbAppareil = stockDepart.get(appareil);
+		int difference = nbAppareil - nb;
+		if (difference >= 0)
+		{
+			stockDepart.modifierStock(appareil, difference);
+			stockArrivee.ajouterAppareil(appareil, nb);
+			return true;
+		}
+		return false;
+		
+	}
+	
+	/**
+	 * Permet de transferer un certain nombre d'un meme materiel de la liste d'emprunts vers un stock.
+	 * @param stockArrivee Le stock d'arrivee.
+	 * @param id L'id du materiel.
+	 * @param nb Le nb de materiel a deplacer.
+	 * @return Un boolean inquant si le materiel a ete deplace ou non.
+	 */
+	public boolean deplacerEmpruntVersStock(Stock stockArrivee, int id, int nb)
+	{
+		List<Emprunt> listeEmprunts = db.getEmprunts();
 		int nbAppareil = stockDepart.get(appareil);
 		int difference = nbAppareil - nb;
 		if (difference >= 0)
