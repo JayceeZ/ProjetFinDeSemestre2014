@@ -88,7 +88,7 @@ public class Vue {
 	 * La methode menuConnection permet a un utilisateur de se connecter si il
 	 * appartient a la liste des utilisateurs.
 	 */
-	public void menuConnexion() {
+	private void menuConnexion() {
 		System.out.println("Entrez votre identifiant utilisateur");
 		String identifiantUtilisateur = sc.nextLine();
 		System.out.println("Entrez votre mot de passe");
@@ -111,7 +111,7 @@ public class Vue {
 	 * La methode menuRegistration permet a un utilisateur de s'enregistrer et
 	 * d'etre ajoute a la liste d'utilisateurs en tant qu'emprunteur.
 	 */
-	public void menuRegistration() {
+	private void menuRegistration() {
 		// Variables utiles pour le menu registration
 		int choixMenuRegistration = 0;
 
@@ -274,7 +274,7 @@ public class Vue {
 	 * La methode menuGestionnaire permet a un gestionnaire de choisir entre
 	 * plusieurs commandes.
 	 */
-	public void menuGestionnaire() {
+	private void menuGestionnaire() {
 		// Variables utiles pour cette methode
 		int choixMenuGestionnaire = 0;
 
@@ -287,7 +287,8 @@ public class Vue {
 				"\n 3. Informations sur les stocks " +
 				"\n 4. Statistiques " +
 				"\n 5. Rejeter des emprunts" +
-				"\n 6. Reparer un certain nombre d'appareils");
+				"\n 6. Envoyer un materiel en reparation" +
+				"\n 7. Remettre un materiel");
 
 		try {
 			choixMenuGestionnaire = sc.nextInt();
@@ -319,6 +320,10 @@ public class Vue {
 			break;
 		case 6:
 			reparation();
+			break;
+		case 7:
+			remettreMateriel();
+			break;
 		default:
 			System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
 			menuGestionnaire();
@@ -328,9 +333,9 @@ public class Vue {
 	/**
 	 * Cette méthode permet au gestionnaire de réparer un certain nombre d'appareil .
 	 */
-	public void reparation() {
-		printStock(this.controller.getStock());
-		System.out.println("Indiquez l'id de l'appareil � r�parer : ");
+	private void reparation() {
+		printStock(this.controller.getStock("Rendu"));
+		System.out.println("Indiquez l'id de l'appareil a envoyer en reparation : ");
 		int id = 0;
 		try 
 		{
@@ -342,7 +347,7 @@ public class Vue {
 			sc.next();
 		}
 		
-		System.out.println("Indiquez le nombre d'appareil de cette id que vous voulez r�parer : ");
+		System.out.println("Indiquez le nombre d'appareil de cette id que vous voulez envoyer en reparation : ");
 		int nb = 0;
 		try 
 		{
@@ -354,25 +359,21 @@ public class Vue {
 			sc.next();
 		}
 		
-		// TODO
-		/*
-		boolean r = this.controller.reparation(id, nb);
-		if(!r) 
+		if (controller.deplacer(controller.getStock("Rendu"), controller.getStock("Reparation"), id, nb))
 		{
-			System.out.println("L'id que vous avez rentr� est incorrect");
-			menuGestionnaire();
+			System.out.println("Le nombre de materiels a ete deplace");
 		}
-		else 
+		else
 		{
-			System.out.println("R�paration effectu�e !");
-			menuGestionnaire();
-		}*/
+			System.out.println("Impossible de deplacer le nombres de materiels demande");
+		}
+		menuGestionnaire();
 	}
 	/**
 	 * Cette méthode permet au gestionnaire de récupérer des informations sur les objets 
 	 * présents dans le stock actuel. Il peut lister les objet selon le type, l os et l etat .
 	 */
-	public void information() {
+	private void information() {
 		// Variables utiles pour cette methode
 		int choixInfo = 0;
 
@@ -455,7 +456,7 @@ public class Vue {
 	 * La methode acheterMateriel permet a un gestionnaire 
 	 * d'acheter un nouveau materiel pour le stock.
 	 */
-	public void acheterMateriel(){
+	private void acheterMateriel(){
 		// Affichage du stock pour un nouvel emprunt
 		printStock(controller.getStock());
 		System.out.println("Entrez l'id de l'appareil que vous voulez acheter .");
@@ -520,7 +521,7 @@ public class Vue {
 	 * La methode menuPromotion permet de promouvoir un emprunteur en
 	 * gestionnaire.
 	 */
-	public void menuPromotion() {
+	private void menuPromotion() {
 		// Variables utiles pour le menu promotion
 		String choixMenuPromotion = "";
 
@@ -538,6 +539,44 @@ public class Vue {
 			System.out.println("Nom invalide");
 			menuGestionnaire();
 		}
+	}
+	
+	private void remettreMateriel()
+	{
+		affichageEmprunts();
+		System.out.println("Indiquez l'id de l'appareil a remettre : ");
+		int id = 0;
+		try 
+		{
+			id = sc.nextInt();
+		} 
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez entrer un entier");
+			sc.next();
+		}
+		
+		System.out.println("Indiquez le nombre d'appareil de cette id que vous voulez remettre : ");
+		int nb = 0;
+		try 
+		{
+			nb = sc.nextInt();
+		} 
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez entrer un entier");
+			sc.next();
+		}
+		
+		if (controller.deplacer(controller.getStock("Rendu"), controller.getStock("Reparation"), id, nb))
+		{
+			System.out.println("Le nombre de materiels a ete deplace");
+		}
+		else
+		{
+			System.out.println("Impossible de deplacer le nombres de materiels demande");
+		}
+		menuGestionnaire();
 	}
 
 	// /////////////////////////////// PARTIE EMPRUNTEUR

@@ -38,8 +38,14 @@ public class StockProjectController {
 	// Reference sur la base de donnees
 	private Database db;
 
-	// Reference sur le stock
-	private Stock stock;
+	// Reference sur le stock empruntable
+	private Stock stockEmpruntable;
+	
+	// Reference sur le stock rendu
+	private Stock stockRendu;
+	
+	// Reference sur le stock reparation
+	private Stock stockReparation;
 
 	// Reference sur l'emprunteur courant
 	private Emprunteur emp;
@@ -50,10 +56,14 @@ public class StockProjectController {
 	public StockProjectController() {
 		// Initialisation de la base de donnes
 		db = new Database();
-		// Initialisation du stock d'appareils
-		stock = new Stock();
+		// Initialisation du stock d'appareils empruntables
+		stockEmpruntable = new Stock("Empruntable");
+		// Initialisation du stock d'appareils rendus
+		stockEmpruntable = new Stock("Rendu");
+		// Initialisation du stock d'appareils reparations
+		stockEmpruntable = new Stock("Reparation");
 		// Initialisation du systeme
-		systeme = new Systeme(stock, db);
+		systeme = new Systeme(stockEmpruntable, db);
 		// Initialisation de la vue
 		vue = new Vue(this);
 	}
@@ -72,8 +82,26 @@ public class StockProjectController {
 	 *
 	 * @return the stock
 	 */
-	public Stock getStock() {
-		return stock;
+	public Stock getStock(String nom) {
+		switch (nom)
+		{
+		case "Empruntable":
+		{
+			return stockEmpruntable;
+		}
+		case "Rendu":
+		{
+			return stockRendu;
+		}
+		case "Reparation":
+		{
+			return stockReparation;
+		}
+		default:
+		{
+			return stockEmpruntable;
+		}
+		}
 	}
 
 	/**
@@ -314,6 +342,28 @@ public class StockProjectController {
 			}
 		}
 		return booleanIdentifiants;
+	}
+	/**
+	 * Permet de transferer un certain nombre d'un meme materiel d'un stock vers un autre.
+	 * @param stockDepart Le stock de depart.
+	 * @param stockArrivee Le stock d'arrivee.
+	 * @param id L'id du materiel.
+	 * @param nb Le nb de materiel a deplacer.
+	 * @return Un boolean inquant si le materiel a ete deplace ou non.
+	 */
+	public boolean deplacer(Stock stockDepart, Stock stockArrivee, int id, int nb)
+	{
+		Appareil appareil = stockDepart.getAppareilParId(id);
+		int nbAppareil = stockDepart.get(appareil);
+		int difference = nbAppareil - nb;
+		if (difference >= 0)
+		{
+			stockDepart.modifierStock(appareil, difference);
+			stockArrivee.ajouterAppareil(appareil, nb);
+			return true;
+		}
+		return false;
+		
 	}
 
 	/**

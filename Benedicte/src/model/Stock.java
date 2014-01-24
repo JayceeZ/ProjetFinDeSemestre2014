@@ -11,6 +11,8 @@ import java.util.*;
  */
 @SuppressWarnings("unchecked")
 public class Stock {
+	// Le nom du stock
+	private String nom;
 
 	//le stock
 	private Map<Appareil,Integer> stock;
@@ -25,10 +27,11 @@ public class Stock {
 	 * Constructeur par defaut. Initialise le dictionnaire et le charge depuis
 	 * le fichier xml indiquer dans les attributs.
 	 */
-	public Stock() {
+	public Stock(String nom) {
 		stock = new HashMap<Appareil, Integer>();
 		stock = (Map<Appareil, Integer>) DataXML.load(fichierStock,
 				versionFichierStock);
+		this.nom = nom;
 	}
 
 	/**
