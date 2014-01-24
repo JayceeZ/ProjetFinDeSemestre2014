@@ -147,10 +147,10 @@ public class StockProjectController {
 	 */
 	public int affichageFiltreAppareil(ArrayList<String> filtre){
 		Etat etatFiltre = null;
-		model.Type typeFiltre = null; //Il y a besoin du "model." à cause du conflit de nommage avec quelque chose en JAVA qui existe déjà.
+		model.Type typeFiltre = null; //Il y a besoin du "model." ï¿½ cause du conflit de nommage avec quelque chose en JAVA qui existe dï¿½jï¿½.
 		OS osFiltre = null;
 		
-		// Permet de voir si la personne a rentré les 3 mots clés pour le filtre.
+		// Permet de voir si la personne a rentrï¿½ les 3 mots clï¿½s pour le filtre.
 		if(filtre.size() != 3)
 			return 2;
 		
@@ -158,8 +158,8 @@ public class StockProjectController {
 		boolean passageType = false;
 		boolean passageOS = false;
 		
-		// Boucle sur les états et met passageEtat a true si l'état entré en première info
-		// dans filtre correspond à un état de la classe Etat ou à null.
+		// Boucle sur les ï¿½tats et met passageEtat a true si l'ï¿½tat entrï¿½ en premiï¿½re info
+		// dans filtre correspond ï¿½ un ï¿½tat de la classe Etat ou ï¿½ null.
 		if (filtre.get(0).equals("null"))
 		{
 			passageEtat = true;
@@ -177,7 +177,7 @@ public class StockProjectController {
 		}
 		System.out.println(passageEtat);
 		
-		// Même principe pour cette boucle mais sur les types.
+		// Mï¿½me principe pour cette boucle mais sur les types.
 		if (filtre.get(1).equals("null"))
 		{
 			passageType = true;
@@ -195,7 +195,7 @@ public class StockProjectController {
 		}
 		System.out.println(passageType);
 		
-		// Même principe pour cette boucle mais sur les OS.
+		// Mï¿½me principe pour cette boucle mais sur les OS.
 		if (filtre.get(2).equals("null"))
 		{
 			passageOS = true;
@@ -229,15 +229,15 @@ public class StockProjectController {
 		return 0;
 	}
 	
-	public int achatAppareil(ArrayList<Integer> achat) {
-		if(achat.size()!=2)
-			return 2;//nombre d'informations donnÃ© invalide
-		Appareil appareil = this.stock.getAppareilParId(achat.get(0));
+	public int achatAppareil(int id, int nombre) {
+		Appareil appareil = this.stock.getAppareilParId(id);
 		if(appareil == null){
 			return 1; //id invalide
 		}
-		appareil.setEtat(Etat.NEUF);
-		this.stock.ajouterAppareil(appareil,achat.get(1));
+		int n = this.stock.get(appareil);
+		n = n + nombre;
+		//appareil.setEtat(Etat.NEUF);
+		this.stock.modifierStock(appareil, n);
 		return 0;//achat effectuÃ©
 	}
 	/**
