@@ -19,14 +19,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Cette classe definie le panneau des emprunts
+ * @author Isoard Jean-Christophe
+ *
+ */
 @SuppressWarnings("serial")
 public class Emprunts extends JPanel {
 	StockProjectController controller;
-	
+
 	private DefaultComboBoxModel<Emprunt> modelComboBox;
 	private JComboBox<Emprunt> combobox;
 	private JLabel displayEmprunt;
-	
+
 	/**
 	 * Cree un panneau qui permet de lister des Emprunts<br />
 	 * un bouton Supprimer qui supprime (invalide) l'emprunt de la liste
@@ -37,47 +42,70 @@ public class Emprunts extends JPanel {
 		combobox = new JComboBox<Emprunt>(modelComboBox);
 		combobox.addItemListener(new ItemState());
 		displayEmprunt = new JLabel();
-		
+
 		this.setLayout(new FlowLayout());
 		JPanel contenu = new JPanel(new BorderLayout());
 		contenu.add(combobox, BorderLayout.NORTH);
 		contenu.add(displayEmprunt, BorderLayout.CENTER);
-		
+
 		JButton boutonSupprimer = new JButton("Supprimer");
 		boutonSupprimer.addActionListener(new ActionEmprunt("supprimer"));
-		contenu.add(boutonSupprimer,BorderLayout.SOUTH);
-		
+		contenu.add(boutonSupprimer, BorderLayout.SOUTH);
+
 		this.add(contenu);
 	}
-	
+
+	/**
+	 * Change la liste des emprunts<br />
+	 * Remplace tout par le contenu de la liste emprunts
+	 * 
+	 * @param emprunts
+	 *            La liste des emprunts
+	 */
 	public void actualise(List<Emprunt> emprunts) {
 		modelComboBox.removeAllElements();
-		for(Emprunt em:emprunts) {
+		for (Emprunt em : emprunts) {
 			modelComboBox.addElement(em);
 		}
 	}
-	
+
+	/**
+	 * Change le JLabel par une description de l'emprunt<br />
+	 * 
+	 * @param item
+	 *            L'emprunt à afficher
+	 */
 	private void afficheEmprunt(Emprunt item) {
-		//TODO affiche en détail toutes les infos d'un emprunt
+		// TODO affiche en détail toutes les infos d'un emprunt
 		displayEmprunt.setText(item.toString());
 	}
-	
+
+	/**
+	 * Appelle la methode de controleur pour supprimer l'emprunt selectionne
+	 */
 	private void supprimerEmpruntSelectionne() {
 		Emprunt e = (Emprunt) combobox.getSelectedItem();
-		if(e != null) {
-			//TODO Methode à créer
+		if (e != null) {
+			// TODO Methode à créer
 			controller.supprimerEmprunt(e);
 			modelComboBox.removeElement(e);
 		}
 	}
 
+	/**
+	 * Classe a attribuer en listener pour la liste deroulante pour qu'a la
+	 * selection d'un emprunt celui ci soit affiche
+	 */
 	private class ItemState implements ItemListener {
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
 			afficheEmprunt((Emprunt) arg0.getItem());
 		}
 	}
-	
+
+	/**
+	 * Classe a attribuer en listener au boutons ajouter des actions dans le switch
+	 */
 	private class ActionEmprunt implements ActionListener {
 		private String action;
 
@@ -96,5 +124,5 @@ public class Emprunts extends JPanel {
 			}
 		}
 	}
-	
+
 }

@@ -27,7 +27,7 @@ public class Window extends JFrame {
 		this.setLayout(new BorderLayout());
 		
 		cards = new JPanel(new CardLayout());
-		cards.add(new Menu(this,"Menu Principal",menuUtilisateur()), "menuutilisateur");
+		cards.add(new Menu(this,menuUtilisateur()), "menuutilisateur");
 		cards.add(new Connexion(this), "connect");
 		userview = new Userview(this,c);
 		cards.add(userview, "userview");
