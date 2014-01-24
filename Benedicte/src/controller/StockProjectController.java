@@ -140,39 +140,53 @@ public class StockProjectController {
 		return 0;
 	}
 	
-	
+	/**
+	 * Cette methode permet de renvoyer la liste des appareils filtres
+	 * @param filtre Le filtre choisi.
+	 * @return Les appareils filtres.
+	 */
 	public int affichageFiltreAppareil(ArrayList<String> filtre){
-		Etat etat_filtre=null;
-		model.Type type_filtre=null;//comprends pas pourquoi on est obligÃ© de mettre model. ici ...
-		OS os_filtre=null;
+		Etat etatFiltre = null;
+		model.Type typeFiltre = null; //Il y a besoin du "model." à cause du conflit de nommage avec quelque chose en JAVA qui existe déjà.
+		OS osFiltre = null;
 		
+		// Permet de voir si la personne a rentré entre 1 et 3 mots clés pour le filtre.
 		if(filtre.size()>3 || filtre.size()==0)
 			return 2;
 		
 		boolean passage = true;
 		
+		// Boucle sur les états et met passage a false si l'état entré en première info
+		// dans filtre ne correspond pas à un état de la classe Etat.
 		for(Etat etat : Etat.values()) {
 			if(!(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase())))
 				passage = false;
 			else
-				etat_filtre = etat;
+				etatFiltre = etat;
 		}
+		
+		// Même principe pour cette boucle mais sur les types.
 		for(model.Type type : model.Type.values()) {
 			if(!(filtre.get(1).toLowerCase().equals(type.name().toLowerCase())))
 				passage = false;
 			else
-				type_filtre = type;
+				typeFiltre = type;
 		}
+		
+		// Même principe pour cette boucle mais sur les OS.
 		for(OS os : OS.values()) {
 			if(!(filtre.get(2).toLowerCase().equals(os.name().toLowerCase())))
 				passage = false;
 			else
-				os_filtre = os;
+				osFiltre = os;
 		}
 
+		// Si une des informations est fausse.
 		if(passage == false)
 			return 1;
-		HashMap<Appareil,Integer> hash =this.stock.getAppareilsParEtatTypeOs(etat_filtre,type_filtre,os_filtre);
+		
+		// Sinon
+		HashMap<Appareil,Integer> hash =this.stock.getAppareilsParEtatTypeOs(etatFiltre,typeFiltre,osFiltre);
 		
 		System.out.println("Objets trouvÃ©s : ");
 		System.out
@@ -182,6 +196,7 @@ public class StockProjectController {
 		}
 		return 0;
 	}
+	
 	public int achatAppareil(ArrayList<Integer> achat) {
 		if(achat.size()!=2)
 			return 2;//nombre d'informations donnÃ© invalide

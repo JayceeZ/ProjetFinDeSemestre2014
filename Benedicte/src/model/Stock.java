@@ -43,7 +43,7 @@ public class Stock {
 	}
 
 	/**
-	 * Retorune le stock actuel
+	 * Retourne le stock actuel
 	 * 
 	 * @return le stock
 	 */
@@ -51,6 +51,11 @@ public class Stock {
 		return stock;
 	}
 
+	/**
+	 * Retourne l'entier associee a l'appareil
+	 * @param a L'appareil.
+	 * @return Le nombre de cete appareil.
+	 */
 	public Integer get(Appareil a) {
 		return stock.get(a);
 	}
@@ -138,14 +143,22 @@ public class Stock {
 		return null;
 	}
 	
+	/**
+	 * Cette methode permet d'avoir un hashmap contenant un repertoire des appareils selon
+	 *  Etat, Type et OS. Et de les classer avec le nombre d'appareil identiques.
+	 * @param etat L'Etat de l'appareil.
+	 * @param type Le Type de l'appareil.
+	 * @param os L'OS de l'appareil.
+	 * @return Un HashMap contenant les appareils et le nombre d'appareils identiques.
+	 */
 	public HashMap<Appareil,Integer> getAppareilsParEtatTypeOs(Etat etat,Type type,OS os) {
 		HashMap<Appareil,Integer> liste = new HashMap<Appareil,Integer>();
 		Set<Appareil> liste_totale = this.stock.keySet();
 		
 		for(Appareil app : liste_totale) {
-			if (((app.getEtat() == etat)|(etat ==null)) 
-					&& ((app.getType() == type)|(type ==null)) 
-					&& ((app.getOs() == os)|(os==null)))
+			if (((app.getEtat() == etat) || (etat ==null)) 
+					&& ((app.getType() == type) || (type ==null)) 
+					&& ((app.getOs() == os) || (os==null)))
 				liste.put(app, this.get(app));
 		}
 		return liste;

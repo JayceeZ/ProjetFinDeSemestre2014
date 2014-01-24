@@ -370,7 +370,6 @@ public class Vue {
 		// Variables utiles pour cette methode
 		int choixInfo = 0;
 
-		System.out.println("Menu Gestionnaire");
 		System.out
 		.println("Que voulez-vous faire ? " +
 				"\n 0. Retour " +
@@ -398,7 +397,7 @@ public class Vue {
 					"\nIndiquez dans l'état, le type et l'os des appareils recherchés, séparés par " +
 					"une virgule (si vous ne souhaitez pas appliquer un ou plusieurs des filtres," +
 					"écrivez \"null\")");//explication pas du tout claire u_u
-			//des exemples : si par exemple on le gestionnaire écrit "bon,null,android" on cherche
+			//des exemples : si par exemple le gestionnaire écrit "bon,null,android" on cherche
 			//les appareils en bon état d'os android et on ne prend pas compte du type de l'appareil
 
 			// Recuperation de l'entree de l'utilisateur
@@ -407,15 +406,16 @@ public class Vue {
 				line = sc.nextLine();
 			} catch (Exception e) {
 				System.out.println("Probleme dans la lecture");
+				sc.next();
 			}
 
-			// Recupere les id des appareils que le gestionnaire veut acheter
+			// Recupere les mots cl�s pour le filtre. Ce que le gestionnaire veut voir.
 			String[] ids = line.split(",");
 
-			// Liste contenant les id des appareils
+			// Liste contenant les mots cl�s pour le filtre.
 			ArrayList<String> filtre = new ArrayList<String>();
 
-			// boucle sur les id et ajout a la liste
+			// boucle sur les mots cl�s et ajout a la liste
 			for (String i : ids) {
 				filtre.add(i);
 			}
@@ -425,7 +425,7 @@ public class Vue {
 				System.out.println("Les informations données sont mal écrites .");
 			}
 			else if(f ==1) {
-				System.out.println("Les informations données sont icorrectes .");
+				System.out.println("Les informations données sont incorrectes .");
 			}
 			information();
 
