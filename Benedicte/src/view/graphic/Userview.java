@@ -2,19 +2,26 @@ package view.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import model.Emprunteur;
 import model.Gestionnaire;
 import model.Stock;
+import model.Appareil;
 import controller.StockProjectController;
 import view.graphic.Selector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import net.sourceforge.jdatepicker.*;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 @SuppressWarnings("serial")
 public class Userview extends JPanel {
@@ -29,6 +36,8 @@ public class Userview extends JPanel {
 	private JLabel infosUser;
 	
 	private Selector empruntSelector;
+
+	private boolean empruntencours;
 	
 	public Userview(Window parent, StockProjectController c) {
 		this.parent = parent;
@@ -48,8 +57,7 @@ public class Userview extends JPanel {
 		
 		this.add(menucards, BorderLayout.SOUTH);
 		this.add(cards, BorderLayout.CENTER);
-		
-		
+		this.setPreferredSize(new Dimension(800,600));
 	}
 	
 	private void changeMenu() {
@@ -74,7 +82,6 @@ public class Userview extends JPanel {
 		Map<String, ActionListener> m = new HashMap<String,ActionListener>();
 		m.put("Emprunter", new ActionUtilisateur("emprunter"));
 		m.put("Voir mes emprunts", new ActionUtilisateur("emprunts"));
-		m.put("Changer des informations", new ActionUtilisateur("changedatas"));
 		return m;
 	}
 	
@@ -89,11 +96,45 @@ public class Userview extends JPanel {
 	
 	
 	public void nouvelEmprunt(Stock s) {
-		empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
+		if(empruntencours  == false) {
+			empruntSelector.remplirListeGauche(s.getStock().keySet().toArray());
+			empruntencours = true;
+		} else if (empruntencours == true) {
+			validerEmprunt();
+		}
+		changeZone("emprunt");
 	}
 
+	public void validerEmprunt() {
+		ArrayList<Integer> i = new ArrayList();
+		for(Object a: empruntSelector.getSelected()) {
+			if(a instanceof Appareil) {
+				i.add(((Appareil) a).getId());
+			}
+		}
+		if(controller.creerEmprunt(i)) {
+			nouvelleDate();
+		}
+	}
+	
+	public void nouvelleDate() {
+		Calendar dateDebut = empruntSelector.getDateStart();
+		if(!controller.ajouterDateDebutEmprunt(dateDebut)) {
+			empruntSelector.setDateText("La date de début est incorrecte.");
+		} else {
+			Calendar dateFin = empruntSelector.getDateEnd();
+			if(!controller.ajouterDateFinEmprunt(dateFin)) {
+				empruntSelector.setDateText("La date de fin est incorrecte.");
+			} else {
+				empruntencours = false;
+				System.out.println("Emprunt cree !");
+				affichageEmprunts();
+			}
+		}
+	}
+		
 	public void affichageEmprunts() {
-		//TODO
+		changeZone("emprunts");
 	}
 	
 	/**
@@ -109,8 +150,13 @@ public class Userview extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(action);
 			switch(action) {
+			case "emprunter":
+				nouvelEmprunt(controller.getStock());
+				break;
 			case "switchmenus":
 				changeMenu();
+				break;
+			default: break;
 			}
 		}
 	}
