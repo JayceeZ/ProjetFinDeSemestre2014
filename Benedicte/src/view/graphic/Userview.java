@@ -49,7 +49,7 @@ public class Userview extends JPanel {
 	 * - Un menu
 	 * 
 	 * @param parent
-	 *            La fenêtre qui contient ce panneau
+	 *            La fenï¿½tre qui contient ce panneau
 	 * @param c
 	 *            Le controleur du projet
 	 */
@@ -84,7 +84,7 @@ public class Userview extends JPanel {
 	}
 
 	/**
-	 * Permet de passer d'un menu à l'autre
+	 * Permet de passer d'un menu ï¿½ l'autre
 	 */
 	private void changeMenu(String m) {
 		CardLayout cl = (CardLayout) menucards.getLayout();
@@ -101,7 +101,7 @@ public class Userview extends JPanel {
 	 */
 	public void updateInfosUser() {
 		emp = controller.getEmprunteur();
-		infosUser.setText("Connecté en tant que " + emp.getNom() + " ("
+		infosUser.setText("Connectï¿½ en tant que " + emp.getNom() + " ("
 				+ emp.getClass().toString() + ")");
 		if (emp instanceof Gestionnaire) {
 			changeMenu("menugestionnaire");
@@ -127,15 +127,15 @@ public class Userview extends JPanel {
 	 */
 	public Map<String, ActionListener> menuGestionnaire() {
 		Map<String, ActionListener> m = new HashMap<String, ActionListener>();
-		m.put("Gérer les emprunts", new ActionUtilisateur("emprunts"));
+		m.put("Gï¿½rer les emprunts", new ActionUtilisateur("emprunts"));
 		m.put("Liste des emprunteurs", new ActionUtilisateur("userlist"));
-		m.put("Gérer le stock", new ActionUtilisateur("stock"));
+		m.put("Gï¿½rer le stock", new ActionUtilisateur("stock"));
 		m.put("Statistiques", new ActionUtilisateur("stats"));
 		return m;
 	}
 
 	/**
-	 * Lance la procèdure de nouvel emprunt,<br />
+	 * Lance la procï¿½dure de nouvel emprunt,<br />
 	 * si un emprunt est deja en cours (booleen empruntEnCours), appelle
 	 * validerEmprunt()
 	 * 
@@ -154,7 +154,7 @@ public class Userview extends JPanel {
 	/**
 	 * [PAS TERMINEE]<br />
 	 * Essaie de valider un emprunt avec la configuration de empruntSelector<br />
-	 * Si la creation de l'emprunt est valide, passe à validerDates()
+	 * Si la creation de l'emprunt est valide, passe ï¿½ validerDates()
 	 */
 	// TODO Verifier que la liste des objets n'est pas vide
 	private void validerEmprunt() {
@@ -177,7 +177,7 @@ public class Userview extends JPanel {
 	private void validerDates() {
 		Calendar dateDebut = empruntSelector.getDateStart();
 		if (!controller.ajouterDateDebutEmprunt(dateDebut)) {
-			empruntSelector.setDateText("La date de début est incorrecte.");
+			empruntSelector.setDateText("La date de dï¿½but est incorrecte.");
 		} else {
 			Calendar dateFin = empruntSelector.getDateEnd();
 			if (!controller.ajouterDateFinEmprunt(dateFin)) {
@@ -209,7 +209,7 @@ public class Userview extends JPanel {
 		List<Emprunt> emprunts = new ArrayList<Emprunt>();
 		switch(who) {
 		case "user":
-			//TODO Quand la méthode recuperer liste emprunts sera crée dans controller
+			//TODO Quand la mï¿½thode recuperer liste emprunts sera crï¿½e dans controller
 			break;
 		case "all":
 			//TODO Idem
