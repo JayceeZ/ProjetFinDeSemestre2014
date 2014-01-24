@@ -158,36 +158,60 @@ public class StockProjectController {
 		boolean passageType = false;
 		boolean passageOS = false;
 		
-		// Boucle sur les états et met passage a false si l'état entré en première info
-		// dans filtre ne correspond pas à un état de la classe Etat.
-		for(Etat etat : Etat.values()) 
+		// Boucle sur les états et met passageEtat a true si l'état entré en première info
+		// dans filtre correspond à un état de la classe Etat ou à null.
+		if (filtre.get(0).equals("null"))
 		{
-			if(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase()))
+			passageEtat = true;
+		}
+		else
+		{
+			for(Etat etat : Etat.values()) 
 			{
-				passageEtat = true;
-				etatFiltre = etat;
+				if(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase()))
+				{
+					passageEtat = true;
+					etatFiltre = etat;
+				}
 			}
 		}
+		System.out.println(passageEtat);
 		
 		// Même principe pour cette boucle mais sur les types.
-		for(model.Type type : model.Type.values()) 
+		if (filtre.get(1).equals("null"))
 		{
-			if(filtre.get(1).toLowerCase().equals(type.name().toLowerCase()))
-			{
-				passageType = true;
-				typeFiltre = type;
-			}				
+			passageType = true;
 		}
+		else
+		{
+			for(model.Type type : model.Type.values()) 
+			{
+				if(filtre.get(1).toLowerCase().equals(type.name().toLowerCase()))
+				{
+					passageType = true;
+					typeFiltre = type;
+				}				
+			}
+		}
+		System.out.println(passageType);
 		
 		// Même principe pour cette boucle mais sur les OS.
-		for(OS os : OS.values()) 
+		if (filtre.get(2).equals("null"))
 		{
-			if(filtre.get(2).toLowerCase().equals(os.name().toLowerCase()))
-			{
-				passageOS = true;
-				osFiltre = os;
-			}	
+			passageOS = true;
 		}
+		else
+		{
+			for(OS os : OS.values()) 
+			{
+				if(filtre.get(2).toLowerCase().equals(os.name().toLowerCase()))
+				{
+					passageOS = true;
+					osFiltre = os;
+				}	
+			}
+		}
+		System.out.println(passageOS);
 
 		// Si une des informations est fausse.
 		if(passageEtat == false || passageType == false || passageOS == false)
