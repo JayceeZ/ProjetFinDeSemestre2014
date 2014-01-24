@@ -246,7 +246,8 @@ public class StockProjectController {
 		return 0;
 	}
 	
-	public int achatAppareil(int id, int nombre) {
+	// TODO
+	public int achatAppareil(String type, String os, String nom, int nombre) {
 		Appareil appareil = this.stock.getAppareilParId(id);
 		if(appareil == null){
 			return 1; //id invalide
