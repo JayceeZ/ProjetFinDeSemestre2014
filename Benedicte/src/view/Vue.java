@@ -7,8 +7,10 @@ import javax.swing.event.RowSorterEvent.Type;
 
 import model.Appareil;
 import model.Emprunt;
+import model.Etat;
 import model.Gestionnaire;
 import model.Enseignement;
+import model.OS;
 import model.Stock;
 import controller.StockProjectController;
 
@@ -370,6 +372,7 @@ public class Vue {
 		// Variables utiles pour cette methode
 		int choixInfo = 0;
 
+		System.out.println("Informations sur les stocks");
 		System.out
 		.println("Que voulez-vous faire ? " +
 				"\n 0. Retour " +
@@ -393,21 +396,34 @@ public class Vue {
 			break;
 			// TODO Le reste
 		case 2:
-			System.out.println("On peut filtrer par √©tat, type, os ." +
-					"\nIndiquez dans l'√©tat, le type et l'os des appareils recherch√©s, s√©par√©s par " +
-					"une virgule (si vous ne souhaitez pas appliquer un ou plusieurs des filtres," +
-					"√©crivez \"null\")");//explication pas du tout claire u_u
+			System.out.println("On peut filtrer par Ètat, type, os.");
+			System.out.print("Choisissez un Ètat parmi : ");
+			for (Etat e : Etat.values())
+			{
+				System.out.print(e + ", ");
+			}
+			System.out.println("null");
+			System.out.print("Choisissez un type parmi : ");
+			for (model.Type t : model.Type.values())
+			{
+				System.out.print(t + " ");
+			}
+			System.out.println("null");
+			System.out.print("Choississez un OS parmi : ");
+			for (OS os : OS.values())
+			{
+				System.out.print(os + " ");
+			}
+			System.out.println("null");
+			System.out.println("SÈparez chaque choix par une virgule sans espace.");
+			System.out.println("null indique que l'on ne veut pas filtrer selon cette catÈgorie.");
+			//explication pas du tout claire u_u
 			//des exemples : si par exemple le gestionnaire √©crit "bon,null,android" on cherche
 			//les appareils en bon √©tat d'os android et on ne prend pas compte du type de l'appareil
 
 			// Recuperation de l'entree de l'utilisateur
 			String line = "";
-			try {
-				line = sc.nextLine();
-			} catch (Exception e) {
-				System.out.println("Probleme dans la lecture");
-				sc.next();
-			}
+			line = sc.nextLine();
 
 			// Recupere les mots clÈs pour le filtre. Ce que le gestionnaire veut voir.
 			String[] ids = line.split(",");
@@ -419,13 +435,15 @@ public class Vue {
 			for (String i : ids) {
 				filtre.add(i);
 			}
+			
+			System.out.println(filtre);
 
 			int f = this.controller.affichageFiltreAppareil(filtre);
 			if(f == 2){
-				System.out.println("Les informations donn√©es sont mal √©crites .");
+				System.out.println("Il manque des informations pour le filtre.");
 			}
 			else if(f ==1) {
-				System.out.println("Les informations donn√©es sont incorrectes .");
+				System.out.println("Les informations donnÈes sont incorrectes.");
 			}
 			information();
 

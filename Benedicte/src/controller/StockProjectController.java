@@ -150,39 +150,47 @@ public class StockProjectController {
 		model.Type typeFiltre = null; //Il y a besoin du "model." à cause du conflit de nommage avec quelque chose en JAVA qui existe déjà.
 		OS osFiltre = null;
 		
-		// Permet de voir si la personne a rentré entre 1 et 3 mots clés pour le filtre.
-		if(filtre.size()>3 || filtre.size()==0)
+		// Permet de voir si la personne a rentré les 3 mots clés pour le filtre.
+		if(filtre.size() != 3)
 			return 2;
 		
-		boolean passage = true;
+		boolean passageEtat = false;
+		boolean passageType = false;
+		boolean passageOS = false;
 		
 		// Boucle sur les états et met passage a false si l'état entré en première info
 		// dans filtre ne correspond pas à un état de la classe Etat.
-		for(Etat etat : Etat.values()) {
-			if(!(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase())))
-				passage = false;
-			else
+		for(Etat etat : Etat.values()) 
+		{
+			if(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase()))
+			{
+				passageEtat = true;
 				etatFiltre = etat;
+			}
 		}
 		
 		// Même principe pour cette boucle mais sur les types.
-		for(model.Type type : model.Type.values()) {
-			if(!(filtre.get(1).toLowerCase().equals(type.name().toLowerCase())))
-				passage = false;
-			else
+		for(model.Type type : model.Type.values()) 
+		{
+			if(filtre.get(1).toLowerCase().equals(type.name().toLowerCase()))
+			{
+				passageType = true;
 				typeFiltre = type;
+			}				
 		}
 		
 		// Même principe pour cette boucle mais sur les OS.
-		for(OS os : OS.values()) {
-			if(!(filtre.get(2).toLowerCase().equals(os.name().toLowerCase())))
-				passage = false;
-			else
+		for(OS os : OS.values()) 
+		{
+			if(filtre.get(2).toLowerCase().equals(os.name().toLowerCase()))
+			{
+				passageOS = true;
 				osFiltre = os;
+			}	
 		}
 
 		// Si une des informations est fausse.
-		if(passage == false)
+		if(passageEtat == false || passageType == false || passageOS == false)
 			return 1;
 		
 		// Sinon
