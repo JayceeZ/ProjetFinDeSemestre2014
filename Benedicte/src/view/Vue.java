@@ -3,8 +3,6 @@ package view;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.swing.event.RowSorterEvent.Type;
-
 import model.Appareil;
 import model.Emprunt;
 import model.Etat;
@@ -331,36 +329,39 @@ public class Vue {
 	 */
 	public void reparation() {
 		printStock(this.controller.getStock());
-		System.out.println("Indiquez l'id de l'appareil √† r√©parer et le nombre d'appareils √† r√©parer" +
-				"\ns√©par√©s par une virgule .");
-		String line="";
-		try {
-			line= sc.nextLine();
-		} catch (InputMismatchException e) {
-			System.out.println("Probleme dans la lecture");
-			sc.nextLine();
+		System.out.println("Indiquez l'id de l'appareil ‡ rÈparer : ");
+		int id = 0;
+		try 
+		{
+			id = sc.nextInt();
+		} 
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez entrer un entier");
+			sc.next();
 		}
-		// Recupere les id des appareils que le gestionnaire veut acheter
-		String[] ids = line.split(",");
-
-		// Liste contenant les id des appareils
-		ArrayList<Integer> reparation = new ArrayList<Integer>();
-
-		// boucle sur les id et ajout a la liste
-		for (String i : ids) {
-			reparation.add(Integer.parseInt(i));
+		
+		System.out.println("Indiquez le nombre d'appareil de cette id que vous voulez rÈparer : ");
+		int nb = 0;
+		try 
+		{
+			nb = sc.nextInt();
+		} 
+		catch (InputMismatchException e) 
+		{
+			System.out.println("Veuillez entrer un entier");
+			sc.next();
 		}
-		int r = this.controller.reparation(reparation);
-		if(r==1) {
-			System.out.println("Vous avez mal rentr√© les informations");
+		
+		boolean r = this.controller.reparation(id, nb);
+		if(!r) 
+		{
+			System.out.println("L'id que vous avez rentrÈ est incorrect");
 			menuGestionnaire();
 		}
-		else if(r==2) {
-			System.out.println("L'id que vous avez rentr√© est incorrect");
-			menuGestionnaire();
-		}
-		else {
-			System.out.println("R√©paration effectu√©e !");
+		else 
+		{
+			System.out.println("RÈparation effectuÈe !");
 			menuGestionnaire();
 		}
 	}
