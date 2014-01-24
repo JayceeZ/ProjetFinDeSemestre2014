@@ -130,14 +130,21 @@ public class StockProjectController {
 		this.emp = emp;
 	}
 
-	public int reparation(ArrayList<Integer> rep) {
-		if(rep.size()!=2)
-			return 1;
-		Appareil appareil = this.stock.getAppareilParId(rep.get(0));
+	/**
+	 * La methode reparation permet de changer l'etat de l'appareil en BIEN.
+	 * @param id L'id de l'appareil que l'on veut reparer.
+	 * @param nb Le nombre d'appareil a reparer.
+	 * @return Un boolean indiquant si l'appareil a ete repare ou non.
+	 */
+	public boolean reparation(int id, int nb) 
+	{
+		Appareil appareil = this.stock.getAppareilParId(id);
 		if(appareil == null)
-			return 2;
-		this.stock.changerEtat(appareil,Etat.BIEN,rep.get(1));
-		return 0;
+		{
+			return false;
+		}
+		this.stock.changerEtat(appareil,Etat.BIEN,nb);
+		return true;
 	}
 	
 	/**
