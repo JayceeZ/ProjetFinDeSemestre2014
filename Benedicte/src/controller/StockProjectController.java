@@ -69,9 +69,9 @@ public class StockProjectController {
 	}
 
 	/**
-	 * Retourne l'objet systeme
+	 * Retourne l'objet stock
 	 *
-	 * @return the systeme
+	 * @return the stock
 	 */
 	public Stock getStock() {
 		return stock;
