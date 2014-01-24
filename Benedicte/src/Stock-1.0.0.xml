@@ -1,7 +1,7 @@
 <map>
   <entry>
     <model.Appareil>
-      <id>2</id>
+      <id>1</id>
       <reference>SENNHEISER HD 440</reference>
       <type>CASQUE</type>
       <os>NOOS</os>
@@ -17,7 +17,7 @@
   </entry>
   <entry>
     <model.Appareil>
-      <id>1</id>
+      <id>2</id>
       <reference>HTC ONE X</reference>
       <type>SMARTPHONE</type>
       <os>ANDROID</os>

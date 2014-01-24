@@ -9,10 +9,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Cree un menu base sur un ensemble de chaines associes a des ActionListener
+ * @author Isoard Jean-Christophe
+ *
+ */
 @SuppressWarnings("serial")
 public class Menu extends JPanel {	
-	public Menu(JFrame parent, String title, Map<String,ActionListener> boutonsActions) {
-		parent.setTitle(title);
+	/**
+	 * Construit un menu en ajoutant des boutons avec les chaines et les ActionListener<br />
+	 * Contenus dans un Map<String,ActionListener>
+	 * @param parent La fenetre parent, pour les dimensions
+	 * @param boutonsActions Map de String et d'ActionListener pour les boutons
+	 */
+	public Menu(JFrame parent, Map<String,ActionListener> boutonsActions) {
 		this.setLayout(new GridLayout(boutonsActions.size(),1));
 		
 		for(String bouton:boutonsActions.keySet()) {

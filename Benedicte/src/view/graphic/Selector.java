@@ -18,13 +18,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import net.sourceforge.jdatepicker.DateModel;
 import net.sourceforge.jdatepicker.JDateComponentFactory;
-import net.sourceforge.jdatepicker.JDatePanel;
 import net.sourceforge.jdatepicker.JDatePicker;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+/**
+ * Cette classe definie un selecteur d'objet à deux listes
+ * @author Isoard Jean-Christophe
+ *
+ */
 @SuppressWarnings("serial")
 public class Selector extends JPanel {
 	private JPanel boutons;
@@ -46,6 +48,10 @@ public class Selector extends JPanel {
 	private JPanel dates;
 	private JLabel datesLabel;
 	
+	/**
+	 * Creer deux listes et deux boutons + deux selecteurs de dates
+	 * @param actionListeGauche Un petit texte pour decrire dans quoi on choisie
+	 */
 	public Selector(String actionListeGauche) {
 		modelGauche = new DefaultListModel<Object>();
 		modelDroite = new DefaultListModel<Object>();
@@ -100,43 +106,78 @@ public class Selector extends JPanel {
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Action a realiser a la pression du bouton de droite<br />
+	 * Envoie un objet de la liste de droite vers celle de gauche
+	 * @param e
+	 */
 	public void boutonVersDroite_actionPerformed(ActionEvent e) {
 		modelDroite.addElement(listeGauche.getSelectedValue());  // change the MODEL
 		modelGauche.removeElement(listeGauche.getSelectedValue());  // change the MODEL
 		listeGauche.setSelectedIndex(0);       // Highlight first item in JList
 	}
-	 
+	
+	/**
+	 * Action a realiser a la pression du bouton de gauche<br />
+	 * Envoie un objet de la liste de gauche vers celle de droite
+	 * @param e
+	 */
 	public void boutonVersGauche_actionPerformed(ActionEvent e) {
 		modelGauche.addElement(listeDroite.getSelectedValue());  // change the MODEL
 		modelDroite.removeElement(listeDroite.getSelectedValue()); // change the MODEL
 		listeDroite.setSelectedIndex(0);       // Highlight first item in JList
 	}
 	
+	/**
+	 * Permet de replir la liste de gauche<br />
+	 * Videe au prealable
+	 * @param liste
+	 */
 	public void remplirListeGauche(Object[] liste) {
+		modelGauche.removeAllElements();
 		for(int i = 0; i<liste.length; i++) {
 			modelGauche.addElement(liste[i]);
 		}
 	}
 	
+	/**
+	 * Peut etre utilisee pour afficher un message d'erreur
+	 * @param error
+	 */
 	public void setDateText(String error) {
 		datesLabel.setForeground(Color.RED);
 		this.datesLabel.setText(error);
 	}
 	
+	/**
+	 * Revoie la date du date picker de gauche
+	 * @return Calendar Un calendrier avec la date
+	 */
 	public Calendar getDateStart() {
 		return (Calendar) datePickerStart.getModel().getValue();
 	}
 	
+	/**
+	 * Revoie la date du date picker de droite
+	 * @return Calendar Un calendrier avec la date
+	 */
 	public Calendar getDateEnd() {
 		return (Calendar) datePickerEnd.getModel().getValue();
 	}
 	
+	/**
+	 * Revoie la liste des objets contenue dans la liste droite
+	 * @return
+	 */
 	public Object[] getSelected() {
 		return modelDroite.toArray();
 	}
 
+	/**
+	 * Vide les deux listes
+	 */
 	public void reinitialise() {
-		listeGauche.setListData(new Object[0]);
-		listeDroite.setListData(new Object[0]);
+		modelDroite.removeAllElements();
+		modelGauche.removeAllElements();
 	}
 }

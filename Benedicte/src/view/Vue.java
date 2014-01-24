@@ -466,11 +466,7 @@ public class Vue {
 
 		// Recuperation de l'entree de l'utilisateur
 		String line = "";
-		try {
-			line = sc.nextLine();
-		} catch (Exception e) {
-			System.out.println("Probleme dans la lecture");
-		}
+		line = sc.nextLine();
 
 		// Recupere les id des appareils que le gestionnaire veut acheter
 		String[] ids = line.split(",");
