@@ -119,24 +119,8 @@ public class Database {
      */
     public void ajouterEmprunteur(Emprunteur e)
     {
-    	e.setId(this.getPlusGrosIdEmprunteur());
     	emprunteurs.add(e);
     }
-    
-/**
- * Retourne le plus gros id des emprunteurs déjà existants
- * @return
- */
-    public String getPlusGrosIdEmprunteur() {
-    	int id = 0;
-    	for(Emprunteur emprunteur : this.emprunteurs){
-    		if (Integer.parseInt(emprunteur.getId()) > id)
-    			id = Integer.parseInt(emprunteur.getId());
-    	}
-    	return Integer.toString(id);
-    }
-    
-
     
     /**
 * Retire un emprunteur a liste des emprunteurs

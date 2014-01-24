@@ -130,12 +130,22 @@ public class Stock {
 		ajouterAppareil(a,nbre);
 	}
 	
-	public Map<Appareil,Integer> getAppareilsParEtatTypeOs(Etat etat,Type type,OS os) {
-		Map<Appareil,Integer> liste = new HashMap<Appareil,Integer>();
+	public Appareil getAppareilParId(int id) {
+		for(Appareil app : this.stock.keySet()){
+			if(app.getId()==id)
+				return app;
+		}
+		return null;
+	}
+	
+	public HashMap<Appareil,Integer> getAppareilsParEtatTypeOs(Etat etat,Type type,OS os) {
+		HashMap<Appareil,Integer> liste = new HashMap<Appareil,Integer>();
 		Set<Appareil> liste_totale = this.stock.keySet();
 		
 		for(Appareil app : liste_totale) {
-			if ((app.getEtat() == etat) && (app.getType() == type) && (app.getOs() == os))
+			if (((app.getEtat() == etat)|(etat ==null)) 
+					&& ((app.getType() == type)|(type ==null)) 
+					&& ((app.getOs() == os)|(os==null)))
 				liste.put(app, this.get(app));
 		}
 		return liste;

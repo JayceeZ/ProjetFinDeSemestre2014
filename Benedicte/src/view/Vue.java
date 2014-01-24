@@ -3,6 +3,8 @@ package view;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.swing.event.RowSorterEvent.Type;
+
 import model.Appareil;
 import model.Emprunt;
 import model.Gestionnaire;
@@ -55,7 +57,7 @@ public class Vue {
 
 		System.out.println("Menu utilisateur");
 		System.out
-				.println("Que voulez-vous faire ? \n 0. Quitter \n 1. Se connecter \n 2. S'enregistrer\n");
+		.println("Que voulez-vous faire ? \n 0. Quitter \n 1. Se connecter \n 2. S'enregistrer\n");
 
 		try {
 			choixMenuUtilisateur = sc.nextInt();
@@ -114,7 +116,7 @@ public class Vue {
 
 		System.out.println("Menu d'enregistrement");
 		System.out
-				.println("Que voulez-vous faire ? \n 0.Retour \n 1. Creer un enseignant \n 2. Creer un etudiant \n");
+		.println("Que voulez-vous faire ? \n 0.Retour \n 1. Creer un enseignant \n 2. Creer un etudiant \n");
 
 		try {
 			choixMenuRegistration = sc.nextInt();
@@ -146,7 +148,7 @@ public class Vue {
 	 */
 	private ArrayList<String> menuSelector(String what, Enum[] choix) {
 		System.out.println("Choisissez les " + what + ":");
-		System.out.println("Ne mettez pas d'espaces, et s�parez les choix par une virgule");
+		System.out.println("Ne mettez pas d'espaces, et s�parez les choix par une virgule");
 		System.out.print("Choix disponibles : ");
 		for (Enum e : choix) {
 			System.out.print(e+" ");
@@ -184,7 +186,7 @@ public class Vue {
 		// On demande des matieres
 		if (typeUtilisateur.equals("etudiant")) {
 			System.out
-					.println("Un etudiant ne peut choisir qu'une seule matiere !");
+			.println("Un etudiant ne peut choisir qu'une seule matiere !");
 		}
 		ArrayList<String> matieres = menuSelector("enseignements", Enseignement.values());
 		while(matieres.size() < 1) {
@@ -193,35 +195,35 @@ public class Vue {
 		}
 		while (typeUtilisateur.equals("etudiant") && matieres.size() != 1) {
 			System.err
-					.println("Un etudiant ne peut choisir qu'une seule matiere !");
+			.println("Un etudiant ne peut choisir qu'une seule matiere !");
 			matieres = menuSelector("enseignements", Enseignement.values());
 		}
 
 		switch (controller.ajouterEmprunteur(typeUtilisateur,
 				identifiantUtilisateur, motDePasseUtilisateur,
 				nomDeFamille.toLowerCase(), prenom.toLowerCase(), matieres)) {
-		case 1:// nom d'utilisateur deja pris
-			System.err.println("Le nom d'utilisateur est deje pris");
-			menuRegistration();
-			break;
-		case 2:// matieres ignoree
-			System.out
+				case 1:// nom d'utilisateur deja pris
+					System.err.println("Le nom d'utilisateur est deje pris");
+					menuRegistration();
+					break;
+				case 2:// matieres ignoree
+					System.out
 					.println("Certaine matieres n'existaient pas et ont ete ignoree.");
-		case 0:
-			System.out.println("Compte cree, vous pouvez vous connecter.");
-			menuConnexion();
-			break;
-		case 3:
-			System.err.println(typeUtilisateur + " est inconnu");
-			menuUtilisateur();
-			break;
-		case 4:
-			System.out.println("Pas assez de mati�res");
-			menuRegistration();
-			break;
-		default:
-			System.err.println("Evenement inconnu.");
-			menuUtilisateur();
+				case 0:
+					System.out.println("Compte cree, vous pouvez vous connecter.");
+					menuConnexion();
+					break;
+				case 3:
+					System.err.println(typeUtilisateur + " est inconnu");
+					menuUtilisateur();
+					break;
+				case 4:
+					System.out.println("Pas assez de mati�res");
+					menuRegistration();
+					break;
+				default:
+					System.err.println("Evenement inconnu.");
+					menuUtilisateur();
 		}
 	}
 
@@ -237,7 +239,7 @@ public class Vue {
 
 		System.out.println("Menu Principal");
 		System.out
-				.println("Que voulez-vous faire ? \n 0. Se deconnecter \n 1. Acceder au menu Gestionnaire \n 2. Acceder au menu Emprunteur");
+		.println("Que voulez-vous faire ? \n 0. Se deconnecter \n 1. Acceder au menu Gestionnaire \n 2. Acceder au menu Emprunteur");
 
 		try {
 			choixMenuPrincipal = sc.nextInt();
@@ -277,7 +279,14 @@ public class Vue {
 
 		System.out.println("Menu Gestionnaire");
 		System.out
-				.println("Que voulez-vous faire ? \n 0. Retour \n 1. Promouvoir un emprunteur \n 2. Acheter un materiel \n 3. Informations sur les stocks \n 4. Statistiques \n 5. Rejeter des emprunts\n");
+		.println("Que voulez-vous faire ? " +
+				"\n 0. Retour " +
+				"\n 1. Promouvoir un emprunteur " +
+				"\n 2. Acheter un materiel " +
+				"\n 3. Informations sur les stocks " +
+				"\n 4. Statistiques " +
+				"\n 5. Rejeter des emprunts" +
+				"\n 6. Reparer un certain nombre d'appareils");
 
 		try {
 			choixMenuGestionnaire = sc.nextInt();
@@ -294,12 +303,12 @@ public class Vue {
 		case 1:
 			menuPromotion();
 			break;
-		// TODO Le reste
+			// TODO Le reste
 		case 2:
-			// acheterMateriel();
+			acheterMateriel();
 			break;
 		case 3:
-			// information();
+			information();//ne marche pas . un bug quelque part à trouver
 			break;
 		case 4:
 			// statistique();
@@ -307,20 +316,167 @@ public class Vue {
 		case 5:
 			validerEmprunts();
 			break;
+		case 6:
+			reparation();
 		default:
 			System.out.println("Veuillez choisir entre 0, 1, 2, 3 et 4");
 			menuGestionnaire();
 		}
 	}
-	
+
+	/**
+	 * Cette méthode permet au gestionnaire de réparer un certain nombre d'appareil .
+	 */
+	public void reparation() {
+		printStock(this.controller.getStock());
+		System.out.println("Indiquez l'id de l'appareil à réparer et le nombre d'appareils à réparer" +
+				"\nséparés par une virgule .");
+		String line="";
+		try {
+			line= sc.nextLine();
+		} catch (InputMismatchException e) {
+			System.out.println("Probleme dans la lecture");
+			sc.nextLine();
+		}
+		// Recupere les id des appareils que le gestionnaire veut acheter
+		String[] ids = line.split(",");
+
+		// Liste contenant les id des appareils
+		ArrayList<Integer> reparation = new ArrayList<Integer>();
+
+		// boucle sur les id et ajout a la liste
+		for (String i : ids) {
+			reparation.add(Integer.parseInt(i));
+		}
+		int r = this.controller.reparation(reparation);
+		if(r==1) {
+			System.out.println("Vous avez mal rentré les informations");
+			reparation();
+		}
+		else if(r==2) {
+			System.out.println("L'id que vous avez rentré est incorrect");
+			reparation();
+		}
+		else {
+			System.out.println("Réparation effectuée !");
+			reparation();
+		}
+	}
+	/**
+	 * Cette méthode permet au gestionnaire de récupérer des informations sur les objets 
+	 * présents dans le stock actuel. Il peut lister les objet selon le type, l os et l etat .
+	 */
+	public void information() {
+		// Variables utiles pour cette methode
+		int choixInfo = 0;
+
+		System.out.println("Menu Gestionnaire");
+		System.out
+		.println("Que voulez-vous faire ? " +
+				"\n 0. Retour " +
+				"\n 1. Afficher la totalité du stock actuel " +
+				"\n 2. Filtrer des appareils du stock actuel");
+
+		try {
+			choixInfo= sc.nextInt();
+			sc.nextLine();
+		} catch (InputMismatchException e) {
+			sc.next();
+		}
+
+		switch (choixInfo) {
+		case 0:
+			menuGestionnaire();
+			break;
+		case 1:
+			printStock(this.controller.getStock());
+			information();
+			break;
+			// TODO Le reste
+		case 2:
+			System.out.println("On peut filtrer par état, type, os ." +
+					"\nIndiquez dans l'état, le type et l'os des appareils recherchés, séparés par " +
+					"une virgule (si vous ne souhaitez pas appliquer un ou plusieurs des filtres," +
+					"écrivez \"null\")");//explication pas du tout claire u_u
+			//des exemples : si par exemple on le gestionnaire écrit "bon,null,android" on cherche
+			//les appareils en bon état d'os android et on ne prend pas compte du type de l'appareil
+
+			// Recuperation de l'entree de l'utilisateur
+			String line = "";
+			try {
+				line = sc.nextLine();
+			} catch (Exception e) {
+				System.out.println("Probleme dans la lecture");
+			}
+
+			// Recupere les id des appareils que le gestionnaire veut acheter
+			String[] ids = line.split(",");
+
+			// Liste contenant les id des appareils
+			ArrayList<String> filtre = new ArrayList<String>();
+
+			// boucle sur les id et ajout a la liste
+			for (String i : ids) {
+				filtre.add(i);
+			}
+
+			int f = this.controller.affichageFiltreAppareil(filtre);
+			if(f == 2){
+				System.out.println("Les informations données sont mal écrites .");
+			}
+			else if(f ==1) {
+				System.out.println("Les informations données sont icorrectes .");
+			}
+			information();
+
+			break;
+		default:
+			System.out.println("Veuillez choisir entre 0, 1, et 2");
+			menuGestionnaire();
+		}
+	}
 	/**
 	 * La methode acheterMateriel permet a un gestionnaire 
 	 * d'acheter un nouveau materiel pour le stock.
 	 */
-	public void acheterMateriel()
-	{
-		// TODO
-		;
+	public void acheterMateriel(){
+		// Affichage du stock pour un nouvel emprunt
+		printStock(controller.getStock());
+		System.out
+		.println("Entrez l'id de l'appareil que vous voulez acheter, " +
+				"suivi du nombre d'appareils séparés par une virgule");
+
+		// Recuperation de l'entree de l'utilisateur
+		String line = "";
+		try {
+			line = sc.nextLine();
+		} catch (Exception e) {
+			System.out.println("Probleme dans la lecture");
+		}
+
+		// Recupere les id des appareils que le gestionnaire veut acheter
+		String[] ids = line.split(",");
+
+		// Liste contenant les id des appareils
+		ArrayList<Integer> achat = new ArrayList<Integer>();
+
+		// boucle sur les id et ajout a la liste
+		for (String i : ids) {
+			achat.add(Integer.parseInt(i));
+		}
+		int a = this.controller.achatAppareil(achat);
+		if(a==2) {
+			System.out.println("Le nombre d'informations données est invalide !");
+			acheterMateriel();
+		}
+		else if(a==1){
+			System.out.println("L'id indiqué est invalide !");
+			acheterMateriel();
+		}
+		else if(a==0) {
+			System.out.println("Achat effectué");
+			menuGestionnaire();//pour revenir au menu principal du gestionnaire...
+		}
 	}
 
 	/**
@@ -329,7 +485,7 @@ public class Vue {
 	public void validerEmprunts() {
 		affichageEmprunts();
 		System.out
-				.println("Indiquez les id des emprunts que vous voulez rejeter, separes par une virgule : ");
+		.println("Indiquez les id des emprunts que vous voulez rejeter, separes par une virgule : ");
 		String line = "";
 		try {
 			line = sc.nextLine();
@@ -360,7 +516,7 @@ public class Vue {
 		String choixMenuPromotion = "";
 
 		System.out
-				.println("Veuillez choisir un emprunteur dans la liste suivante :");
+		.println("Veuillez choisir un emprunteur dans la liste suivante :");
 		controller.afficherEmprunteurs();
 
 		choixMenuPromotion = sc.nextLine();
@@ -387,7 +543,7 @@ public class Vue {
 
 		System.out.println("Menu Emprunteur");
 		System.out
-				.println("Que voulez vous faire ? \n 0. Se deconnecter \n 1. Emprunter");
+		.println("Que voulez vous faire ? \n 0. Se deconnecter \n 1. Emprunter");
 
 		try {
 			choixMenuEmprunteur = sc.nextInt();
@@ -421,8 +577,8 @@ public class Vue {
 		// Affichage du stock pour un nouvel emprunt
 		printStock(controller.getStock());
 		System.out
-				.println("Entrez les id des appareils que vous voulez emprunter, espace "
-						+ "par une virgule");
+		.println("Entrez les id des appareils que vous voulez emprunter, espace "
+				+ "par une virgule");
 
 		// Recuperation de l'entree de l'utilisateur
 		String line = "";
@@ -461,8 +617,8 @@ public class Vue {
 	 */
 	private void nouvelleDate() {
 		System.out
-				.println("Veuillez entrer la date de debut de votre emprunt au format suivant : "
-						+ "JJ/MM/AAAA");
+		.println("Veuillez entrer la date de debut de votre emprunt au format suivant : "
+				+ "JJ/MM/AAAA");
 		Calendar dateDebut = Calendar.getInstance();
 
 		// Recuperation de l'entree de l'utilisateur
@@ -488,7 +644,7 @@ public class Vue {
 		// Verification que la date est correct
 		if (!(controller.ajouterDateDebutEmprunt(dateDebut))) {
 			System.out
-					.println("La date entree n'est pas valide (la date de debut est avant aujourd'hui)");
+			.println("La date entree n'est pas valide (la date de debut est avant aujourd'hui)");
 			nouvelleDate();
 		}
 
@@ -504,8 +660,8 @@ public class Vue {
 	 */
 	private void dateFin() {
 		System.out
-				.println("Veuillez entrer la date de fin de votre emprunt au format suivant : "
-						+ "JJ/MM/AAAA");
+		.println("Veuillez entrer la date de fin de votre emprunt au format suivant : "
+				+ "JJ/MM/AAAA");
 
 		// Recuperation de l'entree de l'utilisateur
 		String line = "";
@@ -536,7 +692,7 @@ public class Vue {
 		// Verification que la date est correct
 		if (!(controller.ajouterDateFinEmprunt(dateFin))) {
 			System.out
-					.println("La date entree n'est pas valide (la date de fin est avant le debut de l'emprunt)");
+			.println("La date entree n'est pas valide (la date de fin est avant le debut de l'emprunt)");
 			dateFin();
 		}
 
@@ -549,7 +705,7 @@ public class Vue {
 	private void nombreAppareils() {
 		Emprunt enCours = controller.getGestionnaire().getEmpruntEnCours();
 		System.out
-				.println("Veuillez entrer le nombre d'appareils que vous souhaitez emprunter pour chaque reference : ");
+		.println("Veuillez entrer le nombre d'appareils que vous souhaitez emprunter pour chaque reference : ");
 		String line = " ";
 		boolean vide = true;
 		ArrayList<Appareil> aRetirer = new ArrayList<Appareil>();
@@ -586,7 +742,7 @@ public class Vue {
 			resume();
 		else {
 			System.out
-					.println("Aucun appareil voulu n'est disponible pour la date voulue, veuillez recommencer l'emprunt");
+			.println("Aucun appareil voulu n'est disponible pour la date voulue, veuillez recommencer l'emprunt");
 			menuEmprunteur();
 		}
 	}
@@ -597,7 +753,7 @@ public class Vue {
 	private void resume() {
 		System.out.println("\nResume de l'emprunt : \nMonsieur "
 				+ controller.getGestionnaire().getEmpruntEnCours()
-						.getEmprunteur().getNom() + " emprunte :");
+				.getEmprunteur().getNom() + " emprunte :");
 
 		// Boucle sur la liste des appareils de l'emprunt
 		for (Appareil a : controller.getGestionnaire().getEmpruntEnCours()
@@ -636,7 +792,7 @@ public class Vue {
 	public void printStock(Stock s) {
 		System.out.println("Stock : ");
 		System.out
-				.println("ID  | Type       | Reference            | Nombre en stock");
+		.println("ID  | Type       | Reference            | Nombre en stock");
 		for (Appareil a : s.getStock().keySet()) {
 			System.out.println(a.toString() + s.getStock().get(a));
 		}

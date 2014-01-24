@@ -6,18 +6,8 @@ package model;
  * 
  */
 public enum Type {
-    SMARTPHONE("Smartphone"), 
-    TABLETTE("Tablette"), 
-    CASQUE("Casque"), 
-    CAMERA("Camera");
-    
-	private String description;
-	private Type(String description) {
-		this.description = description;
-	}
-	
-	@Override
-	public String toString() {
-		return this.description;
-	}
+    SMARTPHONE, 
+    TABLETTE, 
+    CASQUE, 
+    CAMERA;
 }
