@@ -310,7 +310,7 @@ public class Vue {
 			acheterMateriel();
 			break;
 		case 3:
-			information();//ne marche pas . un bug quelque part à trouver
+			information();
 			break;
 		case 4:
 			// statistique();
