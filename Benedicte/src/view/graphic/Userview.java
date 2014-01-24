@@ -73,10 +73,10 @@ public class Userview extends JPanel {
 
 		// Le menu (qui peut changer)
 		menucards = new JPanel(new CardLayout());
-		menucards.add(new Menu(parent, "Menu Emprunteur", menuEmprunteur()),
+		menucards.add(new Menu(parent, menuEmprunteur()),
 				"menuemprunteur");
 		menucards.add(
-				new Menu(parent, "Menu Gestionnaire", menuGestionnaire()),
+				new Menu(parent, menuGestionnaire()),
 				"menugestionnaire");
 		this.add(menucards, BorderLayout.SOUTH);
 
