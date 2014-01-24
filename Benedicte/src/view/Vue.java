@@ -556,8 +556,9 @@ public class Vue {
 	 * d'acheter un nouveau materiel pour le stock.
 	 */
 	private void acheterMateriel(){
+		// TODO pouvoir ajouter des vrais nouveaux materiels.
 		// Affichage du stock pour un nouvel emprunt
-		printStock(controller.getStock());
+		printStock(controller.getStock("Empruntable"));
 		System.out.println("Entrez l'id de l'appareil que vous voulez acheter .");
 		int id=0;
 		try {
