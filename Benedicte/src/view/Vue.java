@@ -7,7 +7,6 @@ import javax.swing.event.RowSorterEvent.Type;
 
 import model.Appareil;
 import model.Emprunt;
-import model.Etat;
 import model.Gestionnaire;
 import model.Enseignement;
 import model.OS;
@@ -355,6 +354,8 @@ public class Vue {
 			sc.next();
 		}
 		
+		// TODO
+		/*
 		boolean r = this.controller.reparation(id, nb);
 		if(!r) 
 		{
@@ -365,7 +366,7 @@ public class Vue {
 		{
 			System.out.println("RÈparation effectuÈe !");
 			menuGestionnaire();
-		}
+		}*/
 	}
 	/**
 	 * Cette m√©thode permet au gestionnaire de r√©cup√©rer des informations sur les objets 
@@ -399,13 +400,7 @@ public class Vue {
 			break;
 			// TODO Le reste
 		case 2:
-			System.out.println("On peut filtrer par Ètat, type, os.");
-			System.out.print("Choisissez un Ètat parmi : ");
-			for (Etat e : Etat.values())
-			{
-				System.out.print(e + ", ");
-			}
-			System.out.println("null");
+			System.out.println("On peut filtrer par type et os.");
 			System.out.print("Choisissez un type parmi : ");
 			for (model.Type t : model.Type.values())
 			{

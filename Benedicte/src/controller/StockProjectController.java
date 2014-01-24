@@ -136,6 +136,7 @@ public class StockProjectController {
 	 * @param nb Le nombre d'appareil a reparer.
 	 * @return Un boolean indiquant si l'appareil a ete repare ou non.
 	 */
+	/*
 	public boolean reparation(int id, int nb) 
 	{
 		Appareil appareil = this.stock.getAppareilParId(id);
@@ -145,7 +146,7 @@ public class StockProjectController {
 		}
 		this.stock.changerEtat(appareil,Etat.BIEN,nb);
 		return true;
-	}
+	}*/
 	
 	/**
 	 * Cette methode permet de renvoyer la liste des appareils filtres
@@ -153,39 +154,19 @@ public class StockProjectController {
 	 * @return Les appareils filtres.
 	 */
 	public int affichageFiltreAppareil(ArrayList<String> filtre){
-		Etat etatFiltre = null;
 		model.Type typeFiltre = null; //Il y a besoin du "model." à cause du conflit de nommage avec quelque chose en JAVA qui existe déjà.
 		OS osFiltre = null;
 		
-		// Permet de voir si la personne a rentré les 3 mots clés pour le filtre.
-		if(filtre.size() != 3)
+		// Permet de voir si la personne a rentré les 2 mots clés pour le filtre.
+		if(filtre.size() != 2)
 			return 2;
 		
-		boolean passageEtat = false;
 		boolean passageType = false;
 		boolean passageOS = false;
 		
-		// Boucle sur les états et met passageEtat a true si l'état entré en première info
-		// dans filtre correspond à un état de la classe Etat ou à null.
+		// Boucle sur les types et met passageType a true si l'état entré en première info
+		// dans filtre correspond à un type de la classe Type ou à null.
 		if (filtre.get(0).equals("null"))
-		{
-			passageEtat = true;
-		}
-		else
-		{
-			for(Etat etat : Etat.values()) 
-			{
-				if(filtre.get(0).toLowerCase().equals(etat.name().toLowerCase()))
-				{
-					passageEtat = true;
-					etatFiltre = etat;
-				}
-			}
-		}
-		System.out.println(passageEtat);
-		
-		// Même principe pour cette boucle mais sur les types.
-		if (filtre.get(1).equals("null"))
 		{
 			passageType = true;
 		}
@@ -193,7 +174,7 @@ public class StockProjectController {
 		{
 			for(model.Type type : model.Type.values()) 
 			{
-				if(filtre.get(1).toLowerCase().equals(type.name().toLowerCase()))
+				if(filtre.get(0).toLowerCase().equals(type.name().toLowerCase()))
 				{
 					passageType = true;
 					typeFiltre = type;
@@ -203,7 +184,7 @@ public class StockProjectController {
 		System.out.println(passageType);
 		
 		// Même principe pour cette boucle mais sur les OS.
-		if (filtre.get(2).equals("null"))
+		if (filtre.get(1).equals("null"))
 		{
 			passageOS = true;
 		}
@@ -211,7 +192,7 @@ public class StockProjectController {
 		{
 			for(OS os : OS.values()) 
 			{
-				if(filtre.get(2).toLowerCase().equals(os.name().toLowerCase()))
+				if(filtre.get(1).toLowerCase().equals(os.name().toLowerCase()))
 				{
 					passageOS = true;
 					osFiltre = os;
@@ -221,11 +202,11 @@ public class StockProjectController {
 		System.out.println(passageOS);
 
 		// Si une des informations est fausse.
-		if(passageEtat == false || passageType == false || passageOS == false)
+		if(passageType == false || passageOS == false)
 			return 1;
 		
 		// Sinon
-		HashMap<Appareil,Integer> hash =this.stock.getAppareilsParEtatTypeOs(etatFiltre,typeFiltre,osFiltre);
+		HashMap<Appareil,Integer> hash =this.stock.getAppareilsParEtatTypeOs(typeFiltre,osFiltre);
 		
 		System.out.println("Objets trouvÃ©s : ");
 		System.out

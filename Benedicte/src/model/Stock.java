@@ -117,23 +117,6 @@ public class Stock {
 		}
 		return id;
 	}
-	/**
-	 * Change l'état d'un certain nombre d'appareils en un autre état .
-	 * @param a
-	 * 			le type d'appareil à modifier
-	 * @param etat
-	 * 			l'état auquel on passe
-	 * @param nbre
-	 * 			le nombre d'appareils de type "a" affectés .
-	 */
-	public void changerEtat(Appareil a,Etat etat,int nbre) {
-		if (stock.get(a)==null)
-			return;
-		int nbA = stock.get(a);
-		modifierStock(a,nbA - nbre);
-		a.setEtat(etat);
-		ajouterAppareil(a,nbre);
-	}
 	
 	public Appareil getAppareilParId(int id) {
 		for(Appareil app : this.stock.keySet()){
@@ -145,19 +128,17 @@ public class Stock {
 	
 	/**
 	 * Cette methode permet d'avoir un hashmap contenant un repertoire des appareils selon
-	 *  Etat, Type et OS. Et de les classer avec le nombre d'appareil identiques.
-	 * @param etat L'Etat de l'appareil.
+	 *  Type et OS. Et de les classer avec le nombre d'appareil identiques.
 	 * @param type Le Type de l'appareil.
 	 * @param os L'OS de l'appareil.
 	 * @return Un HashMap contenant les appareils et le nombre d'appareils identiques.
 	 */
-	public HashMap<Appareil,Integer> getAppareilsParEtatTypeOs(Etat etat,Type type,OS os) {
+	public HashMap<Appareil,Integer> getAppareilsParEtatTypeOs(Type type,OS os) {
 		HashMap<Appareil,Integer> liste = new HashMap<Appareil,Integer>();
 		Set<Appareil> liste_totale = this.stock.keySet();
 		
 		for(Appareil app : liste_totale) {
-			if (((app.getEtat() == etat) || (etat ==null)) 
-					&& ((app.getType() == type) || (type ==null)) 
+			if (((app.getType() == type) || (type ==null)) 
 					&& ((app.getOs() == os) || (os==null)))
 				liste.put(app, this.get(app));
 		}
