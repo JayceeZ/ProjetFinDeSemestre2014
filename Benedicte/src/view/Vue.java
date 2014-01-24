@@ -557,25 +557,33 @@ public class Vue {
 	 */
 	private void acheterMateriel(){
 		// TODO pouvoir ajouter des vrais nouveaux materiels.
-		// Affichage du stock pour un nouvel emprunt
-		printStock(controller.getStock("Empruntable"));
-		System.out.println("Entrez l'id de l'appareil que vous voulez acheter .");
-		int id=0;
-		try {
-			id = sc.nextInt();
-		} catch (Exception e) {
-			System.out.println("Probleme dans la lecture");
+		System.out.println("Choisissez le type de materiel parmi : ");
+		for (model.Type t : model.Type.values())
+		{
+			System.out.print(t + " ");
 		}
+		String type = sc.nextLine();
 		
-		System.out.println("Entrez le nombre de l'appareil .");
+		System.out.println("\n Choisissez l'OS parmi : ");
+		for (OS os : OS.values())
+		{
+			System.out.print(os + " ");
+		}
+		String os = sc.nextLine();
+		
+		System.out.println("\n Entrez un nom pour l'appareil.");
+		String nom = sc.nextLine();
+		
+		System.out.println("Entrez le nombre d'appareil.");
 		int nombre=0;
 		try {
 			nombre = sc.nextInt();
 		} catch (Exception e) {
 			System.out.println("Probleme dans la lecture");
+			sc.next();
 		}
 		
-		int a = this.controller.achatAppareil(id, nombre);
+		int a = this.controller.achatAppareil(type, os, nom, nombre);
 		if ( a == 1) {
 			System.out.println("L'id indiqué est invalide .");
 			acheterMateriel();
