@@ -3,6 +3,8 @@ package view;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.swing.event.RowSorterEvent.Type;
+
 import model.Appareil;
 import model.Emprunt;
 import model.Gestionnaire;
@@ -399,7 +401,6 @@ public class Vue {
 			// TODO Le reste
 		case 2:
 			System.out.println("On peut filtrer par type et os.");
-			System.out.println("On peut filtrer par type, os.");
 			System.out.print("Choisissez un type parmi : ");
 			for (model.Type t : model.Type.values())
 			{
@@ -412,8 +413,8 @@ public class Vue {
 				System.out.print(os + " ");
 			}
 			System.out.println("null");
-			System.out.println("Sï¿½parez chaque choix par une virgule sans espace.");
-			System.out.println("null indique que l'on ne veut pas filtrer selon cette catï¿½gorie.");
+			System.out.println("Séparez chaque choix par une virgule sans espace.");
+			System.out.println("null indique que l'on ne veut pas filtrer selon cette catégorie.");
 			//explication pas du tout claire u_u
 			//des exemples : si par exemple le gestionnaire Ã©crit "bon,null,android" on cherche
 			//les appareils en bon Ã©tat d'os android et on ne prend pas compte du type de l'appareil
@@ -422,13 +423,13 @@ public class Vue {
 			String line = "";
 			line = sc.nextLine();
 
-			// Recupere les mots clï¿½s pour le filtre. Ce que le gestionnaire veut voir.
+			// Recupere les mots clés pour le filtre. Ce que le gestionnaire veut voir.
 			String[] ids = line.split(",");
 
-			// Liste contenant les mots clï¿½s pour le filtre.
+			// Liste contenant les mots clés pour le filtre.
 			ArrayList<String> filtre = new ArrayList<String>();
 
-			// boucle sur les mots clï¿½s et ajout a la liste
+			// boucle sur les mots clés et ajout a la liste
 			for (String i : ids) {
 				filtre.add(i);
 			}
@@ -440,7 +441,7 @@ public class Vue {
 				System.out.println("Il manque des informations pour le filtre.");
 			}
 			else if(f ==1) {
-				System.out.println("Les informations donnï¿½es sont incorrectes.");
+				System.out.println("Les informations données sont incorrectes.");
 			}
 			information();
 
@@ -457,32 +458,37 @@ public class Vue {
 	public void acheterMateriel(){
 		// Affichage du stock pour un nouvel emprunt
 		printStock(controller.getStock());
-		System.out.println("Entrez l'id de l'appareil que vous voulez acheter .");
-		int id=0;
-		try {
-			id = sc.nextInt();
-		} catch (Exception e) {
-			System.out.println("Probleme dans la lecture");
+		System.out
+		.println("Entrez l'id de l'appareil que vous voulez acheter, " +
+				"suivi du nombre d'appareils sÃ©parÃ©s par une virgule");
+
+		// Recuperation de l'entree de l'utilisateur
+		String line = "";
+		line = sc.nextLine();
+
+		// Recupere les id des appareils que le gestionnaire veut acheter
+		String[] ids = line.split(",");
+
+		// Liste contenant les id des appareils
+		ArrayList<Integer> achat = new ArrayList<Integer>();
+
+		// boucle sur les id et ajout a la liste
+		for (String i : ids) {
+			achat.add(Integer.parseInt(i));
 		}
-		
-		System.out.println("Entrez le nombre de l'appareil .");
-		int nombre=0;
-		try {
-			nombre = sc.nextInt();
-		} catch (Exception e) {
-			System.out.println("Probleme dans la lecture");
-		}
-		
-		int a = this.controller.achatAppareil(id, nombre);
-		if ( a == 1) {
-			System.out.println("L'id indiquÃ© est invalide .");
+		int a = this.controller.achatAppareil(achat);
+		if(a==2) {
+			System.out.println("Le nombre d'informations donnÃ©es est invalide !");
 			acheterMateriel();
 		}
-		else {
-			System.out.println("Modification effectuÃ©e");
+		else if(a==1){
+			System.out.println("L'id indiquÃ© est invalide !");
 			acheterMateriel();
 		}
-		
+		else if(a==0) {
+			System.out.println("Achat effectuÃ©");
+			menuGestionnaire();//pour revenir au menu principal du gestionnaire...
+		}
 	}
 
 	/**

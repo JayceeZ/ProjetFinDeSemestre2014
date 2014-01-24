@@ -27,6 +27,8 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 @SuppressWarnings("serial")
 public class Userview extends JPanel {
+	private Window parent;
+
 	private StockProjectController controller;
 	private Emprunteur emp;
 
@@ -52,6 +54,7 @@ public class Userview extends JPanel {
 	 *            Le controleur du projet
 	 */
 	public Userview(Window parent, StockProjectController c) {
+		this.parent = parent;
 		this.controller = c;
 
 		this.setLayout(new BorderLayout());
@@ -70,10 +73,10 @@ public class Userview extends JPanel {
 
 		// Le menu (qui peut changer)
 		menucards = new JPanel(new CardLayout());
-		menucards.add(new Menu(parent, menuEmprunteur()),
+		menucards.add(new Menu(parent, "Menu Emprunteur", menuEmprunteur()),
 				"menuemprunteur");
 		menucards.add(
-				new Menu(parent, menuGestionnaire()),
+				new Menu(parent, "Menu Gestionnaire", menuGestionnaire()),
 				"menugestionnaire");
 		this.add(menucards, BorderLayout.SOUTH);
 
@@ -140,7 +143,6 @@ public class Userview extends JPanel {
 	 */
 	public void nouvelEmprunt(Stock s) {
 		if (empruntEnCours == false) {
-			//TODO getStockEmpruntable
 			empruntSelector.remplirListeGauche(controller.getStockEmpruntable());
 			empruntEnCours = true;
 		} else {

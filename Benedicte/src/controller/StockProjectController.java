@@ -10,6 +10,7 @@ import javax.swing.event.RowSorterEvent.Type;
 import view.Vue;
 import model.Enseignant;
 import model.Enseignement;
+import model.Etat;
 import model.Etudiant;
 import model.Appareil;
 import model.Database;
@@ -216,15 +217,15 @@ public class StockProjectController {
 		return 0;
 	}
 	
-	public int achatAppareil(int id, int nombre) {
-		Appareil appareil = this.stock.getAppareilParId(id);
+	public int achatAppareil(ArrayList<Integer> achat) {
+		if(achat.size()!=2)
+			return 2;//nombre d'informations donné invalide
+		Appareil appareil = this.stock.getAppareilParId(achat.get(0));
 		if(appareil == null){
 			return 1; //id invalide
 		}
-		int n = this.stock.get(appareil);
-		n = n + nombre;
-		//appareil.setEtat(Etat.NEUF);
-		this.stock.modifierStock(appareil, n);
+		appareil.setEtat(Etat.NEUF);
+		this.stock.ajouterAppareil(appareil,achat.get(1));
 		return 0;//achat effectué
 	}
 	/**
