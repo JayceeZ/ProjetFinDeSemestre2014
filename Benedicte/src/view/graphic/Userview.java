@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.Emprunteur;
@@ -191,9 +192,11 @@ public class Userview extends JPanel {
 
 	/**
 	 * Vide les listes du selecteur<br />
+	 * Termine la procedure dans le controller<br />
 	 * empruntEnCours devient false
 	 */
 	private void terminerProcedureEmprunt() {
+		controller.ajouterEmpruntFinal();
 		empruntSelector.reinitialise();
 		empruntEnCours = false;
 	}
@@ -203,13 +206,14 @@ public class Userview extends JPanel {
 	 * @param who
 	 */
 	public void affichageEmprunts(String who) {
-		ArrayList<Emprunt> emprunts = new ArrayList<Emprunt>();
+		List<Emprunt> emprunts = new ArrayList<Emprunt>();
 		switch(who) {
 		case "user":
 			//TODO Quand la méthode recuperer liste emprunts sera crée dans controller
 			break;
 		case "all":
 			//TODO Idem
+			emprunts = controller.getDatabase().getEmprunts();
 			break;
 		}
 		zoneEmprunts.actualise(emprunts);
@@ -232,6 +236,12 @@ public class Userview extends JPanel {
 			switch (action) {
 			case "emprunter":
 				nouvelEmprunt(controller.getStock());
+				break;
+			case "useremprunts":
+				affichageEmprunts("user");
+				break;
+			case "emprunts":
+				affichageEmprunts("all");
 				break;
 			default:
 				break;
