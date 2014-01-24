@@ -366,8 +366,8 @@ public class Vue {
 		menuGestionnaire();
 	}
 	/**
-	 * Cette méthode permet au gestionnaire de récupérer des informations sur les objets 
-	 * présents dans le stock actuel. Il peut lister les objet selon le type, l os et l etat .
+	 * Cette methode permet au gestionnaire de recuperer des informations sur les objets 
+	 * presents dans le stock actuel. Il peut lister les objet selon le type et l'os.
 	 */
 	private void information() {
 		// Variables utiles pour cette methode
@@ -377,8 +377,12 @@ public class Vue {
 		System.out
 		.println("Que voulez-vous faire ? " +
 				"\n 0. Retour " +
-				"\n 1. Afficher la totalité du stock actuel " +
-				"\n 2. Filtrer des appareils du stock actuel");
+				"\n 1. Afficher la totalite du stock empruntable" +
+				"\n 2. Filtrer des appareils du stock empruntable" +
+				"\n 3. Afficher la totalite du stock rendu" +
+				"\n 4. Filtrer des appareils du stock rendu" +
+				"\n 5. Afficher la totalite du stock reparation" +
+				"\n 6. Filtrer des appareils du stock reparation");
 
 		try {
 			choixInfo= sc.nextInt();
@@ -392,7 +396,7 @@ public class Vue {
 			menuGestionnaire();
 			break;
 		case 1:
-			printStock(this.controller.getStock());
+			printStock(this.controller.getStock("Empruntable"));
 			information();
 			break;
 			// TODO Le reste
@@ -410,38 +414,137 @@ public class Vue {
 				System.out.print(os + " ");
 			}
 			System.out.println("null");
-			System.out.println("S�parez chaque choix par une virgule sans espace.");
-			System.out.println("null indique que l'on ne veut pas filtrer selon cette cat�gorie.");
+			System.out.println("Separez chaque choix par une virgule sans espace.");
+			System.out.println("null indique que l'on ne veut pas filtrer selon cette categorie.");
 			//explication pas du tout claire u_u
 			//des exemples : si par exemple le gestionnaire écrit "bon,null,android" on cherche
 			//les appareils en bon état d'os android et on ne prend pas compte du type de l'appareil
 
 			// Recuperation de l'entree de l'utilisateur
-			String line = "";
-			line = sc.nextLine();
+			String line1 = "";
+			line1 = sc.nextLine();
 
-			// Recupere les mots cl�s pour le filtre. Ce que le gestionnaire veut voir.
-			String[] ids = line.split(",");
+			// Recupere les mots cles pour le filtre. Ce que le gestionnaire veut voir.
+			String[] ids1 = line1.split(",");
 
-			// Liste contenant les mots cl�s pour le filtre.
-			ArrayList<String> filtre = new ArrayList<String>();
+			// Liste contenant les mots cles pour le filtre.
+			ArrayList<String> filtre1 = new ArrayList<String>();
 
-			// boucle sur les mots cl�s et ajout a la liste
-			for (String i : ids) {
-				filtre.add(i);
+			// boucle sur les mots cles et ajout a la liste
+			for (String i : ids1) {
+				filtre1.add(i);
 			}
 			
-			System.out.println(filtre);
+			System.out.println(filtre1);
 
-			int f = this.controller.affichageFiltreAppareil(filtre);
-			if(f == 2){
+			int f1 = this.controller.affichageFiltreAppareil(filtre1, controller.getStock("Empruntable"));
+			if(f1 == 2){
 				System.out.println("Il manque des informations pour le filtre.");
 			}
-			else if(f ==1) {
-				System.out.println("Les informations donn�es sont incorrectes.");
+			else if(f1 ==1) {
+				System.out.println("Les informations donnees sont incorrectes.");
 			}
 			information();
+			break;
+		case 3:
+			printStock(this.controller.getStock("Rendu"));
+			information();
+			break;
+		case 4:
+			System.out.println("On peut filtrer par type et os.");
+			System.out.print("Choisissez un type parmi : ");
+			for (model.Type t : model.Type.values())
+			{
+				System.out.print(t + " ");
+			}
+			System.out.println("null");
+			System.out.print("Choississez un OS parmi : ");
+			for (OS os : OS.values())
+			{
+				System.out.print(os + " ");
+			}
+			System.out.println("null");
+			System.out.println("Separez chaque choix par une virgule sans espace.");
+			System.out.println("null indique que l'on ne veut pas filtrer selon cette categorie.");
+			//explication pas du tout claire u_u
+			//des exemples : si par exemple le gestionnaire écrit "bon,null,android" on cherche
+			//les appareils en bon état d'os android et on ne prend pas compte du type de l'appareil
 
+			// Recuperation de l'entree de l'utilisateur
+			String line2 = "";
+			line2 = sc.nextLine();
+
+			// Recupere les mots cles pour le filtre. Ce que le gestionnaire veut voir.
+			String[] ids2 = line2.split(",");
+
+			// Liste contenant les mots cles pour le filtre.
+			ArrayList<String> filtre2 = new ArrayList<String>();
+
+			// boucle sur les mots cles et ajout a la liste
+			for (String i : ids2) {
+				filtre2.add(i);
+			}
+			
+			System.out.println(filtre2);
+
+			int f2 = this.controller.affichageFiltreAppareil(filtre2, controller.getStock("Rendu"));
+			if(f2 == 2){
+				System.out.println("Il manque des informations pour le filtre.");
+			}
+			else if(f2 ==1) {
+				System.out.println("Les informations donnees sont incorrectes.");
+			}
+			information();
+			break;
+		case 5:
+			printStock(this.controller.getStock("Reparation"));
+			information();
+			break;
+		case 6:
+			System.out.println("On peut filtrer par type et os.");
+			System.out.print("Choisissez un type parmi : ");
+			for (model.Type t : model.Type.values())
+			{
+				System.out.print(t + " ");
+			}
+			System.out.println("null");
+			System.out.print("Choississez un OS parmi : ");
+			for (OS os : OS.values())
+			{
+				System.out.print(os + " ");
+			}
+			System.out.println("null");
+			System.out.println("Separez chaque choix par une virgule sans espace.");
+			System.out.println("null indique que l'on ne veut pas filtrer selon cette categorie.");
+			//explication pas du tout claire u_u
+			//des exemples : si par exemple le gestionnaire écrit "bon,null,android" on cherche
+			//les appareils en bon état d'os android et on ne prend pas compte du type de l'appareil
+
+			// Recuperation de l'entree de l'utilisateur
+			String line3 = "";
+			line3 = sc.nextLine();
+
+			// Recupere les mots cles pour le filtre. Ce que le gestionnaire veut voir.
+			String[] ids3 = line3.split(",");
+
+			// Liste contenant les mots cles pour le filtre.
+			ArrayList<String> filtre3 = new ArrayList<String>();
+
+			// boucle sur les mots cles et ajout a la liste
+			for (String i : ids3) {
+				filtre3.add(i);
+			}
+			
+			System.out.println(filtre3);
+
+			int f3 = this.controller.affichageFiltreAppareil(filtre3, controller.getStock("Reparation"));
+			if(f3 == 2){
+				System.out.println("Il manque des informations pour le filtre.");
+			}
+			else if(f3 ==1) {
+				System.out.println("Les informations donnees sont incorrectes.");
+			}
+			information();
 			break;
 		default:
 			System.out.println("Veuillez choisir entre 0, 1, et 2");

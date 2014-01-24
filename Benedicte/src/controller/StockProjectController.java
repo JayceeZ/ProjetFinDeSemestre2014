@@ -179,21 +179,22 @@ public class StockProjectController {
 	/**
 	 * Cette methode permet de renvoyer la liste des appareils filtres
 	 * @param filtre Le filtre choisi.
+	 * @param stock Le stock sur qui faire le filtrage.
 	 * @return Les appareils filtres.
 	 */
-	public int affichageFiltreAppareil(ArrayList<String> filtre){
-		model.Type typeFiltre = null; //Il y a besoin du "model." � cause du conflit de nommage avec quelque chose en JAVA qui existe d�j�.
+	public int affichageFiltreAppareil(ArrayList<String> filtre, Stock stock){
+		model.Type typeFiltre = null; //Il y a besoin du "model." a cause du conflit de nommage avec quelque chose en JAVA qui existe d�j�.
 		OS osFiltre = null;
 		
-		// Permet de voir si la personne a rentr� les 2 mots cl�s pour le filtre.
+		// Permet de voir si la personne a rentre les 2 mots cles pour le filtre.
 		if(filtre.size() != 2)
 			return 2;
 		
 		boolean passageType = false;
 		boolean passageOS = false;
 		
-		// Boucle sur les types et met passageType a true si l'�tat entr� en premi�re info
-		// dans filtre correspond � un type de la classe Type ou � null.
+		// Boucle sur les types et met passageType a true si le type entre en premiere info
+		// dans filtre correspond a un type de la classe Type ou a null.
 		if (filtre.get(0).equals("null"))
 		{
 			passageType = true;
@@ -211,7 +212,7 @@ public class StockProjectController {
 		}
 		System.out.println(passageType);
 		
-		// M�me principe pour cette boucle mais sur les OS.
+		// Meme principe pour cette boucle mais sur les OS.
 		if (filtre.get(1).equals("null"))
 		{
 			passageOS = true;
@@ -234,7 +235,7 @@ public class StockProjectController {
 			return 1;
 		
 		// Sinon
-		HashMap<Appareil,Integer> hash =this.stock.getAppareilsParEtatTypeOs(typeFiltre,osFiltre);
+		HashMap<Appareil,Integer> hash =stock.getAppareilsParEtatTypeOs(typeFiltre,osFiltre);
 		
 		System.out.println("Objets trouvés : ");
 		System.out
