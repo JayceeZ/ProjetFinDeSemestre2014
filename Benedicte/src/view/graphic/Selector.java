@@ -134,4 +134,9 @@ public class Selector extends JPanel {
 	public Object[] getSelected() {
 		return modelDroite.toArray();
 	}
+
+	public void reinitialise() {
+		listeGauche.setListData(new Object[0]);
+		listeDroite.setListData(new Object[0]);
+	}
 }
