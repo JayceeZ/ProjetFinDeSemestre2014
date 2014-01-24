@@ -247,14 +247,21 @@ public class StockProjectController {
 	}
 	
 	// TODO
-	public int achatAppareil(String type, String os, String nom, int nombre) {
+	/**
+	 * Permet d'acheter un materiel.
+	 * @param type Le type de materiel.
+	 * @param os L'OS du materiel.
+	 * @param nom Le nom du materiel.
+	 * @param nombre Le nombre de materiel ainsi defini.
+	 * @return Un boolean indiquant si l'achat du materiel s'est bien passe.
+	 */
+	public boolean achatAppareil(String type, String os, String nom, int nombre) {
 		Appareil appareil = this.stock.getAppareilParId(id);
 		if(appareil == null){
 			return 1; //id invalide
 		}
 		int n = this.stock.get(appareil);
 		n = n + nombre;
-		//appareil.setEtat(Etat.NEUF);
 		this.stock.modifierStock(appareil, n);
 		return 0;//achat effectué
 	}
